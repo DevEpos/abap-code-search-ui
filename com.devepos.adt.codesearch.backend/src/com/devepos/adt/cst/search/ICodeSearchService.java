@@ -1,0 +1,72 @@
+package com.devepos.adt.cst.search;
+
+import java.util.Map;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IStatus;
+
+import com.devepos.adt.base.IAdtUriTemplateProvider;
+import com.devepos.adt.base.plugin.features.IAdtPluginFeatures;
+import com.devepos.adt.base.ui.project.IAbapProjectProvider;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
+
+/**
+ * Service for searching in ABAP code
+ *
+ * @author Ludwig Stockbauer-Muhr
+ */
+public interface ICodeSearchService {
+
+  /**
+   * Retrieves an URI template provider for named items in the code search context
+   *
+   * @param projectProvider provides ABAP project
+   * @return URI template provider for named items
+   */
+  IAdtUriTemplateProvider getNamedItemProvider(IAbapProjectProvider projectProvider);
+
+  /**
+   * Retrieves the list of available features to configure the code search
+   *
+   * @param destinationId Id of the destination of an ABAP project
+   * @return list of available features in the context of the code search
+   */
+  IAdtPluginFeatures getSearchSettingsFeatures(String destinationId);
+
+  /**
+   * Retrieves the project specific settings for the ABAP code search
+   *
+   * @param destinationId Id of the destination for an ABAP project
+   * @return the found settings or {@code null}
+   */
+  ICodeSearchSettings getSettings(String destinationId);
+
+  /**
+   * Find matches in ABAP Code
+   *
+   * @param destinationId destination Id for ABAP project
+   * @param uriParameters map of URI parameters
+   * @return search results
+   */
+  ICodeSearchResult search(String destinationId, Map<String, Object> uriParameters);
+
+  /**
+   * Tests the availablity of the ABAP Code search feature in the given project
+   *
+   * @param project project instance to be used for verifying the feature
+   *                availability
+   * @return the validation status
+   */
+  IStatus testTagsFeatureAvailability(final IProject project);
+
+  /**
+   * Updates the given code search settings in the ABAP backend specified by the
+   * {@code destinationId}
+   *
+   * @param destinationId Id of the destination for an ABAP project
+   * @param settings      code search settings object
+   * @return the status of the update operation
+   */
+  IStatus updateSettings(String destinationId, ICodeSearchSettings settings);
+}
