@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.devepos.adt.codesearch.model/src" modelPluginID="com.devepos.adt.codesearch.model"
+    modelName="Codesearch" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    codeFormatting="true" commentFormatting="true" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="11.0" copyrightFields="false" usedGenPackages="../../com.devepos.adt.base/model/adtbase.genmodel#//adtbase"
+    interfaceNamePattern="I{0}" classNamePattern="{0}" operationReflection="true"
+    importOrganizing="true" cleanup="true">
+  <foreignModel>codesearch.ecore</foreignModel>
+  <genPackages prefix="CodeSearch" basePackage="com.devepos.adt.cst.model" resource="XML"
+      disposableProviderFactory="true" ecorePackage="codesearch.ecore#/">
+    <genClasses ecoreClass="codesearch.ecore#//CodeSearchObject">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference codesearch.ecore#//CodeSearchObject/adtObjectRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference codesearch.ecore#//CodeSearchObject/matches"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference codesearch.ecore#//CodeSearchObject/adtMainObjectRef"/>
+    </genClasses>
+    <genClasses ecoreClass="codesearch.ecore#//CodeSearchMatch">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchMatch/uri"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchMatch/snippet"/>
+    </genClasses>
+    <genClasses ecoreClass="codesearch.ecore#//CodeSearchResult">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference codesearch.ecore#//CodeSearchResult/searchObjects"/>
+    </genClasses>
+    <genClasses ecoreClass="codesearch.ecore#//CodeSearchSettings">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/pcreEnabled"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/parallelEnabled"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/parallelServerGroup"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
