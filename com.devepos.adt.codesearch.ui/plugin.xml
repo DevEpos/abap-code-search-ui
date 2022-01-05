@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.search.searchPages">
+      <page
+            class="com.devepos.adt.cst.ui.internal.codesearch.CodeSearchDialog"
+            icon="icons/codesearch.png"
+            id="com.devepos.adt.codesearch.ui.searchpage.codeSearch"
+            label="%searchPage.codesearch.label"
+            tabPosition="1">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.search.searchResultViewPages">
+      <viewPage
+            class="com.devepos.adt.cst.ui.internal.codesearch.CodeSearchResultPage"
+            icon="icons/codesearch.png"
+            id="com.devepos.adt.cst.ui.internal.codesearch.CodeSearchResultPage"
+            searchResultClass="com.devepos.adt.cst.ui.internal.codesearch.CodeSearchResult">
+      </viewPage>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.devepos.adt.cst.ui.internal.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="com.devepos.adt.preferences"
+            class="com.devepos.adt.cst.ui.internal.preferences.CodeSearchPreferencesPage"
+            id="com.devepos.adt.codesearch.ui.preferences.CodeSearchPreferencesPage"
+            name="%codeSearch.displayName">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            category="com.devepos.adt.base.ui.projectProperties.DevEpos"
+            class="com.devepos.adt.cst.ui.internal.pages.CodeSearchPropertyPage"
+            id="com.devepos.adt.codesearch.ui.pages.CodeSearchPropertyPage"
+            name="%codeSearch.displayName">
+      </page>
+   </extension>
+
+</plugin>

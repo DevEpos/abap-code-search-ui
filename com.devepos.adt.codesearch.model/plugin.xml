@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated codesearch -->
+      <package
+            uri="http://www.devepos.com/adt/cst"
+            class="com.devepos.adt.cst.model.codesearch.ICodeSearchPackage"
+            genModel="model/codesearch.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated codesearch -->
+      <parser
+            type="codesearch"
+            class="com.devepos.adt.cst.model.codesearch.util.CodeSearchResourceFactory"/>
+   </extension>
+
+</plugin>
