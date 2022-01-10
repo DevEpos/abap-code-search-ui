@@ -12,7 +12,8 @@
             The advantages of the ABAP Code Search+ are: 
             <ul id="advantages" class="list">
                    <li>works also for R/3 environments </li>
-                   <li>allows a more detailed scope definition and supports regex for the search pattern</li>
+                   <li>allows a more detailed scope definition with filtering by object type, application component, etc... </li>
+                   <li>supports more specific search patterns with regex and multiline search</li>
             It is integrated in the eclipse <i>Search</i> dialog, which can be
 		called via
 		<code class="code">STRG</code>
@@ -20,80 +21,60 @@
 		<code class="code">H</code>
 		or the eclipse menu <i>Search ➠ Search...</i>
 	<p>
-	<p>It currently supports the following search types
-	<ul id="supported-types" class="list">
-		<li><a class="link" href="object_search/cds.html">CDS View</a></li>
-		<li><a class="link" href="object_search/dbtabview.html">Database
-				Table/View</a></li>
-		<li><a class="link" href="object_search/classintf.html">Class
-				/ Interface</a></li>
-	</ul>
-	</p>
 	<h3 class="heading">The User Interface</h3>
 	<figure id="figure1">
 		<img src="../images/SearchView-Overview.png">
 		<figcaption>
-			<strong>Figure 1:</strong> The Object Search Dialog
+			<strong>Figure 1:</strong> The Code Search+ Dialog
 		</figcaption>
 	</figure>
 	<!-- Description of general setup of the Search view -->
-	<p>The Object Search Dialog Page is structured into the following
+	<p>The Code Search Dialog Page is structured into the following
 		controls</p>
 	<ol class="list">
-		<li>A Combo Box which lists the valid Object types</li>
-		<li>A text input control to enter object name search terms</li>
-		<li>A text input control to enter search filters. The control
+		<li>A Text Area to enter the search pattern</li>
+		<li>3 Checkboxes to configure the search pattern regarding case sensitivity, if regular expressions are used and if the search string should be applied as a single pattern ( relevant for multiline strings) </li>
+		<li>A text input control to enter object name to restrict the scope</li>
+                <li>A text input control to enter the filters for the scope. The control
 			supports content assist</li>
-		<li>A Checkbox to control which operator should be used to
-			connect the values of a given search parameter (see <a class="link"
-			href="#and_search_for_filter">Info</a>)
+		<li>3 Checkboxes to configure the search scope: if comment lines should be ignored, if it is a multiline search and if the matches should include all lines from the search pattern
 		</li>
-		<li>A Scale to control the maximum number of search results that
-			should be returned</li>
+                <li>A link to the preferences, where some more project specific configuration options can de done </li>
+		<li>A Scale to control the maximum number of search objects that
+			should be scanned </li>
 		<li>A text input control to enter the target ABAP Project. The
 			control supports content assist</li>
 	</ol>
 	<h3 class="heading">Content Assist</h3>
 	<p>
-		The Text Control for entering the search query provides assistance for
-		all available search filters. The available filters depend on the
-		current <em>ABAP Project</em> and the <em>Object Type</em>
+		The Text Control for entering the filters for the scope provides assistance for
+		the following criteria. The available filters depend on the
+		current <em>ABAP Project</em>. 
 	</p>
 	<figure>
 		<img src="../images/SearchView-ContentAssistFilters.png">
 		<figcaption>
-			<strong>Figure 2:</strong> Content Assist for Search Filters
+			<strong>Figure 2:</strong> Content Assist for Scope Filters
 		</figcaption>
 	</figure>
-	<p>Almost all search filters also provide further content
+	<p>All filters also provide further content
 		assistance to see which options are available (see the following
 		image)</p>
 	<figure>
 		<img src="../images/SearchView-ContentAssistParamExample.png">
 		<figcaption>
-			<strong>Figure 3:</strong> Content Assist for options for a search
+			<strong>Figure 3:</strong> Content Assist for options for a
 			filter
 		</figcaption>
 	</figure>
-<h4 class="heading">Use Option exclusion to find objects that
-		don't comply with certain criteria</h4>
-	<p>
-		If you want to exclude entities which possess a certain option value
-		from the result view you do this either with a leading
-		<code class="code">
-			<strong>!</strong>
-		</code>
-		. So let's say you want objects whose description contains
-		<code class="code">Mat</code>
-		but don't want to see those which contain
-		<code class="code">cond</code>
-		you do this with the following query:
-		<code class="code">
-			<strong>desc</strong>:*Mat*,!*cond*
-		</code>
-		. See the concrete <a class="link" href="#supported-types">search
-			type</a> to see which parameters support this feature.
-	</p>
+<h4 class="heading">Configuring the search pattern</h4>
+	<p> 
+	You have 3 option to configure the search pattern
+        <ol class="list">
+		<li>Ignore Case: setting this check box will result in applying the search pattern in upper case </li>
+  		<li>Regular Expressions:  by setting this checkbox you specify that the entered pattern uses regular expression ( depending on the system you can even use PCRE see project specific settings) </li>
+                <li>Single Pattern mode: To-do 
+</p>
 <h3 class="heading" id="and_search_for_filter">Additional search
 		settings</h3>
 	<h4 class="heading">
