@@ -33,12 +33,11 @@
 		controls</p>
 	<ol class="list">
 		<li>A Text Area to enter the search pattern</li>
-		<li>3 Checkboxes to configure the search pattern regarding case sensitivity, if regular expressions are used and if the search string should be applied as a single pattern ( relevant for multiline strings) </li>
+		<li>3 Checkboxes to configure the search pattern</li>
 		<li>A text input control to enter object name to restrict the scope</li>
                 <li>A text input control to enter the filters for the scope. The control
 			supports content assist</li>
-		<li>3 Checkboxes to configure the search scope: if comment lines should be ignored, if it is a multiline search and if the matches should include all lines from the search pattern
-		</li>
+		<li>3 Checkboxes to configure the search scope</li>
                 <li>A link to the preferences, where some more project specific configuration options can de done </li>
 		<li>A Scale to control the maximum number of search objects that
 			should be scanned </li>
@@ -69,14 +68,14 @@
 	</figure>
 <h4 class="heading">Configuring the search pattern</h4>
 	<p> 
-	You have 3 option to configure the search pattern
+	You have 3 options to configure the search pattern
         <ol class="list">
 		<li>Ignore Case: setting this check box will result in applying the search pattern in upper case </li>
-  		<li>Regular Expressions:  by setting this checkbox you specify that the entered pattern uses regular expression ( depending on the system you can even use PCRE see project specific settings) </li>
-                <li>Single Pattern mode: To-do 
+  		<li>Regular Expressions: by setting this checkbox you specify that the entered pattern uses regular expressions( depending on the system you can even use PCRE see project specific settings) </li>
+                <li>Single Pattern mode: settings this checkbox means that the whole content of the search pattern text area is considered as one pattern ( relevant for multiline pattern). If this checkbox is not set the system will execute an OR search between all lines of the text area individually. 
+                    The result will contain the source codes which contain at least on line from the search pattern</li>
 </p>
-<h3 class="heading" id="and_search_for_filter">Additional search
-		settings</h3>
+<h3 class="heading">Configuring the search scope </h3>
 	<h4 class="heading">
 		Use logical <strong>AND</strong> for options of search filters
 	</h4>
