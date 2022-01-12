@@ -72,13 +72,19 @@
         <ol class="list">
 		<li>Ignore Case: setting this check box will result in applying the search pattern in upper case </li>
   		<li>Regular Expressions: by setting this checkbox you specify that the entered pattern uses regular expressions( depending on the system you can even use PCRE see project specific settings) </li>
-                <li>Single Pattern mode: settings this checkbox means that the whole content of the search pattern text area is considered as one pattern ( relevant for multiline pattern). If this checkbox is not set the system will execute an OR search between all lines of the text area individually. 
-                    The result will contain the source codes which contain at least on line from the search pattern</li>
+                <li>Single Pattern mode: setting this checkbox means that the whole content of the search pattern text area is considered as one pattern ( relevant for multiline pattern). . 
+                    The result will contain the source codes which contain at least on line from the search pattern</l>
 </p>
 <h3 class="heading">Configuring the search scope </h3>
-	<h4 class="heading">
-		Use logical <strong>AND</strong> for options of search filters
-	</h4>
+	<p> 
+	You have 3 options to configure the search scope 
+        <ol class="list">
+		<li>Ignore Comment Lines: if this checkbox is set the system will not search for the entered pattern in comment lines</li>
+  		<li>Multiline Search: by setting this checkbox you specify that the entered pattern can be split between multiple lines. If the checkbox is not set the system will search only for matches which contain the pattern in a single line. To-do Wenn single pattern gesetzt ist und die pattern mehrere Zeilen hat</li>
+                <li>Match All: this checkbox is only relevant if the pattern contains more then one line. If this checkbox is set the system will search for source code which contains all patterns listed in the search pattern text area. 
+                    If this checkbox is not set the system will execute an OR search between all lines of the text area individually </li>
+</p>
+
 	<p>
 		Normally the options of a search filter are interpreted with a logical
 		<code class="code">
