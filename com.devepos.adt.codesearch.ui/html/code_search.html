@@ -8,14 +8,13 @@
 <body id="doc-body">
 	<h2 class="heading">ABAP Code Search +</h2>
 	<p>
-		The <i>ABAP Code Search +</i> is a tool which offers the possibility to search in abap source code for a given string, similar to the ABAP Source Code Search. 
-            The advantages of the ABAP Code Search+ are: 
-            <ul id="advantages" class="list">
-                   <li>works also for R/3 environments </li>
-                   <li>allows a more detailed scope definition with filtering by object type, application component, etc... </li>
-                   <li>supports more specific search patterns with regex and multiline search</li>
-            It is integrated in the eclipse <i>Search</i> dialog, which can be
-		called via
+		The <i>ABAP Code Search +</i> is a tool which offers the possibility to search in abap source code for a given string. 
+            The most important features provided by the ABAP Code Search+ are: 
+            <ul id="features" class="list">
+                   <li>works for R/3 environments as well as for S/4 </li>
+                   <li>allows a detailed scope definition with filtering by object type, application component, etc... </li>
+                   <li>supports specific search patterns with regex and multiline search</li>
+            It is integrated in the eclipse <i>Search</i> dialog, which can be called via
 		<code class="code">STRG</code>
 		+
 		<code class="code">H</code>
@@ -23,93 +22,57 @@
 	<p>
 	<h3 class="heading">The User Interface</h3>
 	<figure id="figure1">
-		<img src="../images/SearchView-Overview.png">
+		<img src="../images/CodeSearchView.png">
 		<figcaption>
 			<strong>Figure 1:</strong> The Code Search+ Dialog
 		</figcaption>
 	</figure>
 	<!-- Description of general setup of the Search view -->
-	<p>The Code Search Dialog Page is structured into the following
-		controls</p>
+	<p>The Code Search Dialog Page is structured into the following main
+		sections</p>
 	<ol class="list">
-		<li>A Text Area to enter the search pattern</li>
-		<li>3 Checkboxes to configure the search pattern</li>
-		<li>A text input control to enter object name to restrict the scope</li>
-                <li>A text input control to enter the filters for the scope. The control
-			supports content assist</li>
-		<li>3 Checkboxes to configure the search scope</li>
-                <li>A link to the preferences, where some more project specific configuration options can de done </li>
-		<li>A Scale to control the maximum number of search objects that
-			should be scanned </li>
-		<li>A text input control to enter the target ABAP Project. The
-			control supports content assist</li>
+		<li>Search Pattern/li>
+		<li>Scope / Limit</li>
 	</ol>
-	<h3 class="heading">Content Assist</h3>
-	<p>
-		The Text Control for entering the filters for the scope provides assistance for
-		the following criteria. The available filters depend on the
-		current <em>ABAP Project</em>. 
-	</p>
-	<figure>
-		<img src="../images/SearchView-ContentAssistFilters.png">
-		<figcaption>
-			<strong>Figure 2:</strong> Content Assist for Scope Filters
-		</figcaption>
-	</figure>
-	<p>All filters also provide further content
-		assistance to see which options are available (see the following
-		image)</p>
-	<figure>
-		<img src="../images/SearchView-ContentAssistParamExample.png">
-		<figcaption>
-			<strong>Figure 3:</strong> Content Assist for options for a
-			filter
-		</figcaption>
-	</figure>
-<h4 class="heading">Configuring the search pattern</h4>
+
+	<h4 class="heading">The search pattern</h4>
 	<p> 
-	You have 3 options to configure the search pattern
+	A text area is available to enter the search pattern. It can contain one or more pattern. In case of multiple patterns, each pattern has to be entered in a separate line.	
+	Additionally you have 3 options to configure the search pattern
         <ol class="list">
 		<li>Ignore Case: setting this check box will result in applying the search pattern in upper case </li>
   		<li>Regular Expressions: by setting this checkbox you specify that the entered pattern uses regular expressions( depending on the system you can even use PCRE see project specific settings) </li>
-                <li>Single Pattern mode: setting this checkbox means that the whole content of the search pattern text area is considered as one pattern ( relevant for multiline pattern). . 
+        <li>Single Pattern mode: setting this checkbox means that the whole content of the search pattern text area is considered as one pattern ( relevant for multiline pattern).
                     The result will contain the source codes which contain at least on line from the search pattern</l>
-</p>
-<h3 class="heading">Configuring the search scope </h3>
-	<p> 
-	You have 3 options to configure the search scope 
-        <ol class="list">
-		<li>Ignore Comment Lines: if this checkbox is set the system will not search for the entered pattern in comment lines</li>
-  		<li>Multiline Search: by setting this checkbox you specify that the entered pattern can be split between multiple lines. If the checkbox is not set the system will search only for matches which contain the pattern in a single line. To-do Wenn single pattern gesetzt ist und die pattern mehrere Zeilen hat</li>
-                <li>Match All: this checkbox is only relevant if the pattern contains more then one line. If this checkbox is set the system will search for source code which contains all patterns listed in the search pattern text area. 
-                    If this checkbox is not set the system will execute an OR search between all lines of the text area individually </li>
-</p>
+	</p>
 
-	<p>
-		Normally the options of a search filter are interpreted with a logical
-		<code class="code">
-			<strong>OR</strong>
-		</code>
-		. So if you have the following query:
-		<code class="code">
-			<strong>field</strong>: product,plant
-		</code>
-		, the search would return all objects that have a field named <em>product</em>
-		<code class="code">
-			<strong>or</strong>
-		</code>
-		a field named <em>plant</em>
+	<h4 class="heading">The search scope </h4>
+	<p> 
+	The search scope can be defined using to fields: 
+	<ol class="list">
+		<li>Object Name: A text input control to enter object name to restrict the scope.</li>
+		<li>Filters: The Text Control for entering the filters for the scope. This field provides assistance for
+			the following criteria: type, owner, package, applicaton component and date of creation. All filters 
+			also provide further content assistance to see which options are available (see the following
+			image)
+			<figure>
+				<img src="../images/CodeSearchContentAssistExample.png">
+				<figcaption>
+					<strong>Figure 3:</strong> Content Assist for options for a
+					filter
+				</figcaption>
+			</figure>
+		</li>
+	</ol>	
+	Additionally you have 3 options to configure the search scope 
+        <ol class="list">
+			<li>Ignore Comment Lines: if this checkbox is set the system will not search for the entered pattern in comment lines</li>
+  			<li>Multiline Search: by setting this checkbox you specify that the entered pattern can be split between multiple lines. If the checkbox is not set the system will search only for matches which contain the pattern in a single line. To-do Wenn single pattern gesetzt ist und die pattern mehrere Zeilen hat</li>
+        	<li>Match All: this checkbox is only relevant if the pattern contains more then one line. If this checkbox is set the system will search for source code which contains all patterns listed in the search pattern text area. 
+                    If this checkbox is not set the system will execute an OR search between all lines of the text area individually </li>
+		</ol>
 	</p>
-	<p>
-		But sometimes you may want to find only the objects that have all the
-		specified fields. In this case you have to activate the setting <em>Use
-			"AND" instead of "OR" during search</em>. You can do this by setting the
-		checkbox in the search dialog (see <a class="link" href="#figure1">Figure
-			1</a>)
-	</p>
-	<p>Regardless of it's activation state this setting will only be
-		used for search filters where it makes sense, i.e. where multiple
-		values are at all possible.</p>
+
 <h3 class="heading">The Search result View</h3>
 	<h4 class="heading">Working with the Search Results</h4>
 	<p>Once a search returns some results they are displayed in the
