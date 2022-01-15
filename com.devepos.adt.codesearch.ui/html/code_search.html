@@ -21,7 +21,7 @@
 		or the eclipse menu <i>Search ➠ Search...</i>
 	<p>
 	<h3 class="heading">The User Interface</h3>
-	<figure id="figure1">
+	<figure id="figure1" style="width:50%">
 		<img src="../images/CodeSearchView.png">
 		<figcaption>
 			<strong>Figure 1:</strong> The Code Search+ Dialog
@@ -44,6 +44,7 @@
   		<li>Regular Expressions: by setting this checkbox you specify that the entered pattern uses regular expressions( depending on the system you can even use PCRE see project specific settings) </li>
         <li>Single Pattern mode: setting this checkbox means that the whole content of the search pattern text area is considered as one pattern ( relevant for multiline pattern).
                     The result will contain the source codes which contain at least on line from the search pattern</l>
+		</ol>
 	</p>
 
 	<h4 class="heading">The search scope </h4>
@@ -54,16 +55,15 @@
 		<li>Filters: The Text Control for entering the filters for the scope. This field provides assistance for
 			the following criteria: type, owner, package, applicaton component and date of creation. All filters 
 			also provide further content assistance to see which options are available (see the following
-			image)
-			<figure>
-				<img src="../images/CodeSearchContentAssistExample.png">
-				<figcaption>
-					<strong>Figure 3:</strong> Content Assist for options for a
-					filter
-				</figcaption>
-			</figure>
-		</li>
+			image) </li>
 	</ol>	
+	<figure>
+		<img src="../images/CodeSearchContentAssistExample.png">
+			<figcaption>
+				<strong>Figure 3:</strong> Content Assist for options for a
+					filter
+			</figcaption>
+	</figure>
 	Additionally you have 3 options to configure the search scope 
         <ol class="list">
 			<li>Ignore Comment Lines: if this checkbox is set the system will not search for the entered pattern in comment lines</li>
