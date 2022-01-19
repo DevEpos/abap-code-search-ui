@@ -100,7 +100,6 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
    *
    * @generated
    */
-  @Override
   public void setUri(final String newUri) {
     String oldUri = uri;
     uri = newUri;
@@ -125,7 +124,6 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
    *
    * @generated
    */
-  @Override
   public void setSnippet(final String newSnippet) {
     String oldSnippet = snippet;
     snippet = newSnippet;

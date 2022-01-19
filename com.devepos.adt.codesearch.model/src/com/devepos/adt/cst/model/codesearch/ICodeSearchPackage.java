@@ -36,7 +36,7 @@ public interface ICodeSearchPackage extends EPackage {
    *
    * @generated
    */
-  String eNS_URI = "http://www.devepos.com/adt/cst";
+  String eNS_URI = "http://www.devepos.com/adt/codesearchtools";
 
   /**
    * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -65,13 +65,31 @@ public interface ICodeSearchPackage extends EPackage {
   int CODE_SEARCH_OBJECT = 0;
 
   /**
-   * The feature id for the '<em><b>Adt Object Ref</b></em>' containment
+   * The feature id for the '<em><b>Uri</b></em>' attribute. <!-- begin-user-doc
+   * --> <!-- end-user-doc -->
+   *
+   * @generated
+   * @ordered
+   */
+  int CODE_SEARCH_OBJECT__URI = 0;
+
+  /**
+   * The feature id for the '<em><b>Parent Uri</b></em>' attribute. <!--
+   * begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   * @ordered
+   */
+  int CODE_SEARCH_OBJECT__PARENT_URI = 1;
+
+  /**
+   * The feature id for the '<em><b>Adt Main Object</b></em>' containment
    * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
    *
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_OBJECT__ADT_OBJECT_REF = 0;
+  int CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT = 2;
 
   /**
    * The feature id for the '<em><b>Matches</b></em>' containment reference list.
@@ -80,16 +98,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_OBJECT__MATCHES = 1;
-
-  /**
-   * The feature id for the '<em><b>Adt Main Object Ref</b></em>' containment
-   * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-   *
-   * @generated
-   * @ordered
-   */
-  int CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT_REF = 2;
+  int CODE_SEARCH_OBJECT__MATCHES = 3;
 
   /**
    * The number of structural features of the '<em>Object</em>' class. <!--
@@ -98,7 +107,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_OBJECT_FEATURE_COUNT = 3;
+  int CODE_SEARCH_OBJECT_FEATURE_COUNT = 4;
 
   /**
    * The number of operations of the '<em>Object</em>' class. <!-- begin-user-doc
@@ -177,13 +186,40 @@ public interface ICodeSearchPackage extends EPackage {
   int CODE_SEARCH_RESULT__SEARCH_OBJECTS = 0;
 
   /**
+   * The feature id for the '<em><b>Number Of Results</b></em>' attribute. <!--
+   * begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   * @ordered
+   */
+  int CODE_SEARCH_RESULT__NUMBER_OF_RESULTS = 1;
+
+  /**
+   * The feature id for the '<em><b>Number Of Searched Objects</b></em>'
+   * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   * @ordered
+   */
+  int CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS = 2;
+
+  /**
+   * The feature id for the '<em><b>Query Time In Ms</b></em>' attribute. <!--
+   * begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   * @ordered
+   */
+  int CODE_SEARCH_RESULT__QUERY_TIME_IN_MS = 3;
+
+  /**
    * The number of structural features of the '<em>Result</em>' class. <!--
    * begin-user-doc --> <!-- end-user-doc -->
    *
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_RESULT_FEATURE_COUNT = 1;
+  int CODE_SEARCH_RESULT_FEATURE_COUNT = 4;
 
   /**
    * The number of operations of the '<em>Result</em>' class. <!-- begin-user-doc
@@ -262,17 +298,41 @@ public interface ICodeSearchPackage extends EPackage {
   EClass getCodeSearchObject();
 
   /**
-   * Returns the meta object for the containment reference
-   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getAdtObjectRef
-   * <em>Adt Object Ref</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * Returns the meta object for the attribute
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getUri
+   * <em>Uri</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
    *
-   * @return the meta object for the containment reference '<em>Adt Object
-   *         Ref</em>'.
-   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getAdtObjectRef()
+   * @return the meta object for the attribute '<em>Uri</em>'.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getUri()
    * @see #getCodeSearchObject()
    * @generated
    */
-  EReference getCodeSearchObject_AdtObjectRef();
+  EAttribute getCodeSearchObject_Uri();
+
+  /**
+   * Returns the meta object for the attribute
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getParentUri
+   * <em>Parent Uri</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @return the meta object for the attribute '<em>Parent Uri</em>'.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getParentUri()
+   * @see #getCodeSearchObject()
+   * @generated
+   */
+  EAttribute getCodeSearchObject_ParentUri();
+
+  /**
+   * Returns the meta object for the containment reference
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getAdtMainObject
+   * <em>Adt Main Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @return the meta object for the containment reference '<em>Adt Main
+   *         Object</em>'.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getAdtMainObject()
+   * @see #getCodeSearchObject()
+   * @generated
+   */
+  EReference getCodeSearchObject_AdtMainObject();
 
   /**
    * Returns the meta object for the containment reference list
@@ -286,19 +346,6 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    */
   EReference getCodeSearchObject_Matches();
-
-  /**
-   * Returns the meta object for the containment reference
-   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getAdtMainObjectRef
-   * <em>Adt Main Object Ref</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-   *
-   * @return the meta object for the containment reference '<em>Adt Main Object
-   *         Ref</em>'.
-   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getAdtMainObjectRef()
-   * @see #getCodeSearchObject()
-   * @generated
-   */
-  EReference getCodeSearchObject_AdtMainObjectRef();
 
   /**
    * Returns the meta object for class
@@ -358,6 +405,44 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    */
   EReference getCodeSearchResult_SearchObjects();
+
+  /**
+   * Returns the meta object for the attribute
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getNumberOfResults
+   * <em>Number Of Results</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @return the meta object for the attribute '<em>Number Of Results</em>'.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getNumberOfResults()
+   * @see #getCodeSearchResult()
+   * @generated
+   */
+  EAttribute getCodeSearchResult_NumberOfResults();
+
+  /**
+   * Returns the meta object for the attribute
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getNumberOfSearchedObjects
+   * <em>Number Of Searched Objects</em>}'. <!-- begin-user-doc --> <!--
+   * end-user-doc -->
+   *
+   * @return the meta object for the attribute '<em>Number Of Searched
+   *         Objects</em>'.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getNumberOfSearchedObjects()
+   * @see #getCodeSearchResult()
+   * @generated
+   */
+  EAttribute getCodeSearchResult_NumberOfSearchedObjects();
+
+  /**
+   * Returns the meta object for the attribute
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getQueryTimeInMs
+   * <em>Query Time In Ms</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @return the meta object for the attribute '<em>Query Time In Ms</em>'.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getQueryTimeInMs()
+   * @see #getCodeSearchResult()
+   * @generated
+   */
+  EAttribute getCodeSearchResult_QueryTimeInMs();
 
   /**
    * Returns the meta object for class
@@ -442,12 +527,28 @@ public interface ICodeSearchPackage extends EPackage {
     EClass CODE_SEARCH_OBJECT = eINSTANCE.getCodeSearchObject();
 
     /**
-     * The meta object literal for the '<em><b>Adt Object Ref</b></em>' containment
+     * The meta object literal for the '<em><b>Uri</b></em>' attribute feature. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    EAttribute CODE_SEARCH_OBJECT__URI = eINSTANCE.getCodeSearchObject_Uri();
+
+    /**
+     * The meta object literal for the '<em><b>Parent Uri</b></em>' attribute
+     * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    EAttribute CODE_SEARCH_OBJECT__PARENT_URI = eINSTANCE.getCodeSearchObject_ParentUri();
+
+    /**
+     * The meta object literal for the '<em><b>Adt Main Object</b></em>' containment
      * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
      *
      * @generated
      */
-    EReference CODE_SEARCH_OBJECT__ADT_OBJECT_REF = eINSTANCE.getCodeSearchObject_AdtObjectRef();
+    EReference CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT = eINSTANCE.getCodeSearchObject_AdtMainObject();
 
     /**
      * The meta object literal for the '<em><b>Matches</b></em>' containment
@@ -456,15 +557,6 @@ public interface ICodeSearchPackage extends EPackage {
      * @generated
      */
     EReference CODE_SEARCH_OBJECT__MATCHES = eINSTANCE.getCodeSearchObject_Matches();
-
-    /**
-     * The meta object literal for the '<em><b>Adt Main Object Ref</b></em>'
-     * containment reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
-     * @generated
-     */
-    EReference CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT_REF = eINSTANCE
-        .getCodeSearchObject_AdtMainObjectRef();
 
     /**
      * The meta object literal for the
@@ -511,6 +603,32 @@ public interface ICodeSearchPackage extends EPackage {
      * @generated
      */
     EReference CODE_SEARCH_RESULT__SEARCH_OBJECTS = eINSTANCE.getCodeSearchResult_SearchObjects();
+
+    /**
+     * The meta object literal for the '<em><b>Number Of Results</b></em>' attribute
+     * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    EAttribute CODE_SEARCH_RESULT__NUMBER_OF_RESULTS = eINSTANCE
+        .getCodeSearchResult_NumberOfResults();
+
+    /**
+     * The meta object literal for the '<em><b>Number Of Searched Objects</b></em>'
+     * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    EAttribute CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS = eINSTANCE
+        .getCodeSearchResult_NumberOfSearchedObjects();
+
+    /**
+     * The meta object literal for the '<em><b>Query Time In Ms</b></em>' attribute
+     * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    EAttribute CODE_SEARCH_RESULT__QUERY_TIME_IN_MS = eINSTANCE.getCodeSearchResult_QueryTimeInMs();
 
     /**
      * The meta object literal for the

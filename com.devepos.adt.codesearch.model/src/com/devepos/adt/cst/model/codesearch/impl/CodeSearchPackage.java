@@ -16,6 +16,8 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchObject;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
+import com.sap.adt.tools.core.model.adtcore.IAdtCorePackage;
+import com.sap.adt.tools.core.model.atom.IAtomPackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!--
@@ -109,6 +111,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
 
     // Initialize simple dependencies
     IAdtBasePackage.eINSTANCE.eClass();
+    IAdtCorePackage.eINSTANCE.eClass();
+    IAtomPackage.eINSTANCE.eClass();
     XMLTypePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
@@ -141,8 +145,28 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
    * @generated
    */
   @Override
-  public EReference getCodeSearchObject_AdtObjectRef() {
-    return (EReference) codeSearchObjectEClass.getEStructuralFeatures().get(0);
+  public EAttribute getCodeSearchObject_Uri() {
+    return (EAttribute) codeSearchObjectEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EAttribute getCodeSearchObject_ParentUri() {
+    return (EAttribute) codeSearchObjectEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EReference getCodeSearchObject_AdtMainObject() {
+    return (EReference) codeSearchObjectEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -152,17 +176,7 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
    */
   @Override
   public EReference getCodeSearchObject_Matches() {
-    return (EReference) codeSearchObjectEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
-   *
-   * @generated
-   */
-  @Override
-  public EReference getCodeSearchObject_AdtMainObjectRef() {
-    return (EReference) codeSearchObjectEClass.getEStructuralFeatures().get(2);
+    return (EReference) codeSearchObjectEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -213,6 +227,36 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   @Override
   public EReference getCodeSearchResult_SearchObjects() {
     return (EReference) codeSearchResultEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EAttribute getCodeSearchResult_NumberOfResults() {
+    return (EAttribute) codeSearchResultEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EAttribute getCodeSearchResult_NumberOfSearchedObjects() {
+    return (EAttribute) codeSearchResultEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EAttribute getCodeSearchResult_QueryTimeInMs() {
+    return (EAttribute) codeSearchResultEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -287,9 +331,10 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
 
     // Create classes and their features
     codeSearchObjectEClass = createEClass(CODE_SEARCH_OBJECT);
-    createEReference(codeSearchObjectEClass, CODE_SEARCH_OBJECT__ADT_OBJECT_REF);
+    createEAttribute(codeSearchObjectEClass, CODE_SEARCH_OBJECT__URI);
+    createEAttribute(codeSearchObjectEClass, CODE_SEARCH_OBJECT__PARENT_URI);
+    createEReference(codeSearchObjectEClass, CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT);
     createEReference(codeSearchObjectEClass, CODE_SEARCH_OBJECT__MATCHES);
-    createEReference(codeSearchObjectEClass, CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT_REF);
 
     codeSearchMatchEClass = createEClass(CODE_SEARCH_MATCH);
     createEAttribute(codeSearchMatchEClass, CODE_SEARCH_MATCH__URI);
@@ -297,6 +342,9 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
 
     codeSearchResultEClass = createEClass(CODE_SEARCH_RESULT);
     createEReference(codeSearchResultEClass, CODE_SEARCH_RESULT__SEARCH_OBJECTS);
+    createEAttribute(codeSearchResultEClass, CODE_SEARCH_RESULT__NUMBER_OF_RESULTS);
+    createEAttribute(codeSearchResultEClass, CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS);
+    createEAttribute(codeSearchResultEClass, CODE_SEARCH_RESULT__QUERY_TIME_IN_MS);
 
     codeSearchSettingsEClass = createEClass(CODE_SEARCH_SETTINGS);
     createEAttribute(codeSearchSettingsEClass, CODE_SEARCH_SETTINGS__PCRE_ENABLED);
@@ -330,10 +378,10 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    IAdtBasePackage theAdtBasePackage = (IAdtBasePackage) EPackage.Registry.INSTANCE.getEPackage(
-        IAdtBasePackage.eNS_URI);
     XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE.getEPackage(
         XMLTypePackage.eNS_URI);
+    IAdtCorePackage theAdtCorePackage = (IAdtCorePackage) EPackage.Registry.INSTANCE.getEPackage(
+        IAdtCorePackage.eNS_URI);
 
     // Create type parameters
 
@@ -344,21 +392,23 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     // Initialize classes, features, and operations; add parameters
     initEClass(codeSearchObjectEClass, ICodeSearchObject.class, "CodeSearchObject", !IS_ABSTRACT,
         !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getCodeSearchObject_AdtObjectRef(), theAdtBasePackage.getAdtObjRef(), null,
-        "adtObjectRef", null, 0, 1, ICodeSearchObject.class, !IS_TRANSIENT, !IS_VOLATILE,
+    initEAttribute(getCodeSearchObject_Uri(), theXMLTypePackage.getAnyURI(), "uri", null, 0, 1,
+        ICodeSearchObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+        IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCodeSearchObject_ParentUri(), theXMLTypePackage.getAnyURI(), "parentUri",
+        null, 0, 1, ICodeSearchObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+        !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getCodeSearchObject_AdtMainObject(), theAdtCorePackage.getAdtMainObject(), null,
+        "adtMainObject", null, 0, 1, ICodeSearchObject.class, !IS_TRANSIENT, !IS_VOLATILE,
         IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
         IS_ORDERED);
     initEReference(getCodeSearchObject_Matches(), getCodeSearchMatch(), null, "matches", null, 0,
         -1, ICodeSearchObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
         !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getCodeSearchObject_AdtMainObjectRef(), theAdtBasePackage.getAdtObjRef(), null,
-        "adtMainObjectRef", null, 0, 1, ICodeSearchObject.class, !IS_TRANSIENT, !IS_VOLATILE,
-        IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-        IS_ORDERED);
 
     initEClass(codeSearchMatchEClass, ICodeSearchMatch.class, "CodeSearchMatch", !IS_ABSTRACT,
         !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getCodeSearchMatch_Uri(), ecorePackage.getEString(), "uri", null, 0, 1,
+    initEAttribute(getCodeSearchMatch_Uri(), theXMLTypePackage.getAnyURI(), "uri", null, 0, 1,
         ICodeSearchMatch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
         IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getCodeSearchMatch_Snippet(), ecorePackage.getEString(), "snippet", null, 0, 1,
@@ -371,6 +421,15 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
         "searchObjects", null, 0, -1, ICodeSearchResult.class, !IS_TRANSIENT, !IS_VOLATILE,
         IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
         IS_ORDERED);
+    initEAttribute(getCodeSearchResult_NumberOfResults(), theXMLTypePackage.getInt(),
+        "numberOfResults", null, 0, 1, ICodeSearchResult.class, !IS_TRANSIENT, !IS_VOLATILE,
+        IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCodeSearchResult_NumberOfSearchedObjects(), theXMLTypePackage.getInt(),
+        "numberOfSearchedObjects", null, 0, 1, ICodeSearchResult.class, !IS_TRANSIENT, !IS_VOLATILE,
+        IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCodeSearchResult_QueryTimeInMs(), theXMLTypePackage.getInt(), "queryTimeInMs",
+        null, 0, 1, ICodeSearchResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+        !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(codeSearchSettingsEClass, ICodeSearchSettings.class, "CodeSearchSettings",
         !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -403,12 +462,14 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
     addAnnotation(codeSearchObjectEClass, source, new String[] { "kind", "elementOnly", "name",
         "searchObject" });
-    addAnnotation(getCodeSearchObject_AdtObjectRef(), source, new String[] { "kind", "element",
-        "name", "adtObjRef", "namespace", "http://www.devepos.com/adt/base" });
+    addAnnotation(getCodeSearchObject_Uri(), source, new String[] { "kind", "attribute", "name",
+        "uri", "namespace", "##targetNamespace" });
+    addAnnotation(getCodeSearchObject_ParentUri(), source, new String[] { "kind", "attribute",
+        "name", "parentUri", "namespace", "##targetNamespace" });
+    addAnnotation(getCodeSearchObject_AdtMainObject(), source, new String[] { "kind", "element",
+        "name", "adtMainObject", "namespace", "http://www.sap.com/adt/core" });
     addAnnotation(getCodeSearchObject_Matches(), source, new String[] { "kind", "element", "name",
         "match", "namespace", "##targetNamespace" });
-    addAnnotation(getCodeSearchObject_AdtMainObjectRef(), source, new String[] { "kind", "element",
-        "name", "adtMainObjRef", "namespace", "http://www.devepos.com/adt/base" });
     addAnnotation(codeSearchMatchEClass, source, new String[] { "kind", "elementOnly", "name",
         "codeSearchMatch" });
     addAnnotation(getCodeSearchMatch_Uri(), source, new String[] { "kind", "attribute", "name",
@@ -419,6 +480,12 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
         "result" });
     addAnnotation(getCodeSearchResult_SearchObjects(), source, new String[] { "kind", "element",
         "name", "searchObject", "namespace", "##targetNamespace" });
+    addAnnotation(getCodeSearchResult_NumberOfResults(), source, new String[] { "kind", "attribute",
+        "name", "numberOfResults", "namespace", "##targetNamespace" });
+    addAnnotation(getCodeSearchResult_NumberOfSearchedObjects(), source, new String[] { "kind",
+        "attribute", "name", "numberOfSearchedObjects", "namespace", "##targetNamespace" });
+    addAnnotation(getCodeSearchResult_QueryTimeInMs(), source, new String[] { "kind", "attribute",
+        "name", "queryTimeInMs", "namespace", "##targetNamespace" });
     addAnnotation(codeSearchSettingsEClass, source, new String[] { "kind", "elementOnly", "name",
         "settings" });
     addAnnotation(getCodeSearchSettings_PcreEnabled(), source, new String[] { "kind", "attribute",

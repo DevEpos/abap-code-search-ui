@@ -14,10 +14,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import com.devepos.adt.base.model.adtbase.IAdtObjRef;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchMatch;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchObject;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
+import com.sap.adt.tools.core.model.adtcore.IAdtMainObject;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object
@@ -26,26 +26,69 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getAdtObjectRef
- * <em>Adt Object Ref</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getUri
+ * <em>Uri</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getParentUri
+ * <em>Parent Uri</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getAdtMainObject
+ * <em>Adt Main Object</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getMatches
  * <em>Matches</em>}</li>
- * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getAdtMainObjectRef
- * <em>Adt Main Object Ref</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class CodeSearchObject extends MinimalEObjectImpl.Container implements ICodeSearchObject {
   /**
-   * The cached value of the '{@link #getAdtObjectRef() <em>Adt Object Ref</em>}'
-   * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The default value of the '{@link #getUri() <em>Uri</em>}' attribute. <!--
+   * begin-user-doc --> <!-- end-user-doc -->
    *
-   * @see #getAdtObjectRef()
+   * @see #getUri()
    * @generated
    * @ordered
    */
-  protected IAdtObjRef adtObjectRef;
+  protected static final String URI_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getUri() <em>Uri</em>}' attribute. <!--
+   * begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @see #getUri()
+   * @generated
+   * @ordered
+   */
+  protected String uri = URI_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getParentUri() <em>Parent Uri</em>}'
+   * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @see #getParentUri()
+   * @generated
+   * @ordered
+   */
+  protected static final String PARENT_URI_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getParentUri() <em>Parent Uri</em>}'
+   * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @see #getParentUri()
+   * @generated
+   * @ordered
+   */
+  protected String parentUri = PARENT_URI_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getAdtMainObject() <em>Adt Main
+   * Object</em>}' containment reference. <!-- begin-user-doc --> <!--
+   * end-user-doc -->
+   *
+   * @see #getAdtMainObject()
+   * @generated
+   * @ordered
+   */
+  protected IAdtMainObject adtMainObject;
 
   /**
    * The cached value of the '{@link #getMatches() <em>Matches</em>}' containment
@@ -56,17 +99,6 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
    * @ordered
    */
   protected EList<ICodeSearchMatch> matches;
-
-  /**
-   * The cached value of the '{@link #getAdtMainObjectRef() <em>Adt Main Object
-   * Ref</em>}' containment reference. <!-- begin-user-doc --> <!-- end-user-doc
-   * -->
-   *
-   * @see #getAdtMainObjectRef()
-   * @generated
-   * @ordered
-   */
-  protected IAdtObjRef adtMainObjectRef;
 
   /**
    * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -93,8 +125,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
    * @generated
    */
   @Override
-  public IAdtObjRef getAdtObjectRef() {
-    return adtObjectRef;
+  public String getUri() {
+    return uri;
   }
 
   /**
@@ -102,13 +134,62 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
    *
    * @generated
    */
-  public NotificationChain basicSetAdtObjectRef(final IAdtObjRef newAdtObjectRef,
+  public void setUri(final String newUri) {
+    String oldUri = uri;
+    uri = newUri;
+    if (eNotificationRequired()) {
+      eNotify(new ENotificationImpl(this, Notification.SET,
+          ICodeSearchPackage.CODE_SEARCH_OBJECT__URI, oldUri, uri));
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public String getParentUri() {
+    return parentUri;
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  public void setParentUri(final String newParentUri) {
+    String oldParentUri = parentUri;
+    parentUri = newParentUri;
+    if (eNotificationRequired()) {
+      eNotify(new ENotificationImpl(this, Notification.SET,
+          ICodeSearchPackage.CODE_SEARCH_OBJECT__PARENT_URI, oldParentUri, parentUri));
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public IAdtMainObject getAdtMainObject() {
+    return adtMainObject;
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  public NotificationChain basicSetAdtMainObject(final IAdtMainObject newAdtMainObject,
       NotificationChain msgs) {
-    IAdtObjRef oldAdtObjectRef = adtObjectRef;
-    adtObjectRef = newAdtObjectRef;
+    IAdtMainObject oldAdtMainObject = adtMainObject;
+    adtMainObject = newAdtMainObject;
     if (eNotificationRequired()) {
       ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-          ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_OBJECT_REF, oldAdtObjectRef, newAdtObjectRef);
+          ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT, oldAdtMainObject,
+          newAdtMainObject);
       if (msgs == null) {
         msgs = notification;
       } else {
@@ -123,25 +204,25 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
    *
    * @generated
    */
-  @Override
-  public void setAdtObjectRef(final IAdtObjRef newAdtObjectRef) {
-    if (newAdtObjectRef != adtObjectRef) {
+  public void setAdtMainObject(final IAdtMainObject newAdtMainObject) {
+    if (newAdtMainObject != adtMainObject) {
       NotificationChain msgs = null;
-      if (adtObjectRef != null) {
-        msgs = ((InternalEObject) adtObjectRef).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-            - ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_OBJECT_REF, null, msgs);
+      if (adtMainObject != null) {
+        msgs = ((InternalEObject) adtMainObject).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+            - ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT, null, msgs);
       }
-      if (newAdtObjectRef != null) {
-        msgs = ((InternalEObject) newAdtObjectRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-            - ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_OBJECT_REF, null, msgs);
+      if (newAdtMainObject != null) {
+        msgs = ((InternalEObject) newAdtMainObject).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+            - ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT, null, msgs);
       }
-      msgs = basicSetAdtObjectRef(newAdtObjectRef, msgs);
+      msgs = basicSetAdtMainObject(newAdtMainObject, msgs);
       if (msgs != null) {
         msgs.dispatch();
       }
     } else if (eNotificationRequired()) {
       eNotify(new ENotificationImpl(this, Notification.SET,
-          ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_OBJECT_REF, newAdtObjectRef, newAdtObjectRef));
+          ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT, newAdtMainObject,
+          newAdtMainObject));
     }
   }
 
@@ -165,75 +246,13 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
    * @generated
    */
   @Override
-  public IAdtObjRef getAdtMainObjectRef() {
-    return adtMainObjectRef;
-  }
-
-  /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
-   *
-   * @generated
-   */
-  public NotificationChain basicSetAdtMainObjectRef(final IAdtObjRef newAdtMainObjectRef,
-      NotificationChain msgs) {
-    IAdtObjRef oldAdtMainObjectRef = adtMainObjectRef;
-    adtMainObjectRef = newAdtMainObjectRef;
-    if (eNotificationRequired()) {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-          ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT_REF, oldAdtMainObjectRef,
-          newAdtMainObjectRef);
-      if (msgs == null) {
-        msgs = notification;
-      } else {
-        msgs.add(notification);
-      }
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
-   *
-   * @generated
-   */
-  @Override
-  public void setAdtMainObjectRef(final IAdtObjRef newAdtMainObjectRef) {
-    if (newAdtMainObjectRef != adtMainObjectRef) {
-      NotificationChain msgs = null;
-      if (adtMainObjectRef != null) {
-        msgs = ((InternalEObject) adtMainObjectRef).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-            - ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT_REF, null, msgs);
-      }
-      if (newAdtMainObjectRef != null) {
-        msgs = ((InternalEObject) newAdtMainObjectRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-            - ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT_REF, null, msgs);
-      }
-      msgs = basicSetAdtMainObjectRef(newAdtMainObjectRef, msgs);
-      if (msgs != null) {
-        msgs.dispatch();
-      }
-    } else if (eNotificationRequired()) {
-      eNotify(new ENotificationImpl(this, Notification.SET,
-          ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT_REF, newAdtMainObjectRef,
-          newAdtMainObjectRef));
-    }
-  }
-
-  /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
-   *
-   * @generated
-   */
-  @Override
   public NotificationChain eInverseRemove(final InternalEObject otherEnd, final int featureID,
       final NotificationChain msgs) {
     switch (featureID) {
-    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_OBJECT_REF:
-      return basicSetAdtObjectRef(null, msgs);
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT:
+      return basicSetAdtMainObject(null, msgs);
     case ICodeSearchPackage.CODE_SEARCH_OBJECT__MATCHES:
       return ((InternalEList<?>) getMatches()).basicRemove(otherEnd, msgs);
-    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT_REF:
-      return basicSetAdtMainObjectRef(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -246,12 +265,14 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   @Override
   public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
     switch (featureID) {
-    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_OBJECT_REF:
-      return getAdtObjectRef();
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__URI:
+      return getUri();
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__PARENT_URI:
+      return getParentUri();
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT:
+      return getAdtMainObject();
     case ICodeSearchPackage.CODE_SEARCH_OBJECT__MATCHES:
       return getMatches();
-    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT_REF:
-      return getAdtMainObjectRef();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -265,15 +286,18 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   @Override
   public void eSet(final int featureID, final Object newValue) {
     switch (featureID) {
-    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_OBJECT_REF:
-      setAdtObjectRef((IAdtObjRef) newValue);
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__URI:
+      setUri((String) newValue);
+      return;
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__PARENT_URI:
+      setParentUri((String) newValue);
+      return;
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT:
+      setAdtMainObject((IAdtMainObject) newValue);
       return;
     case ICodeSearchPackage.CODE_SEARCH_OBJECT__MATCHES:
       getMatches().clear();
       getMatches().addAll((Collection<? extends ICodeSearchMatch>) newValue);
-      return;
-    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT_REF:
-      setAdtMainObjectRef((IAdtObjRef) newValue);
       return;
     }
     super.eSet(featureID, newValue);
@@ -287,14 +311,17 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   @Override
   public void eUnset(final int featureID) {
     switch (featureID) {
-    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_OBJECT_REF:
-      setAdtObjectRef((IAdtObjRef) null);
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__URI:
+      setUri(URI_EDEFAULT);
+      return;
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__PARENT_URI:
+      setParentUri(PARENT_URI_EDEFAULT);
+      return;
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT:
+      setAdtMainObject((IAdtMainObject) null);
       return;
     case ICodeSearchPackage.CODE_SEARCH_OBJECT__MATCHES:
       getMatches().clear();
-      return;
-    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT_REF:
-      setAdtMainObjectRef((IAdtObjRef) null);
       return;
     }
     super.eUnset(featureID);
@@ -308,14 +335,37 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   @Override
   public boolean eIsSet(final int featureID) {
     switch (featureID) {
-    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_OBJECT_REF:
-      return adtObjectRef != null;
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__URI:
+      return URI_EDEFAULT == null ? uri != null : !URI_EDEFAULT.equals(uri);
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__PARENT_URI:
+      return PARENT_URI_EDEFAULT == null ? parentUri != null
+          : !PARENT_URI_EDEFAULT.equals(parentUri);
+    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT:
+      return adtMainObject != null;
     case ICodeSearchPackage.CODE_SEARCH_OBJECT__MATCHES:
       return matches != null && !matches.isEmpty();
-    case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT_REF:
-      return adtMainObjectRef != null;
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public String toString() {
+    if (eIsProxy()) {
+      return super.toString();
+    }
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (uri: ");
+    result.append(uri);
+    result.append(", parentUri: ");
+    result.append(parentUri);
+    result.append(')');
+    return result.toString();
   }
 
 } // CodeSearchObject

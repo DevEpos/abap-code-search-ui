@@ -1,17 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="codesearch" nsURI="http://www.devepos.com/adt/cst" nsPrefix="cst">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="codesearch" nsURI="http://www.devepos.com/adt/codesearchtools"
+    nsPrefix="cst">
   <eClassifiers xsi:type="ecore:EClass" name="CodeSearchObject">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="kind" value="elementOnly"/>
       <details key="name" value="searchObject"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="adtObjectRef" eType="ecore:EClass ../../com.devepos.adt.base/model/adtbase.ecore#//AdtObjRef"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="uri"/>
+        <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parentUri" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="parentUri"/>
+        <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adtMainObject" eType="ecore:EClass ../../com.sap.adt.tools.core.base/model/adtcore.ecore#//AdtMainObject"
         containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
-        <details key="name" value="adtObjRef"/>
-        <details key="namespace" value="http://www.devepos.com/adt/base"/>
+        <details key="name" value="adtMainObject"/>
+        <details key="namespace" value="http://www.sap.com/adt/core"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="matches" upperBound="-1"
@@ -21,13 +45,8 @@
         <details key="name" value="match"/>
         <details key="namespace" value="##targetNamespace"/>
       </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="adtMainObjectRef" eType="ecore:EClass ../../com.devepos.adt.base/model/adtbase.ecore#//AdtObjRef"
-        containment="true" resolveProxies="false">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="adtMainObjRef"/>
-        <details key="namespace" value="http://www.devepos.com/adt/base"/>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -36,11 +55,14 @@
       <details key="kind" value="elementOnly"/>
       <details key="name" value="codeSearchMatch"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
         <details key="name" value="uri"/>
         <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="snippet" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
@@ -48,6 +70,9 @@
         <details key="kind" value="element"/>
         <details key="name" value="snippet"/>
         <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -62,6 +87,40 @@
         <details key="kind" value="element"/>
         <details key="name" value="searchObject"/>
         <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfResults" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="numberOfResults"/>
+        <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfSearchedObjects"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="numberOfSearchedObjects"/>
+        <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="queryTimeInMs" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="queryTimeInMs"/>
+        <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

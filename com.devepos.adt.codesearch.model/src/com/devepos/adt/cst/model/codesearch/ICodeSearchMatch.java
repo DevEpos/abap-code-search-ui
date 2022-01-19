@@ -28,47 +28,24 @@ public interface ICodeSearchMatch extends EObject {
    * --> <!-- end-user-doc -->
    *
    * @return the value of the '<em>Uri</em>' attribute.
-   * @see #setUri(String)
    * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchMatch_Uri()
-   * @model extendedMetaData="kind='attribute' name='uri'
-   *        namespace='##targetNamespace'"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.AnyURI"
+   *        suppressedSetVisibility="true" extendedMetaData="kind='attribute'
+   *        name='uri' namespace='##targetNamespace'"
    * @generated
    */
   String getUri();
-
-  /**
-   * Sets the value of the
-   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchMatch#getUri
-   * <em>Uri</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-   *
-   * @param value the new value of the '<em>Uri</em>' attribute.
-   * @see #getUri()
-   * @generated
-   */
-  void setUri(String value);
 
   /**
    * Returns the value of the '<em><b>Snippet</b></em>' attribute. <!--
    * begin-user-doc --> <!-- end-user-doc -->
    *
    * @return the value of the '<em>Snippet</em>' attribute.
-   * @see #setSnippet(String)
    * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchMatch_Snippet()
-   * @model extendedMetaData="kind='element' name='snippet'
-   *        namespace='##targetNamespace'"
+   * @model suppressedSetVisibility="true" extendedMetaData="kind='element'
+   *        name='snippet' namespace='##targetNamespace'"
    * @generated
    */
   String getSnippet();
-
-  /**
-   * Sets the value of the
-   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchMatch#getSnippet
-   * <em>Snippet</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-   *
-   * @param value the new value of the '<em>Snippet</em>' attribute.
-   * @see #getSnippet()
-   * @generated
-   */
-  void setSnippet(String value);
 
 } // ICodeSearchMatch

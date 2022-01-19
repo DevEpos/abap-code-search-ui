@@ -4,10 +4,12 @@ package com.devepos.adt.cst.model.codesearch.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -25,6 +27,12 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
  * <ul>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getSearchObjects
  * <em>Search Objects</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getNumberOfResults
+ * <em>Number Of Results</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getNumberOfSearchedObjects
+ * <em>Number Of Searched Objects</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getQueryTimeInMs
+ * <em>Query Time In Ms</em>}</li>
  * </ul>
  *
  * @generated
@@ -39,6 +47,68 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
    * @ordered
    */
   protected EList<ICodeSearchObject> searchObjects;
+
+  /**
+   * The default value of the '{@link #getNumberOfResults() <em>Number Of
+   * Results</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @see #getNumberOfResults()
+   * @generated
+   * @ordered
+   */
+  protected static final int NUMBER_OF_RESULTS_EDEFAULT = 0;
+
+  /**
+   * The cached value of the '{@link #getNumberOfResults() <em>Number Of
+   * Results</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @see #getNumberOfResults()
+   * @generated
+   * @ordered
+   */
+  protected int numberOfResults = NUMBER_OF_RESULTS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getNumberOfSearchedObjects() <em>Number Of
+   * Searched Objects</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+   * -->
+   *
+   * @see #getNumberOfSearchedObjects()
+   * @generated
+   * @ordered
+   */
+  protected static final int NUMBER_OF_SEARCHED_OBJECTS_EDEFAULT = 0;
+
+  /**
+   * The cached value of the '{@link #getNumberOfSearchedObjects() <em>Number Of
+   * Searched Objects</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+   * -->
+   *
+   * @see #getNumberOfSearchedObjects()
+   * @generated
+   * @ordered
+   */
+  protected int numberOfSearchedObjects = NUMBER_OF_SEARCHED_OBJECTS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getQueryTimeInMs() <em>Query Time In
+   * Ms</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @see #getQueryTimeInMs()
+   * @generated
+   * @ordered
+   */
+  protected static final int QUERY_TIME_IN_MS_EDEFAULT = 0;
+
+  /**
+   * The cached value of the '{@link #getQueryTimeInMs() <em>Query Time In
+   * Ms</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @see #getQueryTimeInMs()
+   * @generated
+   * @ordered
+   */
+  protected int queryTimeInMs = QUERY_TIME_IN_MS_EDEFAULT;
 
   /**
    * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -79,6 +149,81 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
    * @generated
    */
   @Override
+  public int getNumberOfResults() {
+    return numberOfResults;
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  public void setNumberOfResults(final int newNumberOfResults) {
+    int oldNumberOfResults = numberOfResults;
+    numberOfResults = newNumberOfResults;
+    if (eNotificationRequired()) {
+      eNotify(new ENotificationImpl(this, Notification.SET,
+          ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_RESULTS, oldNumberOfResults,
+          numberOfResults));
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public int getNumberOfSearchedObjects() {
+    return numberOfSearchedObjects;
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  public void setNumberOfSearchedObjects(final int newNumberOfSearchedObjects) {
+    int oldNumberOfSearchedObjects = numberOfSearchedObjects;
+    numberOfSearchedObjects = newNumberOfSearchedObjects;
+    if (eNotificationRequired()) {
+      eNotify(new ENotificationImpl(this, Notification.SET,
+          ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS,
+          oldNumberOfSearchedObjects, numberOfSearchedObjects));
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public int getQueryTimeInMs() {
+    return queryTimeInMs;
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  public void setQueryTimeInMs(final int newQueryTimeInMs) {
+    int oldQueryTimeInMs = queryTimeInMs;
+    queryTimeInMs = newQueryTimeInMs;
+    if (eNotificationRequired()) {
+      eNotify(new ENotificationImpl(this, Notification.SET,
+          ICodeSearchPackage.CODE_SEARCH_RESULT__QUERY_TIME_IN_MS, oldQueryTimeInMs,
+          queryTimeInMs));
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
   public NotificationChain eInverseRemove(final InternalEObject otherEnd, final int featureID,
       final NotificationChain msgs) {
     switch (featureID) {
@@ -98,6 +243,12 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
     switch (featureID) {
     case ICodeSearchPackage.CODE_SEARCH_RESULT__SEARCH_OBJECTS:
       return getSearchObjects();
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_RESULTS:
+      return getNumberOfResults();
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS:
+      return getNumberOfSearchedObjects();
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__QUERY_TIME_IN_MS:
+      return getQueryTimeInMs();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -115,6 +266,15 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
       getSearchObjects().clear();
       getSearchObjects().addAll((Collection<? extends ICodeSearchObject>) newValue);
       return;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_RESULTS:
+      setNumberOfResults((Integer) newValue);
+      return;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS:
+      setNumberOfSearchedObjects((Integer) newValue);
+      return;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__QUERY_TIME_IN_MS:
+      setQueryTimeInMs((Integer) newValue);
+      return;
     }
     super.eSet(featureID, newValue);
   }
@@ -130,6 +290,15 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
     case ICodeSearchPackage.CODE_SEARCH_RESULT__SEARCH_OBJECTS:
       getSearchObjects().clear();
       return;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_RESULTS:
+      setNumberOfResults(NUMBER_OF_RESULTS_EDEFAULT);
+      return;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS:
+      setNumberOfSearchedObjects(NUMBER_OF_SEARCHED_OBJECTS_EDEFAULT);
+      return;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__QUERY_TIME_IN_MS:
+      setQueryTimeInMs(QUERY_TIME_IN_MS_EDEFAULT);
+      return;
     }
     super.eUnset(featureID);
   }
@@ -144,8 +313,36 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
     switch (featureID) {
     case ICodeSearchPackage.CODE_SEARCH_RESULT__SEARCH_OBJECTS:
       return searchObjects != null && !searchObjects.isEmpty();
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_RESULTS:
+      return numberOfResults != NUMBER_OF_RESULTS_EDEFAULT;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS:
+      return numberOfSearchedObjects != NUMBER_OF_SEARCHED_OBJECTS_EDEFAULT;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__QUERY_TIME_IN_MS:
+      return queryTimeInMs != QUERY_TIME_IN_MS_EDEFAULT;
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public String toString() {
+    if (eIsProxy()) {
+      return super.toString();
+    }
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (numberOfResults: ");
+    result.append(numberOfResults);
+    result.append(", numberOfSearchedObjects: ");
+    result.append(numberOfSearchedObjects);
+    result.append(", queryTimeInMs: ");
+    result.append(queryTimeInMs);
+    result.append(')');
+    return result.toString();
   }
 
 } // CodeSearchResult

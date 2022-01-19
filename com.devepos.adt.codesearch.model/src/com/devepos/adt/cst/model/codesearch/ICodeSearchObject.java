@@ -5,7 +5,7 @@ package com.devepos.adt.cst.model.codesearch;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
-import com.devepos.adt.base.model.adtbase.IAdtObjRef;
+import com.sap.adt.tools.core.model.adtcore.IAdtMainObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object
@@ -15,12 +15,14 @@ import com.devepos.adt.base.model.adtbase.IAdtObjRef;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getAdtObjectRef
- * <em>Adt Object Ref</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getUri
+ * <em>Uri</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getParentUri
+ * <em>Parent Uri</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getAdtMainObject
+ * <em>Adt Main Object</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getMatches
  * <em>Matches</em>}</li>
- * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getAdtMainObjectRef
- * <em>Adt Main Object Ref</em>}</li>
  * </ul>
  *
  * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchObject()
@@ -29,30 +31,43 @@ import com.devepos.adt.base.model.adtbase.IAdtObjRef;
  */
 public interface ICodeSearchObject extends EObject {
   /**
-   * Returns the value of the '<em><b>Adt Object Ref</b></em>' containment
-   * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * Returns the value of the '<em><b>Uri</b></em>' attribute. <!-- begin-user-doc
+   * --> <!-- end-user-doc -->
    *
-   * @return the value of the '<em>Adt Object Ref</em>' containment reference.
-   * @see #setAdtObjectRef(IAdtObjRef)
-   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchObject_AdtObjectRef()
-   * @model containment="true" extendedMetaData="kind='element' name='adtObjRef'
-   *        namespace='http://www.devepos.com/adt/base'"
+   * @return the value of the '<em>Uri</em>' attribute.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchObject_Uri()
+   * @model dataType="org.eclipse.emf.ecore.xml.type.AnyURI"
+   *        suppressedSetVisibility="true" extendedMetaData="kind='attribute'
+   *        name='uri' namespace='##targetNamespace'"
    * @generated
    */
-  IAdtObjRef getAdtObjectRef();
+  String getUri();
 
   /**
-   * Sets the value of the
-   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getAdtObjectRef
-   * <em>Adt Object Ref</em>}' containment reference. <!-- begin-user-doc --> <!--
-   * end-user-doc -->
+   * Returns the value of the '<em><b>Parent Uri</b></em>' attribute. <!--
+   * begin-user-doc --> <!-- end-user-doc -->
    *
-   * @param value the new value of the '<em>Adt Object Ref</em>' containment
-   *              reference.
-   * @see #getAdtObjectRef()
+   * @return the value of the '<em>Parent Uri</em>' attribute.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchObject_ParentUri()
+   * @model dataType="org.eclipse.emf.ecore.xml.type.AnyURI"
+   *        suppressedSetVisibility="true" extendedMetaData="kind='attribute'
+   *        name='parentUri' namespace='##targetNamespace'"
    * @generated
    */
-  void setAdtObjectRef(IAdtObjRef value);
+  String getParentUri();
+
+  /**
+   * Returns the value of the '<em><b>Adt Main Object</b></em>' containment
+   * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+   *
+   * @return the value of the '<em>Adt Main Object</em>' containment reference.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchObject_AdtMainObject()
+   * @model containment="true" suppressedSetVisibility="true"
+   *        extendedMetaData="kind='element' name='adtMainObject'
+   *        namespace='http://www.sap.com/adt/core'"
+   * @generated
+   */
+  IAdtMainObject getAdtMainObject();
 
   /**
    * Returns the value of the '<em><b>Matches</b></em>' containment reference
@@ -62,37 +77,11 @@ public interface ICodeSearchObject extends EObject {
    *
    * @return the value of the '<em>Matches</em>' containment reference list.
    * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchObject_Matches()
-   * @model containment="true" extendedMetaData="kind='element' name='match'
+   * @model containment="true" suppressedSetVisibility="true"
+   *        extendedMetaData="kind='element' name='match'
    *        namespace='##targetNamespace'"
    * @generated
    */
   EList<ICodeSearchMatch> getMatches();
-
-  /**
-   * Returns the value of the '<em><b>Adt Main Object Ref</b></em>' containment
-   * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-   *
-   * @return the value of the '<em>Adt Main Object Ref</em>' containment
-   *         reference.
-   * @see #setAdtMainObjectRef(IAdtObjRef)
-   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchObject_AdtMainObjectRef()
-   * @model containment="true" extendedMetaData="kind='element'
-   *        name='adtMainObjRef' namespace='http://www.devepos.com/adt/base'"
-   * @generated
-   */
-  IAdtObjRef getAdtMainObjectRef();
-
-  /**
-   * Sets the value of the
-   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchObject#getAdtMainObjectRef
-   * <em>Adt Main Object Ref</em>}' containment reference. <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   *
-   * @param value the new value of the '<em>Adt Main Object Ref</em>' containment
-   *              reference.
-   * @see #getAdtMainObjectRef()
-   * @generated
-   */
-  void setAdtMainObjectRef(IAdtObjRef value);
 
 } // ICodeSearchObject
