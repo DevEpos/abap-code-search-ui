@@ -3,6 +3,7 @@ package com.devepos.adt.cst.search;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 
 import com.devepos.adt.base.IAdtUriTemplateProvider;
@@ -24,7 +25,7 @@ public interface ICodeSearchService {
    * @param projectProvider provides ABAP project
    * @return URI template provider for named items
    */
-  IAdtUriTemplateProvider getNamedItemProvider(IAbapProjectProvider projectProvider);
+  IAdtUriTemplateProvider getNamedItemUriTemplateProvider(IAbapProjectProvider projectProvider);
 
   /**
    * Retrieves the list of available features to configure the code search
@@ -47,9 +48,11 @@ public interface ICodeSearchService {
    *
    * @param destinationId destination Id for ABAP project
    * @param uriParameters map of URI parameters
+   * @param monitor       progress monitor
    * @return search results
    */
-  ICodeSearchResult search(String destinationId, Map<String, Object> uriParameters);
+  ICodeSearchResult search(String destinationId, Map<String, Object> uriParameters,
+      IProgressMonitor monitor);
 
   /**
    * Tests the availablity of the ABAP Code search feature in the given project

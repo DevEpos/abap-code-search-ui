@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
@@ -25,10 +26,17 @@ import com.sap.adt.communication.resources.ResourceException;
 import com.sap.adt.communication.session.AdtSystemSessionFactory;
 import com.sap.adt.communication.session.ISystemSession;
 
+/**
+ * Standard implementation of the interface {@link ICodeSearchService}
+ * 
+ * @author Ludwig Stockbauer-Muhr
+ *
+ */
 public class CodeSearchSearchService implements ICodeSearchService {
 
   @Override
-  public IAdtUriTemplateProvider getNamedItemProvider(final IAbapProjectProvider projectProvider) {
+  public IAdtUriTemplateProvider getNamedItemUriTemplateProvider(
+      final IAbapProjectProvider projectProvider) {
     if (projectProvider == null) {
       throw new IllegalArgumentException("Parameter 'projectProvider' must be filled!");
     }
@@ -76,8 +84,19 @@ public class CodeSearchSearchService implements ICodeSearchService {
 
   @Override
   public ICodeSearchResult search(final String destinationId,
-      final Map<String, Object> uriParameters) {
-    // TODO Auto-generated method stub
+      final Map<String, Object> uriParameters, IProgressMonitor monitor) {
+
+    CodeSearchUriDiscovery discovery = new CodeSearchUriDiscovery(destinationId);
+    URI resourceUri = discovery.createCodeSearchUriFromTemplate(uriParameters);
+    if (resourceUri != null) {
+      final ISystemSession session = AdtSystemSessionFactory.createSystemSessionFactory()
+          .createStatelessSession(destinationId);
+
+      final IRestResource restResource = AdtRestResourceFactory.createRestResourceFactory()
+          .createRestResource(resourceUri, session);
+      restResource.addContentHandler(new CodeSearchResultContentHandler());
+      return restResource.get(monitor, ICodeSearchResult.class);
+    }
     return null;
   }
 

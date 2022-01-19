@@ -12,9 +12,9 @@ import com.devepos.adt.base.util.UriDiscoveryBase;
  */
 public abstract class CodeSearchToolsUriDiscoveryBase extends UriDiscoveryBase {
 
-  protected static final String DISCOVERY_RELATION_ROOT = "http://www.devepos.com/adt/relations/cst";
-  protected static final String DISCOVERY_SCHEME = "http://www.devepos.com/adt/cst";
-  private static final String DISCOVERY_PATH = "/devepos/adt/cst/discovery";
+  protected static final String DISCOVERY_RELATION_ROOT = "http://www.devepos.com/adt/relations/codesearchtools";
+  protected static final String DISCOVERY_SCHEME = "http://www.devepos.com/adt/codesearchtools";
+  private static final String DISCOVERY_PATH = "/devepos/adt/codesearchtools/discovery";
 
   private static final String DISCOVERY_TERM_PLUGIN_FEATURES = "pluginFeatures";
 
