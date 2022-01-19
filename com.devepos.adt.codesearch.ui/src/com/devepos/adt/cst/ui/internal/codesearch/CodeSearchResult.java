@@ -35,6 +35,7 @@ import com.sap.adt.tools.core.model.adtcore.IAdtObjectReference;
 
 public class CodeSearchResult extends AbstractTextSearchResult {
 
+  private static final List<ITreeNode> EMPTY_TREE_RESULT = new ArrayList<>();
   private IEditorMatchAdapter editorMatchAdapter;
   private List<ITreeNode> flatResult;
   private FileMatchesCache fileMatchesCache = new FileMatchesCache();
@@ -227,7 +228,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   }
 
   public List<ITreeNode> getFlatResult() {
-    return flatResult;
+    return flatResult != null ? flatResult : EMPTY_TREE_RESULT;
   }
 
   @Override
