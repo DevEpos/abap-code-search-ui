@@ -28,7 +28,7 @@ import com.sap.adt.communication.session.ISystemSession;
 
 /**
  * Standard implementation of the interface {@link ICodeSearchService}
- * 
+ *
  * @author Ludwig Stockbauer-Muhr
  *
  */
@@ -84,7 +84,7 @@ public class CodeSearchSearchService implements ICodeSearchService {
 
   @Override
   public ICodeSearchResult search(final String destinationId,
-      final Map<String, Object> uriParameters, IProgressMonitor monitor) {
+      final Map<String, Object> uriParameters, final IProgressMonitor monitor) {
 
     CodeSearchUriDiscovery discovery = new CodeSearchUriDiscovery(destinationId);
     URI resourceUri = discovery.createCodeSearchUriFromTemplate(uriParameters);

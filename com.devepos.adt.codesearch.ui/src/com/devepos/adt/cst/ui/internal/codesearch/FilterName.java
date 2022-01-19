@@ -58,7 +58,7 @@ public enum FilterName {
   /**
    * Returns map which contains a mapping between the filter names entered in a UI
    * friendly name and the filter name to be used in an API call to the backend
-   * 
+   *
    * @return map of UI filter name to API internal name
    */
   public static Map<String, String> getContentAssistToUriParamNameMap() {

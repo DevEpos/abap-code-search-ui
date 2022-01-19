@@ -94,7 +94,8 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
         if (element instanceof LoadingTreeItemsNode) {
           text.append(searchResult.getDisplayName(), StylerFactory.ITALIC_STYLER);
           return text;
-        } else if (element instanceof IAdtObjectReferenceNode) {
+        }
+        if (element instanceof IAdtObjectReferenceNode) {
           text.append(searchResult.getDisplayName());
           String type = ((IAdtObjectReferenceNode) element).getAdtObjectType();
           if (!type.equals(IAdtObjectTypeConstants.CLASS_INCLUDE)) {
@@ -118,7 +119,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   }
 
   @Override
-  public void createControl(Composite parent) {
+  public void createControl(final Composite parent) {
     super.createControl(parent);
 
     initializeActions();
@@ -131,7 +132,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
 
   @Override
   public CodeSearchQuery getSearchQuery() {
-    return (CodeSearchQuery) this.getInput().getQuery();
+    return (CodeSearchQuery) getInput().getQuery();
   }
 
   @Override
@@ -160,8 +161,8 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
 
   @Override
   protected void elementsChanged(final Object[] updatedElements) {
-    Set<ITreeNode> parentNodesOfNoMatchNodes = new HashSet<ITreeNode>();
-    Set<ITreeNode> nodesToRefresh = new HashSet<ITreeNode>();
+    Set<ITreeNode> parentNodesOfNoMatchNodes = new HashSet<>();
+    Set<ITreeNode> nodesToRefresh = new HashSet<>();
     CodeSearchResult result = (CodeSearchResult) getInput();
 
     for (Object obj : updatedElements) {
@@ -220,7 +221,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   }
 
   @Override
-  protected void fillToolbar(IToolBarManager tbm) {
+  protected void fillToolbar(final IToolBarManager tbm) {
     super.fillToolbar(tbm);
     tbm.appendToGroup(IContextMenuConstants.GROUP_NEW, CommandFactory.createContribItemById(
         IGeneralCommandConstants.OPEN_QUERY_IN_SEARCH_DIALOG, false, null));

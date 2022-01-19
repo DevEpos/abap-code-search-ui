@@ -29,7 +29,7 @@ public class CodeSearchQuery implements ISearchQuery {
   private CodeSearchResult searchResult;
   private CodeSearchQuerySpecification querySpecs;
 
-  public CodeSearchQuery(CodeSearchQuerySpecification querySpecs) {
+  public CodeSearchQuery(final CodeSearchQuerySpecification querySpecs) {
     searchResult = new CodeSearchResult(this);
     this.querySpecs = querySpecs;
   }

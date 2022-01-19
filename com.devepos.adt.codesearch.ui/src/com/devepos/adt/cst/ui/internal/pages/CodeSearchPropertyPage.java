@@ -43,7 +43,7 @@ import com.devepos.adt.cst.ui.internal.codesearch.NamedItem;
 
 /**
  * Describes project specific settings of the Code Search
- * 
+ *
  * @author Ludwig Stockbauer-Muhr
  *
  */
@@ -168,7 +168,7 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
         PCRE_ENABLED_FEATURE));
   }
 
-  private void createErrorControl(Composite parent) {
+  private void createErrorControl(final Composite parent) {
     MessageLine error = new MessageLine(parent);
     GridDataFactory.fillDefaults().grab(true, false).applyTo(error);
     error.setStatus(pageNotUseableStatus);

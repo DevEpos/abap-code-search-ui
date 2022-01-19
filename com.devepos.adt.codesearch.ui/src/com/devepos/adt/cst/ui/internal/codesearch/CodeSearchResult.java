@@ -39,7 +39,6 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   private List<ITreeNode> flatResult;
   private FileMatchesCache fileMatchesCache = new FileMatchesCache();
   private CodeSearchQuery searchQuery;
-  private ICodeSearchResult searchResult;
   private ICollectionTreeNode searchResultRootNode;
   private int resultCount;
 
@@ -50,7 +49,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   private static class FileMatchesCache {
     private Map<String, Set<SearchMatchNode>> cache = new HashMap<>();
 
-    public void addNode(SearchMatchNode matchNode) {
+    public void addNode(final SearchMatchNode matchNode) {
       String fileUri = getFileUriFromNode(matchNode);
       Set<SearchMatchNode> matchNodesForUri = cache.get(fileUri);
       if (matchNodesForUri == null) {
@@ -64,11 +63,11 @@ public class CodeSearchResult extends AbstractTextSearchResult {
       cache.clear();
     }
 
-    public Set<SearchMatchNode> getNodes(String fileUri) {
+    public Set<SearchMatchNode> getNodes(final String fileUri) {
       return cache.get(fileUri);
     }
 
-    public void removeNode(SearchMatchNode matchNode) {
+    public void removeNode(final SearchMatchNode matchNode) {
       String fileUri = getFileUriFromNode(matchNode);
       Set<SearchMatchNode> nodes = cache.get(fileUri);
       if (nodes != null) {
@@ -76,7 +75,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
       }
     }
 
-    private String getFileUriFromNode(SearchMatchNode matchNode) {
+    private String getFileUriFromNode(final SearchMatchNode matchNode) {
       String fileUri = null;
 
       int fragmentPosition = matchNode.getUri().indexOf("#");
@@ -100,11 +99,11 @@ public class CodeSearchResult extends AbstractTextSearchResult {
     private List<ITreeNode> flatResult = new ArrayList<>();
     private FileMatchesCache fileMatchesCache;
 
-    public TreeBuilder(ICodeSearchResult searchResult, FileMatchesCache fileMatchesCache,
-        String destinationId) {
+    public TreeBuilder(final ICodeSearchResult searchResult,
+        final FileMatchesCache fileMatchesCache, final String destinationId) {
       this.searchResult = searchResult;
       this.fileMatchesCache = fileMatchesCache;
-      this.rootNode = new FolderTreeNode(null, null, null, null);
+      rootNode = new FolderTreeNode(null, null, null, null);
       this.destinationId = destinationId;
     }
 
@@ -122,9 +121,9 @@ public class CodeSearchResult extends AbstractTextSearchResult {
     /*
      * Create package node from main object and add it to the node map
      */
-    private ITreeNode addPackageNode(String destinationId,
-        Map<String, IAdtObjectReferenceNode> urisToNodes, ICodeSearchObject searchObject,
-        IAdtMainObject mainObject) {
+    private ITreeNode addPackageNode(final String destinationId,
+        final Map<String, IAdtObjectReferenceNode> urisToNodes,
+        final ICodeSearchObject searchObject, final IAdtMainObject mainObject) {
       ITreeNode newNode;
       IAdtObjectReferenceNode packageNode = new PackageNode(mainObject.getName(), null,
           createObjectRef(destinationId, mainObject, searchObject));
@@ -133,8 +132,8 @@ public class CodeSearchResult extends AbstractTextSearchResult {
       return newNode;
     }
 
-    private void addSearchMatchNodes(ICodeSearchObject searchObject,
-        IAdtObjectReferenceNode objectNode) {
+    private void addSearchMatchNodes(final ICodeSearchObject searchObject,
+        final IAdtObjectReferenceNode objectNode) {
       if (!searchObject.getMatches().isEmpty()) {
         for (ICodeSearchMatch match : searchObject.getMatches()) {
           SearchMatchNode matchNode = new SearchMatchNode(match.getSnippet(), match.getSnippet(),
@@ -159,29 +158,28 @@ public class CodeSearchResult extends AbstractTextSearchResult {
 
           // TODO: handle $TMP package - create a user specific $TMP package node
           // depending on the value of 'responsible' of the main object
-          if (parentNode != null) {
-            parentNode.addChild(adtObjRefNode);
-          } else {
+          if (parentNode == null) {
             throw new IllegalStateException(
                 "Inconsistent data in text search result: parent uri can not be resolved: "
                     + objectRefOfNode.getParentUri());
           }
+          parentNode.addChild(adtObjRefNode);
         }
       }
 
       urisInCorrectTreeOrder.clear();
     }
 
-    private IAdtObjectReferenceNode createAdtObjectRefNode(String destinationId,
-        ICodeSearchObject searchObject, IAdtMainObject mainObject) {
+    private IAdtObjectReferenceNode createAdtObjectRefNode(final String destinationId,
+        final ICodeSearchObject searchObject, final IAdtMainObject mainObject) {
       IAdtObjectReferenceNode objectNode = new AdtObjectReferenceNode(mainObject.getName(),
           mainObject.getName(), mainObject.getDescription(), createObjectRef(destinationId,
               mainObject, searchObject));
       return objectNode;
     }
 
-    private IAdtObjectReference createObjectRef(String destinationId, IAdtMainObject adtMainObject,
-        ICodeSearchObject searchObject) {
+    private IAdtObjectReference createObjectRef(final String destinationId,
+        final IAdtMainObject adtMainObject, final ICodeSearchObject searchObject) {
       IAdtObjectReference adtObjectRef = AdtObjectReferenceModelFactory.createReference(
           destinationId, adtMainObject.getName(), adtMainObject.getType(), searchObject.getUri());
       adtObjectRef.setParentUri(searchObject.getParentUri());
@@ -261,7 +259,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
         resultsLabel);
   }
 
-  public Set<SearchMatchNode> getMatchNodesForFileUri(String fileUri) {
+  public Set<SearchMatchNode> getMatchNodesForFileUri(final String fileUri) {
     return fileMatchesCache.getNodes(fileUri);
   }
 
@@ -307,11 +305,10 @@ public class CodeSearchResult extends AbstractTextSearchResult {
    * Take query result and convert it into a flat and tree like result for the
    * search view
    */
-  public void setResult(ICodeSearchResult result) {
+  public void setResult(final ICodeSearchResult result) {
     if (result.getNumberOfResults() <= 0) {
       return;
     }
-    searchResult = result;
     resultCount = result.getNumberOfResults();
     fileMatchesCache.clear();
 

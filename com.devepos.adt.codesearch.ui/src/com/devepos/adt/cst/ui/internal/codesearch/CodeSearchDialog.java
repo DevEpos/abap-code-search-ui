@@ -155,7 +155,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   }
 
   @Override
-  public void setInputFromSearchQuery(CodeSearchQuery query) {
+  public void setInputFromSearchQuery(final CodeSearchQuery query) {
     CodeSearchQuerySpecification querySpecs = query.getQuerySpecification();
 
     final IAbapProjectProvider projectProvider = querySpecs.getProjectProvider();

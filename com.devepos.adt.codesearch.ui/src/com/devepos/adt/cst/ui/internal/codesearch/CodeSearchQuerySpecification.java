@@ -21,7 +21,7 @@ import com.sap.adt.destinations.model.IDestinationData;
 /**
  * Describes all the options that are needed to execute a
  * {@link CodeSearchQuery}
- * 
+ *
  * @author Ludwig Stockbauer-Muhr
  *
  */
@@ -53,7 +53,7 @@ public class CodeSearchQuerySpecification {
 
   /**
    * Builds map of necessary URI parameters for executing the object search
-   * 
+   *
    * @return map of URI parameters
    */
   public Map<String, Object> buildSearchUriParameters() {
@@ -126,26 +126,27 @@ public class CodeSearchQuerySpecification {
     return projectProvider;
   }
 
-  public String getQuery(boolean restrictString) {
-//    StringBuffer query = new StringBuffer();
-//    if (!StringUtil.isEmpty(objectNames) || !StringUtil.isEmpty(objectNames) || !StringUtil.isEmpty(
-//        objectScopeFiltersString)) {
-//      query.append("Pattern ");
-//    }
-//    query.append("'");
-//    query.append();
-//    query.append("'");
-//    if (!StringUtil.isBlank(objectNames)) {
-//      query.append(" names: '");
-//      query.append(objectNames);
-//      query.append("'");
-//    }
-//    if (!StringUtil.isBlank(objectScopeFiltersString)) {
-//      query.append(" scope: '");
-//      query.append(objectScopeFiltersString);
-//      query.append("'");
-//    }
-//    return query.toString();
+  public String getQuery(final boolean restrictString) {
+    // StringBuffer query = new StringBuffer();
+    // if (!StringUtil.isEmpty(objectNames) || !StringUtil.isEmpty(objectNames) ||
+    // !StringUtil.isEmpty(
+    // objectScopeFiltersString)) {
+    // query.append("Pattern ");
+    // }
+    // query.append("'");
+    // query.append();
+    // query.append("'");
+    // if (!StringUtil.isBlank(objectNames)) {
+    // query.append(" names: '");
+    // query.append(objectNames);
+    // query.append("'");
+    // }
+    // if (!StringUtil.isBlank(objectScopeFiltersString)) {
+    // query.append(" scope: '");
+    // query.append(objectScopeFiltersString);
+    // query.append("'");
+    // }
+    // return query.toString();
     String query = singlePattern ? patterns.replaceAll(Text.DELIMITER, "\\\\n")
         : patterns.replaceAll(Text.DELIMITER, ",");
     if (query.length() > 60) {
@@ -189,7 +190,7 @@ public class CodeSearchQuerySpecification {
     return useRegExp;
   }
 
-  public void setAllResults(boolean allResults) {
+  public void setAllResults(final boolean allResults) {
     this.allResults = allResults;
   }
 
@@ -197,15 +198,15 @@ public class CodeSearchQuerySpecification {
     this.destinationId = destinationId;
   }
 
-  public void setIgnoreCaseCheck(boolean ignoreCaseCheck) {
+  public void setIgnoreCaseCheck(final boolean ignoreCaseCheck) {
     this.ignoreCaseCheck = ignoreCaseCheck;
   }
 
-  public void setIgnoreCommentLines(boolean ignoreCommentLines) {
+  public void setIgnoreCommentLines(final boolean ignoreCommentLines) {
     this.ignoreCommentLines = ignoreCommentLines;
   }
 
-  public void setMatchAllPatterns(boolean matchAllPatterns) {
+  public void setMatchAllPatterns(final boolean matchAllPatterns) {
     this.matchAllPatterns = matchAllPatterns;
   }
 
@@ -213,11 +214,11 @@ public class CodeSearchQuerySpecification {
     this.maxResults = maxResults;
   }
 
-  public void setMultilineSearchOption(boolean multilineSearchOption) {
+  public void setMultilineSearchOption(final boolean multilineSearchOption) {
     this.multilineSearchOption = multilineSearchOption;
   }
 
-  public void setObjectNames(String objectNames) {
+  public void setObjectNames(final String objectNames) {
     this.objectNames = objectNames.strip().replaceAll("\\s+", " ");
   }
 
@@ -228,7 +229,7 @@ public class CodeSearchQuerySpecification {
   }
 
   public void setPatterns(final String searchTerm) {
-    this.patterns = searchTerm;
+    patterns = searchTerm;
   }
 
   public void setProjectProvider(final IAbapProjectProvider projectProvider) {
@@ -242,11 +243,11 @@ public class CodeSearchQuerySpecification {
     this.readPackageHierarchy = readPackageHierarchy;
   }
 
-  public void setSinglePattern(boolean singlePattern) {
+  public void setSinglePattern(final boolean singlePattern) {
     this.singlePattern = singlePattern;
   }
 
-  public void setUseRegExp(boolean useRegExp) {
+  public void setUseRegExp(final boolean useRegExp) {
     this.useRegExp = useRegExp;
   }
 
@@ -262,11 +263,10 @@ public class CodeSearchQuerySpecification {
   private Object getAdjustedPatterns() {
     if (singlePattern) {
       return patterns.replaceAll(Text.DELIMITER, System.lineSeparator());
-    } else {
-      return Stream.of(this.patterns.split(Text.DELIMITER))
-          .filter(pattern -> !pattern.isBlank())
-          .collect(Collectors.toList());
     }
+    return Stream.of(patterns.split(Text.DELIMITER))
+        .filter(pattern -> !pattern.isBlank())
+        .collect(Collectors.toList());
   }
 
   private String getDestinationInfo() {
@@ -278,7 +278,8 @@ public class CodeSearchQuerySpecification {
         .getClient());
   }
 
-  private void setClassScopeParams(Map<String, Object> uriParameters, IPreferenceStore prefStore) {
+  private void setClassScopeParams(final Map<String, Object> uriParameters,
+      final IPreferenceStore prefStore) {
     ClassSearchScopeOption scopeOption = ClassSearchScopeOption.valueOf(prefStore.getString(
         ICodeSearchPrefs.CLASS_SCOPE_OPTION));
 
@@ -306,7 +307,7 @@ public class CodeSearchQuerySpecification {
     }
   }
 
-  private void setParamsFromPrefStore(Map<String, Object> uriParameters) {
+  private void setParamsFromPrefStore(final Map<String, Object> uriParameters) {
     IPreferenceStore prefStore = CodeSearchUIPlugin.getDefault().getPreferenceStore();
     uriParameters.put(FilterName.MAX_OBJECTS.getUriParamName(), prefStore.getInt(
         ICodeSearchPrefs.MAX_OBJECTS));

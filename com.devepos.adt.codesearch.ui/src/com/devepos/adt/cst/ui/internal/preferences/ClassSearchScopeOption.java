@@ -2,7 +2,8 @@ package com.devepos.adt.cst.ui.internal.preferences;
 
 public enum ClassSearchScopeOption {
 
-  ALL("All"), SPECIFIC("Only specific includes");
+  ALL("All"),
+  SPECIFIC("Only specific includes");
 
   private String label;
 

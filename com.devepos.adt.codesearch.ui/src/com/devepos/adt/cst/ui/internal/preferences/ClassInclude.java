@@ -9,7 +9,7 @@ public enum ClassInclude {
 
   private String apiName;
 
-  private ClassInclude(String apiName) {
+  ClassInclude(final String apiName) {
     this.apiName = apiName;
   }
 

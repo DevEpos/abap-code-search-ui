@@ -5,7 +5,7 @@ import org.osgi.framework.BundleContext;
 
 /**
  * Plugin for accessing the server side ABAP API's of the ABAP Code search
- * 
+ *
  * @author Ludwig Stockbauer-Muhr
  *
  */

@@ -50,10 +50,10 @@ public class SearchMatchNode extends TreeNodeBase implements IStyledTreeNode {
       Pattern fragmentPattern = Pattern.compile("start=(\\d+),(\\d+);end=(\\d+),(\\d+)");
       Matcher fragmentMatcher = fragmentPattern.matcher(uri);
       if (fragmentMatcher.find()) {
-        int startLine = Integer.valueOf(fragmentMatcher.group(1));
-        int startOffset = Integer.valueOf(fragmentMatcher.group(2));
-        int endLine = Integer.valueOf(fragmentMatcher.group(3));
-        int endOffset = Integer.valueOf(fragmentMatcher.group(4));
+        int startLine = Integer.parseInt(fragmentMatcher.group(1));
+        int startOffset = Integer.parseInt(fragmentMatcher.group(2));
+        int endLine = Integer.parseInt(fragmentMatcher.group(3));
+        int endOffset = Integer.parseInt(fragmentMatcher.group(4));
 
         styledSnippet.append(content.substring(0, startOffset));
 
