@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 
+import com.devepos.adt.base.ui.tree.ITreeNode;
+
 public class CodeSearchTableContentProvider implements IStructuredContentProvider {
   private static final Object[] EMPTY_ARRAY = new Object[0];
 
@@ -19,11 +21,11 @@ public class CodeSearchTableContentProvider implements IStructuredContentProvide
 
   @Override
   public Object[] getElements(final Object inputElement) {
-    var result = (CodeSearchResult) resultPage.getInput();
+    CodeSearchResult result = (CodeSearchResult) resultPage.getInput();
     if (result != null) {
       List<Object> matches = new ArrayList<>();
       // TODO: consider filters (not yet implemented)
-      for (var obj : result.getFlatResult()) {
+      for (ITreeNode obj : result.getFlatResult()) {
         if (result.getMatchCount(obj) > 0) {
           matches.add(obj);
         }
