@@ -71,15 +71,37 @@
         	<li>Match All: this checkbox is only relevant if the pattern contains more then one line. If this checkbox is set the system will search for source code which contains all patterns listed in the search pattern text area. 
                     If this checkbox is not set the system will execute an OR search between all lines of the text area individually </li>
 		</ol>
+        A more detailed configuration of the scope is possible for classes by clicking on the link "To-do". You have the possibility to specify the class specific include types which should be considered or excluded for the scope. 
+        The possible options are: global class, class-relevant local types, local types, test classes, macros or all includes. 
 	</p>
+        
+        <h4 class="heading">Project specific settings</h4>
+        <p> 
+        In the preferences menu you have the possibility to configure the project specific settings:
+        <ol class="list">
+          <li>Enable PCRE(Pearl compatible regular expressions): this option is only active for systems higher or equal to 7.55. 
+          By activating this checkbox the search will use all features of the new regular expression flavor of the ABAP language. </li>
+         <li>Enable Parallel Processing: by activating this checkbox the system will execute the search with parallel processes. 
+          Depending on the workload of the system the search will occupy a maximum of 10 processes if available. </li>
+         <li>Server Group: you can choose an existing server group which will be considered for the parallel processing. 
+          A validition of the entered value is available. </li>
+        </ol>
+        </p>
 
 <h3 class="heading">The Search result View</h3>
-	<h4 class="heading">Working with the Search Results</h4>
+	<h4 class="heading">Retrival of the Search Results</h4>
+        <p>As the search has to process a high number of source code objects (depending on the scope definition) the result list is build incrementally. 
+        This way the user gets to see the first results, even if the search run is not finished yet. 
+        The search will enhance the result tree with new matches after each request. The number of objects which are scanned in a request is configured in the preferences screen. 
+</p>
+        <h4 class="heading">Working with the Search Results</h4>
 	<p>Once a search returns some results they are displayed in the
-		Search View. For each found object there are several options available</p>
+		Search View. As a default the matches are grouped by the main object (e.g. Function group, class) and the object where it can be found ( e.g function module, method). 
+                For each match there are several options available</p>
 	<ul class="list">
-		<li>Opening the object in the corresponding eclipse editor (if
-			one is registered for the type) by double clicking on it</li>
+		<li>Open the object in the corresponding eclipse editor (if
+		     one is registered for the type) and navigate to the line which contains the match 
+                     by double clicking on it</li>
 		<li>Open one or several selected objects via the context menu
 			item <code class="code">Open</code>
 		</li>
