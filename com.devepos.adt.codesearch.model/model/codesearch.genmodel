@@ -30,5 +30,16 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/parallelEnabled"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/parallelServerGroup"/>
     </genClasses>
+    <genClasses ecoreClass="codesearch.ecore#//CodeSearchScopeParameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchScopeParameter/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchScopeParameter/value"/>
+    </genClasses>
+    <genClasses ecoreClass="codesearch.ecore#//CodeSearchScope">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchScope/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchScope/objectCount"/>
+    </genClasses>
+    <genClasses ecoreClass="codesearch.ecore#//CodeSearchScopeParameters">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference codesearch.ecore#//CodeSearchScopeParameters/parameters"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

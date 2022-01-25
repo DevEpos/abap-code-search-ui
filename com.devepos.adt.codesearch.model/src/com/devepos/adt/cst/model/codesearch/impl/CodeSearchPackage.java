@@ -15,54 +15,88 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchMatch;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchObject;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScope;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameter;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
 import com.sap.adt.tools.core.model.adtcore.IAdtCorePackage;
 import com.sap.adt.tools.core.model.atom.IAtomPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!--
- * end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model <b>Package</b>.
+ * <!-- end-user-doc -->
  *
  * @generated
  */
 public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackage {
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
   private EClass codeSearchObjectEClass = null;
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
   private EClass codeSearchMatchEClass = null;
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
   private EClass codeSearchResultEClass = null;
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
   private EClass codeSearchSettingsEClass = null;
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  private EClass codeSearchScopeParameterEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  private EClass codeSearchScopeEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  private EClass codeSearchScopeParametersEClass = null;
+
+  /**
    * Creates an instance of the model <b>Package</b>, registered with
-   * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the
-   * package package URI value.
+   * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+   * package URI value.
    * <p>
-   * Note: the correct way to create the package is via the static factory method
-   * {@link #init init()}, which also performs initialization of the package, or
-   * returns the registered package, if one already exists. <!-- begin-user-doc
-   * --> <!-- end-user-doc -->
+   * Note: the correct way to create the package is via the static
+   * factory method {@link #init init()}, which also performs
+   * initialization of the package, or returns the registered package,
+   * if one already exists.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see org.eclipse.emf.ecore.EPackage.Registry
    * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#eNS_URI
@@ -74,21 +108,24 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
   private static boolean isInited = false;
 
   /**
-   * Creates, registers, and initializes the <b>Package</b> for this model, and
-   * for any others upon which it depends.
+   * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon
+   * which it depends.
    *
    * <p>
-   * This method is used to initialize {@link ICodeSearchPackage#eINSTANCE} when
-   * that field is accessed. Clients should not invoke it directly. Instead, they
-   * should simply access that field to obtain the package. <!-- begin-user-doc
-   * --> <!-- end-user-doc -->
+   * This method is used to initialize {@link ICodeSearchPackage#eINSTANCE} when that field is
+   * accessed.
+   * Clients should not invoke it directly. Instead, they should simply access that field to obtain
+   * the package.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #eNS_URI
    * @see #createPackageContents()
@@ -130,7 +167,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -140,7 +178,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -150,7 +189,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -160,7 +200,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -170,7 +211,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -180,7 +222,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -190,7 +233,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -200,7 +244,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -210,7 +255,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -220,7 +266,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -230,7 +277,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -240,7 +288,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -250,7 +299,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -260,7 +310,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -270,7 +321,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -280,7 +332,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -290,7 +343,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -300,7 +354,96 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EClass getCodeSearchScopeParameter() {
+    return codeSearchScopeParameterEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EAttribute getCodeSearchScopeParameter_Name() {
+    return (EAttribute) codeSearchScopeParameterEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EAttribute getCodeSearchScopeParameter_Value() {
+    return (EAttribute) codeSearchScopeParameterEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EClass getCodeSearchScope() {
+    return codeSearchScopeEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EAttribute getCodeSearchScope_Id() {
+    return (EAttribute) codeSearchScopeEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EAttribute getCodeSearchScope_ObjectCount() {
+    return (EAttribute) codeSearchScopeEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EClass getCodeSearchScopeParameters() {
+    return codeSearchScopeParametersEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EReference getCodeSearchScopeParameters_Parameters() {
+    return (EReference) codeSearchScopeParametersEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -310,16 +453,18 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
   private boolean isCreated = false;
 
   /**
-   * Creates the meta-model objects for the package. This method is guarded to
-   * have no affect on any invocation but its first. <!-- begin-user-doc --> <!--
-   * end-user-doc -->
+   * Creates the meta-model objects for the package. This method is
+   * guarded to have no affect on any invocation but its first.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -350,19 +495,32 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     createEAttribute(codeSearchSettingsEClass, CODE_SEARCH_SETTINGS__PCRE_ENABLED);
     createEAttribute(codeSearchSettingsEClass, CODE_SEARCH_SETTINGS__PARALLEL_ENABLED);
     createEAttribute(codeSearchSettingsEClass, CODE_SEARCH_SETTINGS__PARALLEL_SERVER_GROUP);
+
+    codeSearchScopeParameterEClass = createEClass(CODE_SEARCH_SCOPE_PARAMETER);
+    createEAttribute(codeSearchScopeParameterEClass, CODE_SEARCH_SCOPE_PARAMETER__NAME);
+    createEAttribute(codeSearchScopeParameterEClass, CODE_SEARCH_SCOPE_PARAMETER__VALUE);
+
+    codeSearchScopeEClass = createEClass(CODE_SEARCH_SCOPE);
+    createEAttribute(codeSearchScopeEClass, CODE_SEARCH_SCOPE__ID);
+    createEAttribute(codeSearchScopeEClass, CODE_SEARCH_SCOPE__OBJECT_COUNT);
+
+    codeSearchScopeParametersEClass = createEClass(CODE_SEARCH_SCOPE_PARAMETERS);
+    createEReference(codeSearchScopeParametersEClass, CODE_SEARCH_SCOPE_PARAMETERS__PARAMETERS);
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
   private boolean isInitialized = false;
 
   /**
-   * Complete the initialization of the package and its meta-model. This method is
-   * guarded to have no affect on any invocation but its first. <!--
-   * begin-user-doc --> <!-- end-user-doc -->
+   * Complete the initialization of the package and its meta-model. This
+   * method is guarded to have no affect on any invocation but its first.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -443,6 +601,31 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
         "parallelServerGroup", null, 0, 1, ICodeSearchSettings.class, !IS_TRANSIENT, !IS_VOLATILE,
         IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(codeSearchScopeParameterEClass, ICodeSearchScopeParameter.class,
+        "CodeSearchScopeParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getCodeSearchScopeParameter_Name(), theXMLTypePackage.getString(), "name", null,
+        0, 1, ICodeSearchScopeParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+        !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCodeSearchScopeParameter_Value(), theXMLTypePackage.getString(), "value",
+        null, 0, 1, ICodeSearchScopeParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+        !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(codeSearchScopeEClass, ICodeSearchScope.class, "CodeSearchScope", !IS_ABSTRACT,
+        !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getCodeSearchScope_Id(), theXMLTypePackage.getString(), "id", null, 0, 1,
+        ICodeSearchScope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+        IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCodeSearchScope_ObjectCount(), theXMLTypePackage.getInt(), "objectCount",
+        null, 0, 1, ICodeSearchScope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+        !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(codeSearchScopeParametersEClass, ICodeSearchScopeParameters.class,
+        "CodeSearchScopeParameters", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getCodeSearchScopeParameters_Parameters(), getCodeSearchScopeParameter(), null,
+        "parameters", null, 0, -1, ICodeSearchScopeParameters.class, !IS_TRANSIENT, !IS_VOLATILE,
+        IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+        IS_ORDERED);
+
     // Create resource
     createResource(eNS_URI);
 
@@ -452,9 +635,9 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
   }
 
   /**
-   * Initializes the annotations for
-   * <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData</b>. <!--
-   * begin-user-doc --> <!-- end-user-doc -->
+   * Initializes the annotations for <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData</b>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -494,6 +677,22 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
         "attribute", "name", "parallelEnabled", "namespace", "##targetNamespace" });
     addAnnotation(getCodeSearchSettings_ParallelServerGroup(), source, new String[] { "kind",
         "attribute", "name", "parallelServerGroup", "namespace", "##targetNamespace" });
+    addAnnotation(codeSearchScopeParameterEClass, source, new String[] { "kind", "elementOnly",
+        "name", "scopeParameter" });
+    addAnnotation(getCodeSearchScopeParameter_Name(), source, new String[] { "kind", "attribute",
+        "name", "name", "namespace", "##targetNamespace" });
+    addAnnotation(getCodeSearchScopeParameter_Value(), source, new String[] { "kind", "attribute",
+        "name", "value", "namespace", "##targetNamespace" });
+    addAnnotation(codeSearchScopeEClass, source, new String[] { "kind", "elementOnly", "name",
+        "searchScope" });
+    addAnnotation(getCodeSearchScope_Id(), source, new String[] { "kind", "attribute", "name", "id",
+        "namespace", "##targetNamespace" });
+    addAnnotation(getCodeSearchScope_ObjectCount(), source, new String[] { "kind", "attribute",
+        "name", "objectCount", "namespace", "##targetNamespace" });
+    addAnnotation(codeSearchScopeParametersEClass, source, new String[] { "kind", "elementOnly",
+        "name", "searchScopeParameters" });
+    addAnnotation(getCodeSearchScopeParameters_Parameters(), source, new String[] { "kind",
+        "element", "name", "scopeParameter", "namespace", "##targetNamespace" });
   }
 
 } // CodeSearchPackage
