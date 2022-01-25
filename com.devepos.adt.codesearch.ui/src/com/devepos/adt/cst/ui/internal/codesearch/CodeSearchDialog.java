@@ -51,13 +51,13 @@ import com.sap.adt.util.ui.swt.AdtSWTUtilFactory;
 
 public class CodeSearchDialog extends DialogPage implements ISearchPage,
     IChangeableSearchPage<CodeSearchQuery> {
-  public static final int DEFAULT_SCALE = 4;
+  public static final int DEFAULT_SCALE = 2;
 
-  public static final int MAX_SCALE = 20;
+  public static final int MAX_SCALE = 21;
   public static final String PAGE_ID = "com.devepos.adt.codesearch.ui.searchpage.codeSearch"; //$NON-NLS-1$
 
   private static final String LAST_PROJECT_PREF = "codeSearch.lastProject"; //$NON-NLS-1$
-  private static final int MULTIPLIER = 25;
+  private static final int MULTIPLIER = 50;
 
   private Map<ValidationSource, IStatus> allValidationStatuses;
   private ISearchPageContainer container;
