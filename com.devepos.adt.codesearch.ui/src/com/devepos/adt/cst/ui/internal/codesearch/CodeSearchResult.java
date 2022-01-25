@@ -35,10 +35,10 @@ import com.sap.adt.tools.core.model.adtcore.IAdtObjectReference;
 
 public class CodeSearchResult extends AbstractTextSearchResult {
 
-  private static final List<ITreeNode> EMPTY_TREE_RESULT = new ArrayList<>();
   private IEditorMatchAdapter editorMatchAdapter;
-  private List<ITreeNode> flatResult;
+  private List<ITreeNode> flatResult = new ArrayList<>();
   private FileMatchesCache fileMatchesCache = new FileMatchesCache();
+  private TreeBuilder treeBuilder;
   private CodeSearchQuery searchQuery;
   private ICollectionTreeNode searchResultRootNode;
   private int resultCount;
@@ -92,31 +92,33 @@ public class CodeSearchResult extends AbstractTextSearchResult {
 
   private static class TreeBuilder {
 
-    private ICodeSearchResult searchResult;
     private FolderTreeNode rootNode;
     private String destinationId;
     private Map<String, IAdtObjectReferenceNode> urisToNodes = new HashMap<>();
-    private List<String> urisInCorrectTreeOrder = new ArrayList<>();
-    private List<ITreeNode> flatResult = new ArrayList<>();
+    private List<String> urisInCorrectTreeOrder;
+    private List<ITreeNode> flatResult;
     private FileMatchesCache fileMatchesCache;
 
-    public TreeBuilder(final ICodeSearchResult searchResult,
-        final FileMatchesCache fileMatchesCache, final String destinationId) {
-      this.searchResult = searchResult;
+    public TreeBuilder(final FileMatchesCache fileMatchesCache, final String destinationId) {
       this.fileMatchesCache = fileMatchesCache;
       rootNode = new FolderTreeNode(null, null, null, null);
       this.destinationId = destinationId;
     }
 
-    public ICollectionTreeNode createTree() {
-      createTreeNodes();
+    public void addResultToTree(final ICodeSearchResult searchResult) {
+      flatResult = new ArrayList<>();
+      urisInCorrectTreeOrder = new ArrayList<>();
+      urisToNodes = new HashMap<>();
+      createTreeNodes(searchResult);
       connectTreeNodes();
-
-      return rootNode;
     }
 
     public List<ITreeNode> getFlatResult() {
       return flatResult;
+    }
+
+    public ICollectionTreeNode getRootNode() {
+      return rootNode;
     }
 
     /*
@@ -187,7 +189,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
       return adtObjectRef;
     }
 
-    private void createTreeNodes() {
+    private void createTreeNodes(final ICodeSearchResult searchResult) {
 
       for (ICodeSearchObject searchObject : searchResult.getSearchObjects()) {
         IAdtMainObject mainObject = searchObject.getAdtMainObject();
@@ -213,6 +215,34 @@ public class CodeSearchResult extends AbstractTextSearchResult {
 
   }
 
+  /**
+   * Take query result and convert it into a flat and tree like result for the
+   * search view
+   */
+  public void addResult(final ICodeSearchResult result) {
+    if (result == null || result.getNumberOfResults() <= 0) {
+      return;
+    }
+
+    resultCount += result.getNumberOfResults();
+
+    if (treeBuilder == null) {
+      treeBuilder = new TreeBuilder(fileMatchesCache, searchQuery.getProjectProvider()
+          .getDestinationId());
+    }
+    if (searchResultRootNode == null) {
+      searchResultRootNode = treeBuilder.getRootNode();
+    }
+    treeBuilder.addResultToTree(result);
+    List<ITreeNode> currentFlatResult = treeBuilder.getFlatResult();
+    if (currentFlatResult != null) {
+      flatResult.addAll(currentFlatResult);
+      for (ITreeNode matchNode : currentFlatResult) {
+        addMatch(new Match(matchNode, -1, -1));
+      }
+    }
+  }
+
   @Override
   public IEditorMatchAdapter getEditorMatchAdapter() {
     if (editorMatchAdapter == null) {
@@ -228,7 +258,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   }
 
   public List<ITreeNode> getFlatResult() {
-    return flatResult != null ? flatResult : EMPTY_TREE_RESULT;
+    return flatResult;
   }
 
   @Override
@@ -275,8 +305,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
 
   @Override
   public String getTooltip() {
-    // TODO Auto-generated method stub
-    return "";
+    return searchQuery != null ? searchQuery.getQuerySpecification().getQuery(false) : null;
   }
 
   @Override
@@ -284,7 +313,11 @@ public class CodeSearchResult extends AbstractTextSearchResult {
     if (flatResult != null) {
       flatResult.clear();
     }
+    resultCount = 0;
     fileMatchesCache.clear();
+    if (searchResultRootNode != null) {
+      searchResultRootNode.removeAllChildren();
+    }
     searchResultRootNode = null;
     super.removeAll();
   }
@@ -296,33 +329,9 @@ public class CodeSearchResult extends AbstractTextSearchResult {
     if (match instanceof SearchMatchNode) {
       fileMatchesCache.removeNode((SearchMatchNode) match);
     }
-    ITreeNode parent = match.getParent();
-    if (parent instanceof ICollectionTreeNode) {
-      ((ICollectionTreeNode) parent).removeChild(match);
-    }
-  }
-
-  /**
-   * Take query result and convert it into a flat and tree like result for the
-   * search view
-   */
-  public void setResult(final ICodeSearchResult result) {
-    if (result.getNumberOfResults() <= 0) {
-      return;
-    }
-    resultCount = result.getNumberOfResults();
-    fileMatchesCache.clear();
-
-    TreeBuilder treeBuilder = new TreeBuilder(result, fileMatchesCache, searchQuery
-        .getProjectProvider()
-        .getDestinationId());
-    searchResultRootNode = treeBuilder.createTree();
-    flatResult = treeBuilder.getFlatResult();
-
-    if (flatResult != null) {
-      for (ITreeNode matchNode : flatResult) {
-        addMatch(new Match(matchNode, -1, -1));
-      }
+    ICollectionTreeNode parent = match.getParent();
+    if (parent != null) {
+      parent.removeChild(match);
     }
   }
 }

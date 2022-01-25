@@ -1,5 +1,7 @@
 package com.devepos.adt.cst.ui.internal.codesearch;
 
+import java.util.Map;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -13,6 +15,8 @@ import com.devepos.adt.base.ui.project.AbapProjectProviderAccessor;
 import com.devepos.adt.base.ui.project.IAbapProjectProvider;
 import com.devepos.adt.base.ui.project.ProjectUtil;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScope;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
 import com.devepos.adt.cst.search.CodeSearchFactory;
 import com.devepos.adt.cst.search.ICodeSearchService;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
@@ -83,18 +87,47 @@ public class CodeSearchQuery implements ISearchQuery {
       return logonStatus;
     }
 
-    // build parameters map for request
     ICodeSearchService service = CodeSearchFactory.getCodeSearchService();
-    ICodeSearchResult serviceSearchResult = service.search(destinationId, querySpecs
-        .buildSearchUriParameters(), monitor);
 
-    searchResult.setResult(serviceSearchResult);
+    // create the scope to retrieve the number of objects that need / should be searched
+    ICodeSearchScopeParameters scopeParameters = querySpecs.createScopeParameters();
+    ICodeSearchScope scope = service.createScope(destinationId, scopeParameters, monitor);
+
+    if (scope.getObjectCount() <= 0) {
+      searchResult.addResult(null);
+    } else {
+      startSearchingWithScope(monitor, scope, service, destinationId);
+    }
+
     return Status.OK_STATUS;
+  }
+
+  private void startSearchingWithScope(final IProgressMonitor monitor, final ICodeSearchScope scope,
+      final ICodeSearchService service, final String destinationId) {
+
+    Map<String, Object> uriParams = querySpecs.buildSearchUriParameters();
+    uriParams.put(SearchParameter.SCOPE_ID.getUriName(), scope.getId());
+    int packageSize = (int) uriParams.get(SearchParameter.MAX_OBJECTS.getUriName());
+
+    int currentOffset = 0;
+    int workUnits = scope.getObjectCount() / packageSize;
+    if (workUnits <= 0) {
+      workUnits = 1;
+    }
+    monitor.beginTask("", workUnits);
+    while (currentOffset < scope.getObjectCount()) {
+      uriParams.put(SearchParameter.SCOPE_OFFSET.getUriName(), currentOffset);
+
+      ICodeSearchResult serviceSearchResult = service.search(destinationId, uriParams, monitor);
+      searchResult.addResult(serviceSearchResult);
+      monitor.worked(1);
+      currentOffset += packageSize;
+    }
+    monitor.done();
   }
 
   public void setProjectProvider(final IAbapProjectProvider projectProvider) {
     this.projectProvider = projectProvider;
 
   }
-
 }

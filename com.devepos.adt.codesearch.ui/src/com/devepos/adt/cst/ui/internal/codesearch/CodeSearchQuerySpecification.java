@@ -12,6 +12,9 @@ import org.eclipse.swt.widgets.Text;
 
 import com.devepos.adt.base.ui.project.IAbapProjectProvider;
 import com.devepos.adt.base.util.StringUtil;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchFactory;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameter;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.preferences.ClassInclude;
 import com.devepos.adt.cst.ui.internal.preferences.ClassSearchScopeOption;
@@ -51,17 +54,36 @@ public class CodeSearchQuerySpecification {
     allResults = false;
   }
 
+  public ICodeSearchScopeParameters createScopeParameters() {
+    ICodeSearchScopeParameters scopeParameters = ICodeSearchFactory.eINSTANCE
+        .createCodeSearchScopeParameters();
+
+    if (!StringUtil.isBlank(objectNames)) {
+      ICodeSearchScopeParameter parameter = ICodeSearchFactory.eINSTANCE
+          .createCodeSearchScopeParameter();
+      parameter.setName(FilterName.OBJECT_NAME.getUriParamName());
+      parameter.setValue(objectNames);
+      scopeParameters.getParameters().add(parameter);
+    }
+    getObjectScopeFilters().forEach((paramName, paramValue) -> {
+      ICodeSearchScopeParameter parameter = ICodeSearchFactory.eINSTANCE
+          .createCodeSearchScopeParameter();
+      parameter.setName(paramName);
+      parameter.setValue((String) paramValue);
+      scopeParameters.getParameters().add(parameter);
+    });
+    return scopeParameters;
+  }
+
   /**
    * Builds map of necessary URI parameters for executing the object search
    *
    * @return map of URI parameters
    */
   public Map<String, Object> buildSearchUriParameters() {
-    Map<String, Object> uriParameters = new HashMap<>(getObjectScopeFilters());
+    Map<String, Object> uriParameters = new HashMap<>();
+
     uriParameters.put(FilterName.SEARCH_PATTERN.getUriParamName(), getAdjustedPatterns());
-    if (!StringUtil.isBlank(objectNames)) {
-      uriParameters.put(FilterName.OBJECT_NAME.getUriParamName(), objectNames);
-    }
     if (ignoreCaseCheck) {
       uriParameters.put(SearchParameter.IGNORE_CASE.getUriName(), true);
     }

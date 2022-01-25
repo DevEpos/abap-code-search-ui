@@ -161,7 +161,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
 
   @Override
   protected void elementsChanged(final Object[] updatedElements) {
-    Set<ITreeNode> parentNodesOfNoMatchNodes = new HashSet<>();
+    Set<ICollectionTreeNode> parentNodesWithoutMatches = new HashSet<>();
     Set<ITreeNode> nodesToRefresh = new HashSet<>();
     CodeSearchResult result = (CodeSearchResult) getInput();
 
@@ -169,38 +169,39 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
       // check if element still has matches
       if (getDisplayedMatchCount(obj) <= 0) {
         ITreeNode matchNode = (ITreeNode) obj;
-        ITreeNode parentNode = matchNode.getParent();
+        ICollectionTreeNode parentNode = matchNode.getParent();
         if (parentNode != null) {
           result.removeSearchResult(matchNode);
-          parentNodesOfNoMatchNodes.add(parentNode);
+          parentNodesWithoutMatches.add(parentNode);
         }
       }
     }
 
     boolean isRootNodeAdjusted = false;
+
     // check parents if they still have children
-    for (ITreeNode parent : parentNodesOfNoMatchNodes) {
+    for (ICollectionTreeNode parent : parentNodesWithoutMatches) {
 
       while (parent != null) {
-        if (parent instanceof ICollectionTreeNode) {
-          ICollectionTreeNode collectionParent = (ICollectionTreeNode) parent;
+        // check if we removed a node from the root node, then we have to refresh the
+        // whole viewer as the root node is not visible
+        if (!isRootNodeAdjusted && parent == result.getResultTree()) {
+          isRootNodeAdjusted = true;
+        }
 
-          if (collectionParent.hasChildren()) {
-            nodesToRefresh.add(parent);
-            break;
-          }
-          // maybe the node was added in an earlier iteration where it still had children
-          nodesToRefresh.remove(parent);
-          parent = collectionParent.getParent();
-          if (parent instanceof ICollectionTreeNode) {
-            ((ICollectionTreeNode) parent).removeChild(collectionParent);
+        if (parent.hasChildren()) {
+          nodesToRefresh.add(parent);
+          break;
+        }
 
-            // check if we removed a node from the root node, then we have to refresh the
-            // whole viewer as the root node is not visible
-            if (parent == result.getResultTree()) {
-              isRootNodeAdjusted = true;
-            }
-          }
+        // maybe the node was added in an earlier iteration where it still had children
+        nodesToRefresh.remove(parent);
+
+        ICollectionTreeNode child = parent;
+        parent = parent.getParent();
+
+        if (parent != null) {
+          parent.removeChild(child);
         }
       }
     }
