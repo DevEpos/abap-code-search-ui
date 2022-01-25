@@ -11,14 +11,15 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object
- * '<em><b>Settings</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Settings</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchSettings#isPcreEnabled
- * <em>Pcre Enabled</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchSettings#isPcreEnabled <em>Pcre
+ * Enabled</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchSettings#isParallelEnabled
  * <em>Parallel Enabled</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchSettings#getParallelServerGroup
@@ -30,8 +31,9 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
 public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
     ICodeSearchSettings {
   /**
-   * The default value of the '{@link #isPcreEnabled() <em>Pcre Enabled</em>}'
-   * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The default value of the '{@link #isPcreEnabled() <em>Pcre Enabled</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #isPcreEnabled()
    * @generated
@@ -40,8 +42,9 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   protected static final boolean PCRE_ENABLED_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isPcreEnabled() <em>Pcre Enabled</em>}'
-   * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The cached value of the '{@link #isPcreEnabled() <em>Pcre Enabled</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #isPcreEnabled()
    * @generated
@@ -50,8 +53,9 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   protected boolean pcreEnabled = PCRE_ENABLED_EDEFAULT;
 
   /**
-   * The default value of the '{@link #isParallelEnabled() <em>Parallel
-   * Enabled</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The default value of the '{@link #isParallelEnabled() <em>Parallel Enabled</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #isParallelEnabled()
    * @generated
@@ -60,8 +64,9 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   protected static final boolean PARALLEL_ENABLED_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isParallelEnabled() <em>Parallel
-   * Enabled</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The cached value of the '{@link #isParallelEnabled() <em>Parallel Enabled</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #isParallelEnabled()
    * @generated
@@ -70,8 +75,10 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   protected boolean parallelEnabled = PARALLEL_ENABLED_EDEFAULT;
 
   /**
-   * The default value of the '{@link #getParallelServerGroup() <em>Parallel
-   * Server Group</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The default value of the '{@link #getParallelServerGroup() <em>Parallel Server Group</em>}'
+   * attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getParallelServerGroup()
    * @generated
@@ -80,8 +87,10 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   protected static final String PARALLEL_SERVER_GROUP_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getParallelServerGroup() <em>Parallel Server
-   * Group</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The cached value of the '{@link #getParallelServerGroup() <em>Parallel Server Group</em>}'
+   * attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getParallelServerGroup()
    * @generated
@@ -90,7 +99,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   protected String parallelServerGroup = PARALLEL_SERVER_GROUP_EDEFAULT;
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -99,7 +109,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -109,7 +120,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -119,7 +131,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -134,7 +147,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -144,7 +158,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -160,7 +175,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -170,7 +186,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -186,7 +203,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -204,7 +222,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -225,7 +244,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -246,7 +266,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -265,7 +286,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */

@@ -20,18 +20,18 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
 import com.sap.adt.tools.core.model.adtcore.IAdtMainObject;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object
- * '<em><b>Object</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Object</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getUri
- * <em>Uri</em>}</li>
- * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getParentUri
- * <em>Parent Uri</em>}</li>
- * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getAdtMainObject
- * <em>Adt Main Object</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getUri <em>Uri</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getParentUri <em>Parent
+ * Uri</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getAdtMainObject <em>Adt
+ * Main Object</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchObject#getMatches
  * <em>Matches</em>}</li>
  * </ul>
@@ -40,8 +40,9 @@ import com.sap.adt.tools.core.model.adtcore.IAdtMainObject;
  */
 public class CodeSearchObject extends MinimalEObjectImpl.Container implements ICodeSearchObject {
   /**
-   * The default value of the '{@link #getUri() <em>Uri</em>}' attribute. <!--
-   * begin-user-doc --> <!-- end-user-doc -->
+   * The default value of the '{@link #getUri() <em>Uri</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getUri()
    * @generated
@@ -50,8 +51,9 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   protected static final String URI_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getUri() <em>Uri</em>}' attribute. <!--
-   * begin-user-doc --> <!-- end-user-doc -->
+   * The cached value of the '{@link #getUri() <em>Uri</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getUri()
    * @generated
@@ -60,8 +62,9 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   protected String uri = URI_EDEFAULT;
 
   /**
-   * The default value of the '{@link #getParentUri() <em>Parent Uri</em>}'
-   * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The default value of the '{@link #getParentUri() <em>Parent Uri</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getParentUri()
    * @generated
@@ -70,8 +73,9 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   protected static final String PARENT_URI_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getParentUri() <em>Parent Uri</em>}'
-   * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The cached value of the '{@link #getParentUri() <em>Parent Uri</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getParentUri()
    * @generated
@@ -80,9 +84,10 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   protected String parentUri = PARENT_URI_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getAdtMainObject() <em>Adt Main
-   * Object</em>}' containment reference. <!-- begin-user-doc --> <!--
-   * end-user-doc -->
+   * The cached value of the '{@link #getAdtMainObject() <em>Adt Main Object</em>}' containment
+   * reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getAdtMainObject()
    * @generated
@@ -91,8 +96,9 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   protected IAdtMainObject adtMainObject;
 
   /**
-   * The cached value of the '{@link #getMatches() <em>Matches</em>}' containment
-   * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The cached value of the '{@link #getMatches() <em>Matches</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getMatches()
    * @generated
@@ -101,7 +107,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   protected EList<ICodeSearchMatch> matches;
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -110,7 +117,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -120,7 +128,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -130,7 +139,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -144,7 +154,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -154,7 +165,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -168,7 +180,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -178,7 +191,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -200,7 +214,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -227,7 +242,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -241,7 +257,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -258,7 +275,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -278,7 +296,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -304,7 +323,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -328,7 +348,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -349,7 +370,8 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */

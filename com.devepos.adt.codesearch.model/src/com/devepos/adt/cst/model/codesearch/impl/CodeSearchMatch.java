@@ -11,14 +11,14 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchMatch;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object
- * '<em><b>Match</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Match</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchMatch#getUri
- * <em>Uri</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchMatch#getUri <em>Uri</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchMatch#getSnippet
  * <em>Snippet</em>}</li>
  * </ul>
@@ -27,8 +27,9 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
  */
 public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICodeSearchMatch {
   /**
-   * The default value of the '{@link #getUri() <em>Uri</em>}' attribute. <!--
-   * begin-user-doc --> <!-- end-user-doc -->
+   * The default value of the '{@link #getUri() <em>Uri</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getUri()
    * @generated
@@ -37,8 +38,9 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
   protected static final String URI_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getUri() <em>Uri</em>}' attribute. <!--
-   * begin-user-doc --> <!-- end-user-doc -->
+   * The cached value of the '{@link #getUri() <em>Uri</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getUri()
    * @generated
@@ -48,7 +50,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
 
   /**
    * The default value of the '{@link #getSnippet() <em>Snippet</em>}' attribute.
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getSnippet()
    * @generated
@@ -58,7 +61,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
 
   /**
    * The cached value of the '{@link #getSnippet() <em>Snippet</em>}' attribute.
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getSnippet()
    * @generated
@@ -67,7 +71,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
   protected String snippet = SNIPPET_EDEFAULT;
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -76,7 +81,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -86,7 +92,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -96,7 +103,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -110,7 +118,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -120,7 +129,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -134,7 +144,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -150,7 +161,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -168,7 +180,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -186,7 +199,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -202,7 +216,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */

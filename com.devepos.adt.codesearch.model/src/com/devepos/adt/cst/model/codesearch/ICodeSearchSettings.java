@@ -5,15 +5,16 @@ package com.devepos.adt.cst.model.codesearch;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object
- * '<em><b>Settings</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Settings</b></em>'.
+ * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreEnabled
- * <em>Pcre Enabled</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreEnabled <em>Pcre
+ * Enabled</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isParallelEnabled
  * <em>Parallel Enabled</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#getParallelServerGroup
@@ -26,24 +27,25 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ICodeSearchSettings extends EObject {
   /**
-   * Returns the value of the '<em><b>Pcre Enabled</b></em>' attribute. <!--
-   * begin-user-doc --> <!-- end-user-doc -->
+   * Returns the value of the '<em><b>Pcre Enabled</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @return the value of the '<em>Pcre Enabled</em>' attribute.
    * @see #setPcreEnabled(boolean)
    * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchSettings_PcreEnabled()
    * @model dataType="org.eclipse.emf.ecore.xml.type.Boolean"
-   *        extendedMetaData="kind='attribute' name='pcreEnabled'
-   *        namespace='##targetNamespace'"
+   *        extendedMetaData="kind='attribute' name='pcreEnabled' namespace='##targetNamespace'"
    * @generated
    */
   boolean isPcreEnabled();
 
   /**
    * Sets the value of the
-   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreEnabled
-   * <em>Pcre Enabled</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-   * -->
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreEnabled <em>Pcre
+   * Enabled</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @param value the new value of the '<em>Pcre Enabled</em>' attribute.
    * @see #isPcreEnabled()
@@ -52,24 +54,25 @@ public interface ICodeSearchSettings extends EObject {
   void setPcreEnabled(boolean value);
 
   /**
-   * Returns the value of the '<em><b>Parallel Enabled</b></em>' attribute. <!--
-   * begin-user-doc --> <!-- end-user-doc -->
+   * Returns the value of the '<em><b>Parallel Enabled</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @return the value of the '<em>Parallel Enabled</em>' attribute.
    * @see #setParallelEnabled(boolean)
    * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchSettings_ParallelEnabled()
    * @model dataType="org.eclipse.emf.ecore.xml.type.Boolean"
-   *        extendedMetaData="kind='attribute' name='parallelEnabled'
-   *        namespace='##targetNamespace'"
+   *        extendedMetaData="kind='attribute' name='parallelEnabled' namespace='##targetNamespace'"
    * @generated
    */
   boolean isParallelEnabled();
 
   /**
    * Sets the value of the
-   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isParallelEnabled
-   * <em>Parallel Enabled</em>}' attribute. <!-- begin-user-doc --> <!--
-   * end-user-doc -->
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isParallelEnabled <em>Parallel
+   * Enabled</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @param value the new value of the '<em>Parallel Enabled</em>' attribute.
    * @see #isParallelEnabled()
@@ -79,7 +82,8 @@ public interface ICodeSearchSettings extends EObject {
 
   /**
    * Returns the value of the '<em><b>Parallel Server Group</b></em>' attribute.
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @return the value of the '<em>Parallel Server Group</em>' attribute.
    * @see #setParallelServerGroup(String)
@@ -94,8 +98,9 @@ public interface ICodeSearchSettings extends EObject {
   /**
    * Sets the value of the
    * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#getParallelServerGroup
-   * <em>Parallel Server Group</em>}' attribute. <!-- begin-user-doc --> <!--
-   * end-user-doc -->
+   * <em>Parallel Server Group</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @param value the new value of the '<em>Parallel Server Group</em>' attribute.
    * @see #getParallelServerGroup()

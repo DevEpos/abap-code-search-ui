@@ -19,28 +19,31 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object
- * '<em><b>Result</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Result</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getSearchObjects
- * <em>Search Objects</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getSearchObjects <em>Search
+ * Objects</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getNumberOfResults
  * <em>Number Of Results</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getNumberOfSearchedObjects
  * <em>Number Of Searched Objects</em>}</li>
- * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getQueryTimeInMs
- * <em>Query Time In Ms</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getQueryTimeInMs <em>Query
+ * Time In Ms</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class CodeSearchResult extends MinimalEObjectImpl.Container implements ICodeSearchResult {
   /**
-   * The cached value of the '{@link #getSearchObjects() <em>Search Objects</em>}'
-   * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The cached value of the '{@link #getSearchObjects() <em>Search Objects</em>}' containment
+   * reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getSearchObjects()
    * @generated
@@ -49,8 +52,9 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   protected EList<ICodeSearchObject> searchObjects;
 
   /**
-   * The default value of the '{@link #getNumberOfResults() <em>Number Of
-   * Results</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The default value of the '{@link #getNumberOfResults() <em>Number Of Results</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getNumberOfResults()
    * @generated
@@ -59,8 +63,9 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   protected static final int NUMBER_OF_RESULTS_EDEFAULT = 0;
 
   /**
-   * The cached value of the '{@link #getNumberOfResults() <em>Number Of
-   * Results</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The cached value of the '{@link #getNumberOfResults() <em>Number Of Results</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getNumberOfResults()
    * @generated
@@ -69,9 +74,10 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   protected int numberOfResults = NUMBER_OF_RESULTS_EDEFAULT;
 
   /**
-   * The default value of the '{@link #getNumberOfSearchedObjects() <em>Number Of
-   * Searched Objects</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-   * -->
+   * The default value of the '{@link #getNumberOfSearchedObjects() <em>Number Of Searched
+   * Objects</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getNumberOfSearchedObjects()
    * @generated
@@ -80,9 +86,10 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   protected static final int NUMBER_OF_SEARCHED_OBJECTS_EDEFAULT = 0;
 
   /**
-   * The cached value of the '{@link #getNumberOfSearchedObjects() <em>Number Of
-   * Searched Objects</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-   * -->
+   * The cached value of the '{@link #getNumberOfSearchedObjects() <em>Number Of Searched
+   * Objects</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getNumberOfSearchedObjects()
    * @generated
@@ -91,8 +98,9 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   protected int numberOfSearchedObjects = NUMBER_OF_SEARCHED_OBJECTS_EDEFAULT;
 
   /**
-   * The default value of the '{@link #getQueryTimeInMs() <em>Query Time In
-   * Ms</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The default value of the '{@link #getQueryTimeInMs() <em>Query Time In Ms</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getQueryTimeInMs()
    * @generated
@@ -101,8 +109,9 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   protected static final int QUERY_TIME_IN_MS_EDEFAULT = 0;
 
   /**
-   * The cached value of the '{@link #getQueryTimeInMs() <em>Query Time In
-   * Ms</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+   * The cached value of the '{@link #getQueryTimeInMs() <em>Query Time In Ms</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @see #getQueryTimeInMs()
    * @generated
@@ -111,7 +120,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   protected int queryTimeInMs = QUERY_TIME_IN_MS_EDEFAULT;
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -120,7 +130,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -130,7 +141,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -144,7 +156,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -154,7 +167,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -169,7 +183,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -179,7 +194,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -194,7 +210,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -204,7 +221,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -219,7 +237,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -234,7 +253,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -254,7 +274,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -280,7 +301,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -304,7 +326,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -324,7 +347,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
