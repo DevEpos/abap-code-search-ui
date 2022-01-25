@@ -149,32 +149,34 @@ public class CodeSearchQuerySpecification {
   }
 
   public String getQuery(final boolean restrictString) {
-    // StringBuffer query = new StringBuffer();
-    // if (!StringUtil.isEmpty(objectNames) || !StringUtil.isEmpty(objectNames) ||
-    // !StringUtil.isEmpty(
-    // objectScopeFiltersString)) {
-    // query.append("Pattern ");
-    // }
-    // query.append("'");
-    // query.append();
-    // query.append("'");
-    // if (!StringUtil.isBlank(objectNames)) {
-    // query.append(" names: '");
-    // query.append(objectNames);
-    // query.append("'");
-    // }
-    // if (!StringUtil.isBlank(objectScopeFiltersString)) {
-    // query.append(" scope: '");
-    // query.append(objectScopeFiltersString);
-    // query.append("'");
-    // }
-    // return query.toString();
-    String query = singlePattern ? patterns.replaceAll(Text.DELIMITER, "\\\\n")
-        : patterns.replaceAll(Text.DELIMITER, ",");
-    if (query.length() > 60) {
-      query = query.substring(0, 60) + "...";
+    if (restrictString) {
+      String query = singlePattern ? patterns.replaceAll(Text.DELIMITER, "\\\\n")
+          : patterns.replaceAll(Text.DELIMITER, ",");
+      if (query.length() > 60) {
+        query = query.substring(0, 60) + "...";
+      }
+      return String.format("'%s'", query);
     }
-    return String.format("'%s'", query);
+    StringBuffer query = new StringBuffer();
+    if (!StringUtil.isEmpty(objectNames) || !StringUtil.isEmpty(objectNames) || !StringUtil.isEmpty(
+        objectScopeFiltersString)) {
+      query.append("Pattern: ");
+    }
+    query.append("'");
+    query.append(singlePattern ? patterns.replaceAll(Text.DELIMITER, "\\\\n")
+        : patterns.replaceAll(Text.DELIMITER, ","));
+    query.append("'");
+    if (!StringUtil.isBlank(objectNames)) {
+      query.append("\nObject Names: '");
+      query.append(objectNames);
+      query.append("'");
+    }
+    if (!StringUtil.isBlank(objectScopeFiltersString)) {
+      query.append("\nScope: '");
+      query.append(objectScopeFiltersString);
+      query.append("'");
+    }
+    return query.toString();
   }
 
   public boolean isAllResults() {
