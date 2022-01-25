@@ -15,22 +15,12 @@ import com.devepos.adt.base.ui.search.contentassist.PackageSearchFilter;
  */
 public enum FilterName {
   APPLICATION_COMPONENT(ApplicationComponentSearchFilter.FILTER_NAME, "applComp"),
-  CLASS_SCOPE(null, "classScope"),
   CREATED_DATE("created", "createdDate"),
   OWNER("owner", "owner"),
-  MAX_OBJECTS(null, "maxObjects"),
-  MAX_RESULTS(null, "maxResults"),
-  ALL_RESULTS(null, "allResults"),
   OBJECT_NAME(null, "objectName"),
   OBJECT_TYPE("type", "objectType"),
-  IGNORE_CASE(null, "ignoreCase"),
-  IGNORE_COMMENT_LINES(null, "ignoreCommentLines"),
   PACKAGE(PackageSearchFilter.FILTER_NAME, "packageName"),
-  SEARCH_PATTERN(null, "searchPattern"),
-  USE_REGEX(null, "useRegex"),
-  MATCH_ALL(null, "matchAll"),
-  MULTI_LINE(null, "multiLine"),
-  SINGLE_PATTERN(null, "singlePattern");
+  SEARCH_PATTERN(null, "searchPattern");
 
   private String contentAssistName;
   private String uriParamName;
