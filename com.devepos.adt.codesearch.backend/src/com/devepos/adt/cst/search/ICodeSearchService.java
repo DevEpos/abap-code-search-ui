@@ -10,6 +10,8 @@ import com.devepos.adt.base.IAdtUriTemplateProvider;
 import com.devepos.adt.base.plugin.features.IAdtPluginFeatures;
 import com.devepos.adt.base.ui.project.IAbapProjectProvider;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScope;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
 
 /**
@@ -72,4 +74,15 @@ public interface ICodeSearchService {
    * @return the status of the update operation
    */
   IStatus updateSettings(String destinationId, ICodeSearchSettings settings);
+
+  /**
+   * Creates the passed search scope in the ABAP project of the given destination id
+   *
+   * @param destinationId   the destination Id for the target ABAP project
+   * @param scopeParameters the parameters of the search scope
+   * @param monitor         progress monitor of the background job
+   * @return the persisted search scope
+   */
+  ICodeSearchScope createScope(String destinationId, ICodeSearchScopeParameters scopeParameters,
+      IProgressMonitor monitor);
 }

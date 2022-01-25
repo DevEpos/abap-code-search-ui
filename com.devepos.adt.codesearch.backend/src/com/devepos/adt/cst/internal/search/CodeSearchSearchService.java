@@ -18,6 +18,8 @@ import com.devepos.adt.base.plugin.features.IAdtPluginFeatures;
 import com.devepos.adt.base.ui.project.IAbapProjectProvider;
 import com.devepos.adt.cst.internal.CodeSearchPlugin;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScope;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
 import com.devepos.adt.cst.search.ICodeSearchService;
 import com.sap.adt.communication.resources.AdtRestResourceFactory;
@@ -78,6 +80,25 @@ public class CodeSearchSearchService implements ICodeSearchService {
       return restResource.get(new NullProgressMonitor(), ICodeSearchSettings.class);
     } catch (final ResourceException exc) {
       exc.printStackTrace();
+    }
+    return null;
+  }
+
+  @Override
+  public ICodeSearchScope createScope(final String destinationId,
+      final ICodeSearchScopeParameters scopeParameters, final IProgressMonitor monitor) {
+
+    CodeSearchUriDiscovery discovery = new CodeSearchUriDiscovery(destinationId);
+    URI resourceUri = discovery.getCodeSearchScopeUri();
+    if (resourceUri != null) {
+      final ISystemSession session = AdtSystemSessionFactory.createSystemSessionFactory()
+          .createStatelessSession(destinationId);
+
+      final IRestResource restResource = AdtRestResourceFactory.createRestResourceFactory()
+          .createRestResource(resourceUri, session);
+      restResource.addContentHandler(new CodeSearchScopeParametersContentHandler());
+      restResource.addContentHandler(new CodeSearchScopeContentHandler());
+      return restResource.post(monitor, ICodeSearchScope.class, scopeParameters);
     }
     return null;
   }
