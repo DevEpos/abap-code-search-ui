@@ -48,7 +48,7 @@ public class CodeSearchPreferencesPage extends FieldEditorPrefPageBase implement
         .align(SWT.RIGHT, SWT.FILL)
         .create());
 
-    createScopeLimitSettings(parent);
+    createGeneralSettings(parent);
     createClassSearchSettings(parent);
   }
 
@@ -139,18 +139,13 @@ public class CodeSearchPreferencesPage extends FieldEditorPrefPageBase implement
     return group;
   }
 
-  private void createScopeLimitSettings(final Composite parent) {
-    final Group group = createGroup("Object Scope Limit", parent);
-
-    Composite allObjectsParent = createEditorParent(group);
-    BooleanFieldEditor allObjectsEditor = addBooleanEditor(ICodeSearchPrefs.ALL_OBJECTS_ENABLED,
-        "No Limitation", allObjectsParent);
-    allObjectsEditor.setEnabled(false, allObjectsParent);
+  private void createGeneralSettings(final Composite parent) {
+    final Group group = createGroup("General settings", parent);
 
     Composite maxSearchResultsParent = createEditorParent(group);
     IntegerFieldEditor maxSearchResultsEditor = new IntegerFieldEditor(ICodeSearchPrefs.MAX_OBJECTS,
-        "&Max. number of objects", maxSearchResultsParent, 5);
-    maxSearchResultsEditor.setValidRange(1, 15000);
+        "&Max. objects to search in a single request", maxSearchResultsParent, 5);
+    maxSearchResultsEditor.setValidRange(100, 10000);
     maxSearchResultsEditor.getLabelControl(maxSearchResultsParent)
         .setToolTipText(
             "Restricts the maximum number of objects to be searched in a single search request");
