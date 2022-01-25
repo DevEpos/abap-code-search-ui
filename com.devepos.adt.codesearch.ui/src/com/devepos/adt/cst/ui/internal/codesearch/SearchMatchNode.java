@@ -8,8 +8,8 @@ import org.eclipse.swt.graphics.Image;
 
 import com.devepos.adt.base.ui.AdtBaseUIResources;
 import com.devepos.adt.base.ui.IAdtBaseImages;
+import com.devepos.adt.base.ui.tree.ICollectionTreeNode;
 import com.devepos.adt.base.ui.tree.IStyledTreeNode;
-import com.devepos.adt.base.ui.tree.ITreeNode;
 import com.devepos.adt.base.ui.tree.TreeNodeBase;
 
 /**
@@ -25,7 +25,7 @@ public class SearchMatchNode extends TreeNodeBase implements IStyledTreeNode {
   private String uri;
 
   public SearchMatchNode(final String snippetLine, final String match, final String uri,
-      final ITreeNode parent) {
+      final ICollectionTreeNode parent) {
     super(snippetLine, snippetLine, "", parent);
     this.uri = uri;
     content = match;
