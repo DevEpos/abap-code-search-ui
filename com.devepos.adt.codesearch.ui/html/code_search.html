@@ -89,10 +89,11 @@
         </p>
 
 <h3 class="heading">The Search result View</h3>
-	<h4 class="heading">Retrival of the Search Results</h4>
-        <p>As the search has to process a high number of source code objects (depending on the scope definition) the result list is build incrementally. 
-        This way the user gets to see the first results, even if the search run is not finished yet. 
-        The search will enhance the result tree with new matches after each request. The number of objects which are scanned in a request is configured in the preferences screen. 
+	<h4 class="heading">Retrieval of the Search Results</h4>
+        <p>As the search has to process a high number of source code objects (depending on the scope definition) the result list is build up incrementally. 
+        This way the user gets to see a part of the result, even if the search run is not finished yet. The objects in scope are split into multiple packages. The size of the packages 
+        can be set in the properties. The search will enhance the result tree with the found matches after each package. 
+        As long as the search is running a progress indicator in the eclipse status bar is informing about the completion level in percentage. 
 </p>
         <h4 class="heading">Working with the Search Results</h4>
 	<p>Once a search returns some results they are displayed in the
@@ -102,10 +103,14 @@
 		<li>Open the object in the corresponding eclipse editor (if
 		     one is registered for the type) and navigate to the line which contains the match 
                      by double clicking on it</li>
-		<li>Open one or several selected objects via the context menu
-			item <code class="code">Open</code>
-		</li>
-	</ul>
+		<li>Navigate to the location of the next match via the context menu option <code class="code">Next Match</code></li>
+	        <li>Navigate to the location of the previous match via the context menu option <code class="code">Previous Match</code></li>
+                <li>Select one or multiple matches and choose the option <code class="code">Delete Selected Matches</code> to remove them from the current result list. 
+                    When refreshing the search result screen, the search is executed once again and the matches will be visible again in the result list</li>
+                <li>The <code class="code">Remove All Matches<code> is used to delete all matches from the result list. In case that this option is triggered while the search run is still processing,
+                     only the current data from the result list will be deleted. The matches returned by the search after triggering this option will be displayed regularly </li>
+                <li>The <code class="code">Copy</code> options, copies the text of the match in the clipboard </li>
+</ul>
 	<figure>
 		<img src="../images/SearchView-ContextMenu.png">
 		<figcaption>
