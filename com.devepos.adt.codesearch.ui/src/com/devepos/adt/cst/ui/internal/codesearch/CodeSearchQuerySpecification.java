@@ -1,8 +1,6 @@
 package com.devepos.adt.cst.ui.internal.codesearch;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,8 +14,6 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchFactory;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameter;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
-import com.devepos.adt.cst.ui.internal.preferences.ClassInclude;
-import com.devepos.adt.cst.ui.internal.preferences.ClassSearchScopeOption;
 import com.devepos.adt.cst.ui.internal.preferences.ICodeSearchPrefs;
 import com.sap.adt.destinations.model.IDestinationData;
 
@@ -45,34 +41,16 @@ public class CodeSearchQuerySpecification {
   private String patterns;
   private String objectNames;
   private int maxResults;
+  private IncludeFlagsParameter classIncludesParam;
+  private IncludeFlagsParameter fugrIncludesParam;
 
   private Map<String, Object> objectScopeFilters;
+
   private String objectScopeFiltersString;
 
   public CodeSearchQuerySpecification() {
     destinationId = null;
     allResults = false;
-  }
-
-  public ICodeSearchScopeParameters createScopeParameters() {
-    ICodeSearchScopeParameters scopeParameters = ICodeSearchFactory.eINSTANCE
-        .createCodeSearchScopeParameters();
-
-    if (!StringUtil.isBlank(objectNames)) {
-      ICodeSearchScopeParameter parameter = ICodeSearchFactory.eINSTANCE
-          .createCodeSearchScopeParameter();
-      parameter.setName(FilterName.OBJECT_NAME.getUriParamName());
-      parameter.setValue(objectNames);
-      scopeParameters.getParameters().add(parameter);
-    }
-    getObjectScopeFilters().forEach((paramName, paramValue) -> {
-      ICodeSearchScopeParameter parameter = ICodeSearchFactory.eINSTANCE
-          .createCodeSearchScopeParameter();
-      parameter.setName(paramName);
-      parameter.setValue((String) paramValue);
-      scopeParameters.getParameters().add(parameter);
-    });
-    return scopeParameters;
   }
 
   /**
@@ -104,8 +82,35 @@ public class CodeSearchQuerySpecification {
     } else {
       uriParameters.put(SearchParameter.MAX_RESULTS.getUriName(), maxResults);
     }
+    uriParameters.put(SearchParameter.CLASS_INCLUDES.getUriName(), getClassIncludesParam()
+        .getUriParamValue());
+    uriParameters.put(SearchParameter.FUGR_INCLUDES.getUriName(), getFugrIncludesParam()
+        .getUriParamValue());
+
     setParamsFromPrefStore(uriParameters);
+
     return uriParameters;
+  }
+
+  public ICodeSearchScopeParameters createScopeParameters() {
+    ICodeSearchScopeParameters scopeParameters = ICodeSearchFactory.eINSTANCE
+        .createCodeSearchScopeParameters();
+
+    if (!StringUtil.isBlank(objectNames)) {
+      ICodeSearchScopeParameter parameter = ICodeSearchFactory.eINSTANCE
+          .createCodeSearchScopeParameter();
+      parameter.setName(FilterName.OBJECT_NAME.getUriParamName());
+      parameter.setValue(objectNames);
+      scopeParameters.getParameters().add(parameter);
+    }
+    getObjectScopeFilters().forEach((paramName, paramValue) -> {
+      ICodeSearchScopeParameter parameter = ICodeSearchFactory.eINSTANCE
+          .createCodeSearchScopeParameter();
+      parameter.setName(paramName);
+      parameter.setValue((String) paramValue);
+      scopeParameters.getParameters().add(parameter);
+    });
+    return scopeParameters;
   }
 
   @Override
@@ -119,9 +124,23 @@ public class CodeSearchQuerySpecification {
         && matchAllPatterns == otherEntry.matchAllPatterns;
   }
 
+  public IncludeFlagsParameter getClassIncludesParam() {
+    if (classIncludesParam == null) {
+      classIncludesParam = new IncludeFlagsParameter(ClassInclude.values());
+    }
+    return classIncludesParam;
+  }
+
   public String getDestinationId() {
     return projectProvider != null ? projectProvider.getDestinationId()
         : destinationId != null ? destinationId : "";
+  }
+
+  public IncludeFlagsParameter getFugrIncludesParam() {
+    if (fugrIncludesParam == null) {
+      fugrIncludesParam = new IncludeFlagsParameter(FunctionGroupInclude.values());
+    }
+    return fugrIncludesParam;
   }
 
   public int getMaxResults() {
@@ -218,8 +237,16 @@ public class CodeSearchQuerySpecification {
     this.allResults = allResults;
   }
 
+  public void setClassIncludesParam(final IncludeFlagsParameter classIncludesParam) {
+    this.classIncludesParam = classIncludesParam;
+  }
+
   public void setDestinationId(final String destinationId) {
     this.destinationId = destinationId;
+  }
+
+  public void setFugrIncludesParam(final IncludeFlagsParameter fugrIncludesParam) {
+    this.fugrIncludesParam = fugrIncludesParam;
   }
 
   public void setIgnoreCaseCheck(final boolean ignoreCaseCheck) {
@@ -302,39 +329,9 @@ public class CodeSearchQuerySpecification {
         .getClient());
   }
 
-  private void setClassScopeParams(final Map<String, Object> uriParameters,
-      final IPreferenceStore prefStore) {
-    ClassSearchScopeOption scopeOption = ClassSearchScopeOption.valueOf(prefStore.getString(
-        ICodeSearchPrefs.CLASS_SCOPE_OPTION));
-
-    if (scopeOption == ClassSearchScopeOption.ALL) {
-      uriParameters.put(SearchParameter.CLASS_SCOPE.getUriName(), "all");
-    } else {
-      List<String> scopeOptions = new ArrayList<>();
-      if (prefStore.getBoolean(ICodeSearchPrefs.CLASS_SCOPE_GLOBAL_ENABLED)) {
-        scopeOptions.add(ClassInclude.GLOBAL_CLASS.getApiName());
-      }
-      if (prefStore.getBoolean(ICodeSearchPrefs.CLASS_SCOPE_LOCAL_DEF_ENABLED)) {
-        scopeOptions.add(ClassInclude.LOCAL_DEFINITIONS.getApiName());
-      }
-      if (prefStore.getBoolean(ICodeSearchPrefs.CLASS_SCOPE_LOCAL_IMPL_ENABLED)) {
-        scopeOptions.add(ClassInclude.LOCAL_IMPLEMENTATIONS.getApiName());
-      }
-      if (prefStore.getBoolean(ICodeSearchPrefs.CLASS_SCOPE_MACROS_ENABLED)) {
-        scopeOptions.add(ClassInclude.MACROS.getApiName());
-      }
-      if (prefStore.getBoolean(ICodeSearchPrefs.CLASS_SCOPE_TESTS_ENABLED)) {
-        scopeOptions.add(ClassInclude.TESTS.getApiName());
-      }
-
-      uriParameters.put(SearchParameter.CLASS_SCOPE.getUriName(), String.join(",", scopeOptions));
-    }
-  }
-
   private void setParamsFromPrefStore(final Map<String, Object> uriParameters) {
     IPreferenceStore prefStore = CodeSearchUIPlugin.getDefault().getPreferenceStore();
     uriParameters.put(SearchParameter.MAX_OBJECTS.getUriName(), prefStore.getInt(
         ICodeSearchPrefs.MAX_OBJECTS));
-    setClassScopeParams(uriParameters, prefStore);
   }
 }

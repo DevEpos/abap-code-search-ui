@@ -1,7 +1,8 @@
 package com.devepos.adt.cst.ui.internal.codesearch;
 
 public enum SearchParameter {
-  CLASS_SCOPE("classScope"),
+  FUGR_INCLUDES("fugrIncludes"),
+  CLASS_INCLUDES("classIncludes"),
   MAX_OBJECTS("maxObjects"),
   MAX_RESULTS("maxResults"),
   ALL_RESULTS("allResults"),
@@ -21,7 +22,7 @@ public enum SearchParameter {
   }
 
   /**
-   * Retrieves the URI name of the paremeter
+   * Retrieves the URI name of the parameter
    */
   public String getUriName() {
     return uriParamName;

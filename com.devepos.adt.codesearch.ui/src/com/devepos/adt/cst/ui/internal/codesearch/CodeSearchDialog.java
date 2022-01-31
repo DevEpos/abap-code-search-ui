@@ -14,9 +14,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.DialogPage;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.search.ui.ISearchPage;
 import org.eclipse.search.ui.ISearchPageContainer;
@@ -27,10 +27,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.dialogs.PreferencesUtil;
 
 import com.devepos.adt.base.ui.project.AbapProjectProxy;
 import com.devepos.adt.base.ui.project.IAbapProjectProvider;
@@ -45,19 +43,22 @@ import com.devepos.adt.base.ui.util.TextControlUtil;
 import com.devepos.adt.base.util.StringUtil;
 import com.devepos.adt.cst.search.CodeSearchFactory;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
-import com.devepos.adt.cst.ui.internal.preferences.CodeSearchPreferencesPage;
-import com.devepos.adt.cst.ui.internal.preferences.ICodeSearchPrefs;
 import com.sap.adt.util.ui.swt.AdtSWTUtilFactory;
 
 public class CodeSearchDialog extends DialogPage implements ISearchPage,
     IChangeableSearchPage<CodeSearchQuery> {
-  public static final int DEFAULT_SCALE = 2;
-
-  public static final int MAX_SCALE = 21;
   public static final String PAGE_ID = "com.devepos.adt.codesearch.ui.searchpage.codeSearch"; //$NON-NLS-1$
 
-  private static final String LAST_PROJECT_PREF = "codeSearch.lastProject"; //$NON-NLS-1$
+  private static final int DEFAULT_SCALE = 2;
+  private static final int MAX_SCALE = 21;
   private static final int MULTIPLIER = 50;
+
+  private static final String LAST_PROJECT_PREF = "lastProject"; //$NON-NLS-1$
+  private static final String FUGR_INCLUDES_BITS = "functionGroup.includeBits";
+  private static final String FUGR_INCLUDES_ALL_ENABLED = "functionGroup.includes.allEnabled";
+  private static final String CLASS_INCLUDES_BITS = "class.includeBits";
+  private static final String CLASS_INCLUDES_ALL_ENABLED = "class.includes.allEnabled";
+  private static final String MAX_RESULTS = "maxResults";
 
   private Map<ValidationSource, IStatus> allValidationStatuses;
   private ISearchPageContainer container;
@@ -75,6 +76,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private Button useRegExpCheck;
   private Button matchAllPatterns;
   private Button ignoreCommentLinesCheck;
+  private IncludeFlagsRadioButtonGroup classIncludeConfigGroup;
+  private IncludeFlagsRadioButtonGroup fugrIncludeConfigGroup;
 
   private Text patternsText;
   private Text objectNameInput;
@@ -82,20 +85,17 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private Scale maxResultsScale;
   private ProjectInput projectInput;
 
-  private IPreferenceStore prefStore;
   private IAbapProjectProvider projectProvider;
   private CodeSearchQuerySpecification querySpecs;
   private int maxResults;
   private boolean allResults;
 
+  private IDialogSettings dialogSettings;
+
   public CodeSearchDialog() {
-    prefStore = CodeSearchUIPlugin.getDefault().getPreferenceStore();
     projectProvider = new AbapProjectProxy(null);
     querySpecs = new CodeSearchQuerySpecification();
     querySpecs.setProjectProvider(projectProvider);
-
-    prefStore.setDefault(LAST_PROJECT_PREF, ""); //$NON-NLS-1$
-    prefStore.setDefault(ICodeSearchPrefs.MAX_RESULTS, 100);
 
     allValidationStatuses = new HashMap<>();
     for (ValidationSource s : ValidationSource.values()) {
@@ -112,6 +112,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   @Override
   public void createControl(final Composite parent) {
     initializeDialogUnits(parent);
+    readDialogSettings();
+
     mainComposite = new Composite(parent, SWT.NONE);
     GridLayoutFactory.swtDefaults().applyTo(mainComposite);
     setControl(mainComposite);
@@ -125,6 +127,13 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
     createObjectScopeGroup(middle);
     createAdditionalSettingsGroup(middle);
+
+    Composite customTypeOptions = new Composite(mainComposite, SWT.NONE);
+    GridDataFactory.fillDefaults().grab(true, false).applyTo(customTypeOptions);
+    GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(customTypeOptions);
+    createIncludeConfigOptions(customTypeOptions);
+
+    createMaxResultsControl(mainComposite);
     createProjectInput(mainComposite);
     createStatusArea(mainComposite);
     registerContentAssist();
@@ -140,9 +149,17 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   }
 
   @Override
+  public void dispose() {
+    // writeDialogSettings();
+    super.dispose();
+  }
+
+  @Override
   public boolean performAction() {
     collectQuerySpecs();
     CodeSearchQuery query = new CodeSearchQuery(querySpecs);
+
+    writeDialogSettings();
 
     query.setProjectProvider(projectProvider);
     NewSearchUI.runQueryInBackground(query);
@@ -156,8 +173,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
   @Override
   public void setInputFromSearchQuery(final CodeSearchQuery query) {
-    CodeSearchQuerySpecification querySpecs = query.getQuerySpecification();
-
+    CodeSearchQuerySpecification querySpecs = query.getQuerySpecs();
     final IAbapProjectProvider projectProvider = querySpecs.getProjectProvider();
     final String searchTerm = querySpecs.getPatterns();
     patternsText.setText(searchTerm);
@@ -189,6 +205,19 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
       matchAllPatterns.setEnabled(false);
       multilineSearchOption.setEnabled(false);
     }
+
+    IncludeFlagsParameter classIncludesParamCurrent = this.querySpecs.getClassIncludesParam();
+    IncludeFlagsParameter classIncludesParamOld = querySpecs.getClassIncludesParam();
+    classIncludesParamCurrent.setAllIncludes(classIncludesParamOld.isAllIncludes());
+    classIncludesParamCurrent.setIncludeFlags(classIncludesParamOld.getIncludeFlags());
+
+    IncludeFlagsParameter fugrIncludesParamCurrent = this.querySpecs.getFugrIncludesParam();
+    IncludeFlagsParameter fugrIncludesParamOld = querySpecs.getFugrIncludesParam();
+    fugrIncludesParamCurrent.setAllIncludes(fugrIncludesParamOld.isAllIncludes());
+    fugrIncludesParamCurrent.setIncludeFlags(fugrIncludesParamOld.getIncludeFlags());
+
+    classIncludeConfigGroup.updateControlsFromModel();
+    fugrIncludeConfigGroup.updateControlsFromModel();
   }
 
   @Override
@@ -236,26 +265,98 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     multilineSearchOption.setToolTipText("Each source code object will be searched as a whole.\n"
         + "That way it is possible to find patterns that span multiple lines\n\n"
         + "Note: This setting should only be used together with 'Single Pattern mode' or 'Regular Expressions'");
+  }
 
-    matchAllPatterns = new Button(group, SWT.CHECK);
-    matchAllPatterns.setText("Match all");
-    matchAllPatterns.setToolTipText("An object is only included in the result list if "
-        + "all entered search patterns are found");
+  private void createIncludeConfigOptions(final Composite parent) {
+    classIncludeConfigGroup = new IncludeFlagsRadioButtonGroup("Class includes to search",
+        querySpecs.getClassIncludesParam()) {
+      @Override
+      protected IncludeFlagsDialog createDialog() {
+        return new IncludeFlagsDialog(getShell(), groupTitle, includeFlagsParam.getIncludeFlags(),
+            includeFlagsParam.getPossibleIncludes()) {
+          private Group globalClassIncludesGroup;
+          private Group otherClassIncludesGroup;
 
-    Link preferencesLink = new Link(group, SWT.NONE);
-    preferencesLink.setText("<a>-> Search preferences</a>");
-    preferencesLink.setToolTipText("Open ABAP Code Search preferences");
-    preferencesLink.addSelectionListener(widgetSelectedAdapter(e -> {
-      PreferencesUtil.createPreferenceDialogOn(null, CodeSearchPreferencesPage.PAGE_ID,
-          new String[] { CodeSearchPreferencesPage.PAGE_ID }, (Object) null).open();
+          @Override
+          protected void createCheckComposites(final Composite parent) {
+            Composite groupsComposite = new Composite(parent, SWT.NONE);
+            GridDataFactory.fillDefaults().grab(true, true).applyTo(groupsComposite);
+            GridLayoutFactory.swtDefaults()
+                .margins(0, 0)
+                .numColumns(2)
+                .equalWidth(true)
+                .applyTo(groupsComposite);
+
+            globalClassIncludesGroup = createGroup(groupsComposite, "Global class includes");
+            otherClassIncludesGroup = createGroup(groupsComposite, "Other includes");
+          }
+
+          @Override
+          protected Composite getParentForInclude(final IIncludeToSearch incl) {
+            if (incl == ClassInclude.METHODS || incl == ClassInclude.PUBLIC_SECTION
+                || incl == ClassInclude.PROTECTED_SECTION || incl == ClassInclude.PRIVATE_SECTION) {
+              return globalClassIncludesGroup;
+            }
+            return otherClassIncludesGroup;
+          }
+
+          private Group createGroup(final Composite parent, final String text) {
+            Group group = new Group(parent, SWT.NONE);
+            GridLayoutFactory.swtDefaults().applyTo(group);
+            GridDataFactory.fillDefaults().grab(true, false).applyTo(group);
+            group.setText(text);
+            return group;
+          }
+        };
+      }
+    };
+
+    classIncludeConfigGroup.createControl(parent);
+
+    fugrIncludeConfigGroup = new IncludeFlagsRadioButtonGroup("Function Group includes to search",
+        querySpecs.getFugrIncludesParam());
+
+    fugrIncludeConfigGroup.createControl(parent);
+  }
+
+  private void createMaxResultsControl(final Composite parent) {
+
+    Composite scaleComposite = new Composite(parent, SWT.NONE);
+    GridDataFactory.fillDefaults().applyTo(scaleComposite);
+    GridLayoutFactory.swtDefaults().numColumns(3).applyTo(scaleComposite);
+
+    Label maxResults = new Label(scaleComposite, SWT.NONE);
+    maxResults.setText("&Max. number of results:");
+    GridDataFactory.fillDefaults()
+        .indent(SWT.DEFAULT, 5)
+        .align(SWT.FILL, SWT.CENTER)
+        .applyTo(maxResults);
+
+    maxResultsScale = new Scale(scaleComposite, SWT.HORIZONTAL);
+    maxResultsScale.setIncrement(1);
+    maxResultsScale.setMinimum(1);
+    maxResultsScale.setMaximum(MAX_SCALE);
+    maxResultsScale.addSelectionListener(widgetSelectedAdapter(e -> {
+      updateMaxResultsByScale(maxResultsScale.getSelection());
+      updateMaxResultsLabel();
     }));
+    GridDataFactory.fillDefaults()
+        .align(SWT.FILL, SWT.CENTER)
+        .grab(true, false)
+        .applyTo(maxResultsScale);
+
+    maxResultsLabel = new Label(scaleComposite, SWT.NONE);
+    GridDataFactory.fillDefaults()
+        .align(SWT.LEAD, SWT.CENTER)
+        .hint(convertHorizontalDLUsToPixels(50), SWT.DEFAULT)
+        .applyTo(maxResultsLabel);
   }
 
   private void createObjectScopeGroup(final Composite parent) {
     Group objectScopeGroup = new Group(parent, SWT.NONE);
     GridDataFactory.fillDefaults().grab(true, false).applyTo(objectScopeGroup);
     GridLayoutFactory.swtDefaults().applyTo(objectScopeGroup);
-    objectScopeGroup.setText("Scope / Limit");
+    objectScopeGroup.setText("Object Selection");
 
     Label name = new Label(objectScopeGroup, SWT.NONE);
     name.setText("Object &Name:");
@@ -287,36 +388,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
       validateFilterPattern();
       updateOKStatus();
     });
-
-    Label maxResults = new Label(objectScopeGroup, SWT.NONE);
-    maxResults.setText("&Max. number of results:");
-    GridDataFactory.fillDefaults()
-        .indent(SWT.DEFAULT, 5)
-        .align(SWT.FILL, SWT.CENTER)
-        .applyTo(maxResults);
-
-    Composite scaleComposite = new Composite(objectScopeGroup, SWT.NONE);
-    GridDataFactory.fillDefaults().applyTo(scaleComposite);
-    GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(scaleComposite);
-
-    maxResultsScale = new Scale(scaleComposite, SWT.HORIZONTAL);
-    maxResultsScale.setIncrement(1);
-    maxResultsScale.setMinimum(1);
-    maxResultsScale.setMaximum(MAX_SCALE);
-    maxResultsScale.addSelectionListener(widgetSelectedAdapter(e -> {
-      updateMaxResultsByScale(maxResultsScale.getSelection());
-      updateMaxResultsLabel();
-    }));
-    GridDataFactory.fillDefaults()
-        .align(SWT.FILL, SWT.CENTER)
-        .grab(true, false)
-        .applyTo(maxResultsScale);
-
-    maxResultsLabel = new Label(scaleComposite, SWT.NONE);
-    GridDataFactory.fillDefaults()
-        .align(SWT.LEAD, SWT.CENTER)
-        .hint(convertHorizontalDLUsToPixels(50), SWT.DEFAULT)
-        .applyTo(maxResultsLabel);
   }
 
   private void createPatternsGroup(final Composite parent) {
@@ -341,7 +412,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     // create composite for pattern options
     Composite patternOptions = new Composite(patternsGroup, SWT.NONE);
     GridDataFactory.fillDefaults().align(SWT.FILL, SWT.TOP).applyTo(patternOptions);
-    GridLayoutFactory.swtDefaults().applyTo(patternOptions);
+    GridLayoutFactory.swtDefaults().margins(5, 0).applyTo(patternOptions);
 
     ignoreCaseCheck = new Button(patternOptions, SWT.CHECK);
     ignoreCaseCheck.setText("Ignore &Case");
@@ -371,6 +442,11 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
       matchAllPatterns.setSelection(false);
       matchAllPatterns.setSelection(false);
     }));
+
+    matchAllPatterns = new Button(patternOptions, SWT.CHECK);
+    matchAllPatterns.setText("Match all");
+    matchAllPatterns.setToolTipText("An object is only included in the result list if "
+        + "all entered search patterns are found");
   }
 
   private void createProjectInput(final Composite parent) {
@@ -405,12 +481,48 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     GridDataFactory.fillDefaults().grab(true, true).applyTo(searchStatusTextLabel);
   }
 
+  private IDialogSettings getDialogSettings() {
+    if (dialogSettings == null) {
+      dialogSettings = CodeSearchUIPlugin.getDefault()
+          .getDialogSettingsSection(CodeSearchDialog.class.getName());
+    }
+    return dialogSettings;
+  }
+
   private boolean isSearchPatternProvided() {
     if (patternsText == null || patternsText.isDisposed()) {
       return false;
     }
     String patterns = patternsText.getText();
     return patterns != null && !patterns.isEmpty();
+  }
+
+  private void readDialogSettings() {
+    IDialogSettings dialogSettings = getDialogSettings();
+
+    try {
+      maxResults = dialogSettings.getInt(MAX_RESULTS);
+    } catch (NumberFormatException e) {
+      maxResults = DEFAULT_SCALE * MULTIPLIER;
+    }
+
+    IncludeFlagsParameter classIncludesParam = querySpecs.getClassIncludesParam();
+    try {
+      classIncludesParam.setIncludeFlags(dialogSettings.getInt(CLASS_INCLUDES_BITS));
+    } catch (NumberFormatException exc) {
+      classIncludesParam.setIncludeFlags(0);
+    }
+    classIncludesParam.setAllIncludes(dialogSettings.getBoolean(CLASS_INCLUDES_ALL_ENABLED)
+        || classIncludesParam.getIncludeFlags() == 0);
+
+    IncludeFlagsParameter fugrIncludesParam = querySpecs.getFugrIncludesParam();
+    try {
+      fugrIncludesParam.setIncludeFlags(dialogSettings.getInt(FUGR_INCLUDES_BITS));
+    } catch (NumberFormatException exc) {
+      fugrIncludesParam.setIncludeFlags(0);
+    }
+    fugrIncludesParam.setAllIncludes(dialogSettings.getBoolean(FUGR_INCLUDES_ALL_ENABLED)
+        || fugrIncludesParam.getIncludeFlags() == 0);
   }
 
   private void registerContentAssist() {
@@ -430,8 +542,12 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   }
 
   private void setInitialMaxResultsScale() {
-    maxResultsScale.setSelection(DEFAULT_SCALE);
-    updateMaxResultsByScale(DEFAULT_SCALE);
+    int currentMaxResultsScale = maxResults / MULTIPLIER;
+    if (currentMaxResultsScale >= MAX_SCALE) {
+      currentMaxResultsScale = MAX_SCALE;
+    }
+    maxResultsScale.setSelection(currentMaxResultsScale);
+    updateMaxResultsByScale(currentMaxResultsScale);
     updateMaxResultsLabel();
   }
 
@@ -444,7 +560,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
         projectName = currentAbapProject.getName();
       }
       if (projectName == null || projectName.isEmpty()) {
-        projectName = prefStore.getString(LAST_PROJECT_PREF);
+        projectName = getDialogSettings().get(LAST_PROJECT_PREF);
       }
       projectInput.setProjectName(projectName);
     }
@@ -586,6 +702,18 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
       updateStatus(new Status(IStatus.ERROR, CodeSearchUIPlugin.PLUGIN_ID, null, null),
           ValidationSource.SEARCH_PATTERN);
     }
+  }
+
+  private void writeDialogSettings() {
+    IDialogSettings dialogSettings = getDialogSettings();
+    dialogSettings.put(MAX_RESULTS, maxResults);
+    dialogSettings.put(CLASS_INCLUDES_ALL_ENABLED, querySpecs.getClassIncludesParam()
+        .isAllIncludes());
+    dialogSettings.put(CLASS_INCLUDES_BITS, querySpecs.getClassIncludesParam().getIncludeFlags());
+    dialogSettings.put(FUGR_INCLUDES_ALL_ENABLED, querySpecs.getFugrIncludesParam()
+        .isAllIncludes());
+    dialogSettings.put(FUGR_INCLUDES_BITS, querySpecs.getFugrIncludesParam().getIncludeFlags());
+    dialogSettings.put(LAST_PROJECT_PREF, projectProvider.getProjectName());
   }
 
 }
