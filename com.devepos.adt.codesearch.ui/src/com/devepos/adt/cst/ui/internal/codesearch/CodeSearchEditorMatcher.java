@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -11,6 +12,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.search.ui.text.AbstractTextSearchResult;
 import org.eclipse.search.ui.text.IEditorMatchAdapter;
 import org.eclipse.search.ui.text.Match;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
@@ -50,7 +52,18 @@ public class CodeSearchEditorMatcher implements IEditorMatchAdapter {
     if (file == null || !file.exists()) {
       return null;
     }
-    IDocument document = getLoadedDocument(editor);
+
+    AtomicReference<IDocument> atomicDocument = new AtomicReference<>();
+    IDocument document = null;
+
+    if (Display.getCurrent() == null) {
+      Display.getDefault().syncExec(() -> {
+        atomicDocument.set(getLoadedDocument(editor));
+      });
+      document = atomicDocument.get();
+    } else {
+      document = getLoadedDocument(editor);
+    }
     if (document == null) {
       return null;
     }
