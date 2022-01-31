@@ -57,7 +57,7 @@ public class CodeSearchQuery implements ISearchQuery {
     return projectProvider;
   }
 
-  public CodeSearchQuerySpecification getQuerySpecification() {
+  public CodeSearchQuerySpecification getQuerySpecs() {
     return querySpecs;
   }
 
@@ -68,7 +68,7 @@ public class CodeSearchQuery implements ISearchQuery {
 
   @Override
   public IStatus run(final IProgressMonitor monitor) throws OperationCanceledException {
-    searchResult.removeAll();
+    searchResult.reset();
 
     // check project availability
     IAbapProjectProvider projectProvider = querySpecs.getProjectProvider();
@@ -93,13 +93,22 @@ public class CodeSearchQuery implements ISearchQuery {
     ICodeSearchScopeParameters scopeParameters = querySpecs.createScopeParameters();
     ICodeSearchScope scope = service.createScope(destinationId, scopeParameters, monitor);
 
-    if (scope.getObjectCount() <= 0) {
-      searchResult.addResult(null);
+    if (scope == null || scope.getObjectCount() <= 0) {
+      searchResult.setNoObjectsInScope();
     } else {
       startSearchingWithScope(monitor, scope, service, destinationId);
     }
 
     return Status.OK_STATUS;
+  }
+
+  public void setProjectProvider(final IAbapProjectProvider projectProvider) {
+    this.projectProvider = projectProvider;
+
+  }
+
+  public void setQuerySpecs(final CodeSearchQuerySpecification querySpecs) {
+    this.querySpecs = querySpecs;
   }
 
   private void startSearchingWithScope(final IProgressMonitor monitor, final ICodeSearchScope scope,
@@ -124,10 +133,5 @@ public class CodeSearchQuery implements ISearchQuery {
       currentOffset += packageSize;
     }
     monitor.done();
-  }
-
-  public void setProjectProvider(final IAbapProjectProvider projectProvider) {
-    this.projectProvider = projectProvider;
-
   }
 }

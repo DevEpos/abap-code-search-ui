@@ -42,6 +42,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   private CodeSearchQuery searchQuery;
   private ICollectionTreeNode searchResultRootNode;
   private int resultCount;
+  private boolean noObjectsInScope;
 
   public CodeSearchResult(final CodeSearchQuery searchQuery) {
     this.searchQuery = searchQuery;
@@ -121,6 +122,20 @@ public class CodeSearchResult extends AbstractTextSearchResult {
       return rootNode;
     }
 
+    private void addMatchCountToParent(final ITreeNode node, final ITreeNode parentNode) {
+      Integer childMatchCount = (Integer) node.getNodeValue();
+      if (childMatchCount == null) {
+        return;
+      }
+
+      Integer parentMatchCount = (Integer) parentNode.getNodeValue();
+      if (parentMatchCount == null) {
+        parentNode.setNodeValue(childMatchCount);
+      } else {
+        parentNode.setNodeValue(parentMatchCount + childMatchCount);
+      }
+    }
+
     /*
      * Create package node from main object and add it to the node map
      */
@@ -137,6 +152,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
 
     private void addSearchMatchNodes(final ICodeSearchObject searchObject,
         final IAdtObjectReferenceNode objectNode) {
+
       if (!searchObject.getMatches().isEmpty()) {
         for (ICodeSearchMatch match : searchObject.getMatches()) {
           SearchMatchNode matchNode = new SearchMatchNode(match.getSnippet(), match.getSnippet(),
@@ -145,6 +161,8 @@ public class CodeSearchResult extends AbstractTextSearchResult {
           flatResult.add(matchNode);
           fileMatchesCache.addNode(matchNode);
         }
+
+        objectNode.setNodeValue(searchObject.getMatches().size());
       }
     }
 
@@ -167,6 +185,10 @@ public class CodeSearchResult extends AbstractTextSearchResult {
                     + objectRefOfNode.getParentUri());
           }
           parentNode.addChild(adtObjRefNode);
+
+          if (parentNode.getParent() != null) {
+            addMatchCountToParent(adtObjRefNode, parentNode);
+          }
         }
       }
 
@@ -273,20 +295,25 @@ public class CodeSearchResult extends AbstractTextSearchResult {
     }
     String resultsLabel = null;
     boolean hasMoreResults = false;
-    if (resultCount == 1) {
-      resultsLabel = AdtBaseUIResources.getString(IAdtBaseStrings.SearchUI_OneResult_xmsg);
-    } else if (resultCount > 1) {
-      if (hasMoreResults) {
-        resultsLabel = AdtBaseUIResources.format(IAdtBaseStrings.SearchUI_ResultsExceedMaximum_xmsg,
-            searchQuery.getQuerySpecification().getMaxResults());
-      } else {
-        resultsLabel = AdtBaseUIResources.format(IAdtBaseStrings.SearchUI_SpecificResults_xmsg,
-            resultCount);
-      }
+    if (noObjectsInScope) {
+      resultsLabel = "No Objects in scope";
     } else {
-      resultsLabel = AdtBaseUIResources.getString(IAdtBaseStrings.SearchUI_NoResults_xmsg);
+      if (resultCount == 1) {
+        resultsLabel = AdtBaseUIResources.getString(IAdtBaseStrings.SearchUI_OneResult_xmsg);
+      } else if (resultCount > 1) {
+        if (hasMoreResults) {
+          resultsLabel = AdtBaseUIResources.format(
+              IAdtBaseStrings.SearchUI_ResultsExceedMaximum_xmsg, searchQuery.getQuerySpecs()
+                  .getMaxResults());
+        } else {
+          resultsLabel = AdtBaseUIResources.format(IAdtBaseStrings.SearchUI_SpecificResults_xmsg,
+              resultCount);
+        }
+      } else {
+        resultsLabel = AdtBaseUIResources.getString(IAdtBaseStrings.SearchUI_NoResults_xmsg);
+      }
     }
-    return String.format("%s %s - %s", "Code Matches for", searchQuery.getQuerySpecification(),
+    return String.format("%s %s - %s", "Code Matches for", searchQuery.getQuerySpecs(),
         resultsLabel);
   }
 
@@ -305,7 +332,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
 
   @Override
   public String getTooltip() {
-    return searchQuery != null ? searchQuery.getQuerySpecification().getQuery(false) : null;
+    return searchQuery != null ? searchQuery.getQuerySpecs().getQuery(false) : null;
   }
 
   @Override
@@ -323,15 +350,25 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   }
 
   public void removeSearchResult(final ITreeNode match) {
+    resultCount--;
     if (flatResult != null) {
       flatResult.remove(match);
     }
     if (match instanceof SearchMatchNode) {
       fileMatchesCache.removeNode((SearchMatchNode) match);
     }
-    ICollectionTreeNode parent = match.getParent();
-    if (parent != null) {
-      parent.removeChild(match);
-    }
   }
+
+  public void reset() {
+    removeAll();
+    noObjectsInScope = false;
+  }
+
+  /**
+   * Set flag to indicate that no objects were found that could be searched
+   */
+  public void setNoObjectsInScope() {
+    noObjectsInScope = true;
+  }
+
 }
