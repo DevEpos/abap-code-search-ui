@@ -1,10 +1,7 @@
 package com.devepos.adt.cst.ui.internal.codesearch;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -14,31 +11,27 @@ import org.eclipse.search.ui.text.IEditorMatchAdapter;
 import org.eclipse.search.ui.text.IFileMatchAdapter;
 import org.eclipse.search.ui.text.Match;
 
-import com.devepos.adt.base.IAdtObjectTypeConstants;
-import com.devepos.adt.base.adtobject.AdtObjectReferenceModelFactory;
 import com.devepos.adt.base.ui.AdtBaseUIResources;
 import com.devepos.adt.base.ui.IAdtBaseStrings;
-import com.devepos.adt.base.ui.tree.AdtObjectReferenceNode;
-import com.devepos.adt.base.ui.tree.FolderTreeNode;
-import com.devepos.adt.base.ui.tree.IAdtObjectReferenceNode;
 import com.devepos.adt.base.ui.tree.ICollectionTreeNode;
 import com.devepos.adt.base.ui.tree.ITreeNode;
 import com.devepos.adt.base.ui.tree.PackageNode;
-import com.devepos.adt.base.util.StringUtil;
-import com.devepos.adt.cst.model.codesearch.ICodeSearchMatch;
-import com.devepos.adt.cst.model.codesearch.ICodeSearchObject;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.IImages;
-import com.sap.adt.tools.core.model.adtcore.IAdtMainObject;
-import com.sap.adt.tools.core.model.adtcore.IAdtObjectReference;
 
+/**
+ * Represents the result of an ABAP Code Search
+ *
+ * @author Ludwig Stockbauer-Muhr
+ *
+ */
 public class CodeSearchResult extends AbstractTextSearchResult {
 
   private IEditorMatchAdapter editorMatchAdapter;
   private List<ITreeNode> flatResult = new ArrayList<>();
   private FileMatchesCache fileMatchesCache = new FileMatchesCache();
-  private TreeBuilder treeBuilder;
+  private ResultTreeBuilder resultTree;
   private CodeSearchQuery searchQuery;
   private ICollectionTreeNode searchResultRootNode;
   private int resultCount;
@@ -46,195 +39,6 @@ public class CodeSearchResult extends AbstractTextSearchResult {
 
   public CodeSearchResult(final CodeSearchQuery searchQuery) {
     this.searchQuery = searchQuery;
-  }
-
-  private static class FileMatchesCache {
-    private Map<String, Set<SearchMatchNode>> cache = new HashMap<>();
-
-    public void addNode(final SearchMatchNode matchNode) {
-      String fileUri = getFileUriFromNode(matchNode);
-      Set<SearchMatchNode> matchNodesForUri = cache.get(fileUri);
-      if (matchNodesForUri == null) {
-        matchNodesForUri = new HashSet<>();
-        cache.put(fileUri, matchNodesForUri);
-      }
-      matchNodesForUri.add(matchNode);
-    }
-
-    public void clear() {
-      cache.clear();
-    }
-
-    public Set<SearchMatchNode> getNodes(final String fileUri) {
-      return cache.get(fileUri);
-    }
-
-    public void removeNode(final SearchMatchNode matchNode) {
-      String fileUri = getFileUriFromNode(matchNode);
-      Set<SearchMatchNode> nodes = cache.get(fileUri);
-      if (nodes != null) {
-        nodes.remove(matchNode);
-      }
-    }
-
-    private String getFileUriFromNode(final SearchMatchNode matchNode) {
-      String fileUri = null;
-
-      int fragmentPosition = matchNode.getUri().indexOf("#");
-      if (fragmentPosition != -1) {
-        fileUri = matchNode.getUri().substring(0, fragmentPosition);
-      } else {
-        // somehow we have a full file URI in the match???
-        fileUri = matchNode.getUri();
-      }
-      return fileUri;
-    }
-  }
-
-  private static class TreeBuilder {
-
-    private FolderTreeNode rootNode;
-    private String destinationId;
-    private Map<String, IAdtObjectReferenceNode> urisToNodes = new HashMap<>();
-    private List<String> urisInCorrectTreeOrder;
-    private List<ITreeNode> flatResult;
-    private FileMatchesCache fileMatchesCache;
-
-    public TreeBuilder(final FileMatchesCache fileMatchesCache, final String destinationId) {
-      this.fileMatchesCache = fileMatchesCache;
-      rootNode = new FolderTreeNode(null, null, null, null);
-      this.destinationId = destinationId;
-    }
-
-    public void addResultToTree(final ICodeSearchResult searchResult) {
-      flatResult = new ArrayList<>();
-      urisInCorrectTreeOrder = new ArrayList<>();
-      urisToNodes = new HashMap<>();
-      createTreeNodes(searchResult);
-      connectTreeNodes();
-    }
-
-    public List<ITreeNode> getFlatResult() {
-      return flatResult;
-    }
-
-    public ICollectionTreeNode getRootNode() {
-      return rootNode;
-    }
-
-    private void addMatchCountToParent(final ITreeNode node, final ITreeNode parentNode) {
-      Integer childMatchCount = (Integer) node.getNodeValue();
-      if (childMatchCount == null) {
-        return;
-      }
-
-      Integer parentMatchCount = (Integer) parentNode.getNodeValue();
-      if (parentMatchCount == null) {
-        parentNode.setNodeValue(childMatchCount);
-      } else {
-        parentNode.setNodeValue(parentMatchCount + childMatchCount);
-      }
-    }
-
-    /*
-     * Create package node from main object and add it to the node map
-     */
-    private ITreeNode addPackageNode(final String destinationId,
-        final Map<String, IAdtObjectReferenceNode> urisToNodes,
-        final ICodeSearchObject searchObject, final IAdtMainObject mainObject) {
-      ITreeNode newNode;
-      IAdtObjectReferenceNode packageNode = new PackageNode(mainObject.getName(), null,
-          createObjectRef(destinationId, mainObject, searchObject));
-      urisToNodes.put(searchObject.getUri(), packageNode);
-      newNode = packageNode;
-      return newNode;
-    }
-
-    private void addSearchMatchNodes(final ICodeSearchObject searchObject,
-        final IAdtObjectReferenceNode objectNode) {
-
-      if (!searchObject.getMatches().isEmpty()) {
-        for (ICodeSearchMatch match : searchObject.getMatches()) {
-          SearchMatchNode matchNode = new SearchMatchNode(match.getSnippet(), match.getSnippet(),
-              match.getUri(), objectNode);
-          objectNode.addChild(matchNode);
-          flatResult.add(matchNode);
-          fileMatchesCache.addNode(matchNode);
-        }
-
-        objectNode.setNodeValue(searchObject.getMatches().size());
-      }
-    }
-
-    /*
-     * add child nodes to appropriate parent nodes
-     */
-    private void connectTreeNodes() {
-      for (String nodeUri : urisInCorrectTreeOrder) {
-        IAdtObjectReferenceNode adtObjRefNode = urisToNodes.get(nodeUri);
-        IAdtObjectReference objectRefOfNode = adtObjRefNode.getObjectReference();
-
-        if (objectRefOfNode.getParentUri() != null) {
-          IAdtObjectReferenceNode parentNode = urisToNodes.get(objectRefOfNode.getParentUri());
-
-          // TODO: handle $TMP package - create a user specific $TMP package node
-          // depending on the value of 'responsible' of the main object
-          if (parentNode == null) {
-            throw new IllegalStateException(
-                "Inconsistent data in text search result: parent uri can not be resolved: "
-                    + objectRefOfNode.getParentUri());
-          }
-          parentNode.addChild(adtObjRefNode);
-
-          if (parentNode.getParent() != null) {
-            addMatchCountToParent(adtObjRefNode, parentNode);
-          }
-        }
-      }
-
-      urisInCorrectTreeOrder.clear();
-    }
-
-    private IAdtObjectReferenceNode createAdtObjectRefNode(final String destinationId,
-        final ICodeSearchObject searchObject, final IAdtMainObject mainObject) {
-      IAdtObjectReferenceNode objectNode = new AdtObjectReferenceNode(mainObject.getName(),
-          mainObject.getName(), mainObject.getDescription(), createObjectRef(destinationId,
-              mainObject, searchObject));
-      return objectNode;
-    }
-
-    private IAdtObjectReference createObjectRef(final String destinationId,
-        final IAdtMainObject adtMainObject, final ICodeSearchObject searchObject) {
-      IAdtObjectReference adtObjectRef = AdtObjectReferenceModelFactory.createReference(
-          destinationId, adtMainObject.getName(), adtMainObject.getType(), searchObject.getUri());
-      adtObjectRef.setParentUri(searchObject.getParentUri());
-      return adtObjectRef;
-    }
-
-    private void createTreeNodes(final ICodeSearchResult searchResult) {
-
-      for (ICodeSearchObject searchObject : searchResult.getSearchObjects()) {
-        IAdtMainObject mainObject = searchObject.getAdtMainObject();
-        ITreeNode newNode = null;
-
-        if (IAdtObjectTypeConstants.PACKAGE.equalsIgnoreCase(mainObject.getType())) {
-          newNode = addPackageNode(destinationId, urisToNodes, searchObject, mainObject);
-        } else {
-          // non package types are all AdtObjectReference types
-          IAdtObjectReferenceNode objectNode = createAdtObjectRefNode(destinationId, searchObject,
-              mainObject);
-          addSearchMatchNodes(searchObject, objectNode);
-          urisToNodes.put(searchObject.getUri(), objectNode);
-          urisInCorrectTreeOrder.add(searchObject.getUri());
-          newNode = objectNode;
-        }
-
-        if (newNode != null && StringUtil.isEmpty(searchObject.getParentUri())) {
-          rootNode.addChild(newNode);
-        }
-      }
-    }
-
   }
 
   /**
@@ -248,21 +52,22 @@ public class CodeSearchResult extends AbstractTextSearchResult {
 
     resultCount += result.getNumberOfResults();
 
-    if (treeBuilder == null) {
-      treeBuilder = new TreeBuilder(fileMatchesCache, searchQuery.getProjectProvider()
+    if (resultTree == null) {
+      resultTree = new ResultTreeBuilder(fileMatchesCache, searchQuery.getProjectProvider()
           .getDestinationId());
     }
     if (searchResultRootNode == null) {
-      searchResultRootNode = treeBuilder.getRootNode();
+      searchResultRootNode = resultTree.getRootNode();
     }
-    treeBuilder.addResultToTree(result);
-    List<ITreeNode> currentFlatResult = treeBuilder.getFlatResult();
+    resultTree.addResultToTree(result);
+    List<ITreeNode> currentFlatResult = resultTree.getFlatResult();
     if (currentFlatResult != null) {
       flatResult.addAll(currentFlatResult);
       for (ITreeNode matchNode : currentFlatResult) {
         addMatch(new Match(matchNode, -1, -1));
       }
     }
+    resultTree.clearBuffersOfLastResult();
   }
 
   @Override
@@ -291,7 +96,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   @Override
   public String getLabel() {
     if (searchQuery == null) {
-      return "ABAP Code Search+ result";
+      return "ABAP Code Search result";
     }
     String resultsLabel = null;
     boolean hasMoreResults = false;
@@ -326,6 +131,11 @@ public class CodeSearchResult extends AbstractTextSearchResult {
     return searchQuery;
   }
 
+  /**
+   * Retrieves the root node of the result tree
+   *
+   * @return the root node of the result tree
+   */
   public ICollectionTreeNode getResultTree() {
     return searchResultRootNode;
   }
@@ -345,10 +155,31 @@ public class CodeSearchResult extends AbstractTextSearchResult {
     if (searchResultRootNode != null) {
       searchResultRootNode.removeAllChildren();
     }
+    if (resultTree != null) {
+      resultTree.clearPackageNodeCache();
+    }
     searchResultRootNode = null;
     super.removeAll();
   }
 
+  /**
+   * Removes the given <code>child</code> node of the given <code>parent</code> node
+   *
+   * @param parent collection tree node
+   * @param child  child node that should be removed
+   */
+  public void removeChildeNode(final ICollectionTreeNode parent, final ITreeNode child) {
+    if (child instanceof PackageNode) {
+      resultTree.removePackageNode((PackageNode) child);
+    }
+    parent.removeChild(child);
+  }
+
+  /**
+   * Removes the given match result node from the tree
+   *
+   * @param match the match node to be removed
+   */
   public void removeSearchResult(final ITreeNode match) {
     resultCount--;
     if (flatResult != null) {
@@ -359,6 +190,9 @@ public class CodeSearchResult extends AbstractTextSearchResult {
     }
   }
 
+  /**
+   * Resets the result to be ready for a new search
+   */
   public void reset() {
     removeAll();
     noObjectsInScope = false;

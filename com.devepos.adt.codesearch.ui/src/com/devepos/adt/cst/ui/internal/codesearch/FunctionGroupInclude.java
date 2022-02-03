@@ -8,7 +8,7 @@ package com.devepos.adt.cst.ui.internal.codesearch;
  */
 public enum FunctionGroupInclude implements IIncludeToSearch {
   FUNCTION_INCLUDE("func", "&Functions", 0x10),
-  NON_FUNCTION_INCLUDE("nonFunc", "Non F&unctions", 0x20);
+  NON_FUNCTION_INCLUDE("nonFunc", "&Other includes", 0x20);
 
   private String apiName;
   private int bit;
