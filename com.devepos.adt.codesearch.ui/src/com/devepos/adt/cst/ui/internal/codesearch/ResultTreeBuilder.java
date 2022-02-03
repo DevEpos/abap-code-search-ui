@@ -130,8 +130,7 @@ class ResultTreeBuilder {
 
     if (!searchObject.getMatches().isEmpty()) {
       for (ICodeSearchMatch match : searchObject.getMatches()) {
-        SearchMatchNode matchNode = new SearchMatchNode(match.getSnippet(), match.getSnippet(),
-            match.getUri(), objectNode);
+        SearchMatchNode matchNode = new SearchMatchNode(match, objectNode);
         objectNode.addChild(matchNode);
         flatResult.add(matchNode);
         fileMatchesCache.addNode(matchNode);

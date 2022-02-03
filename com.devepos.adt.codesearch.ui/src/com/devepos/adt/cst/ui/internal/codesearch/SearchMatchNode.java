@@ -11,6 +11,7 @@ import com.devepos.adt.base.ui.IAdtBaseImages;
 import com.devepos.adt.base.ui.tree.ICollectionTreeNode;
 import com.devepos.adt.base.ui.tree.IStyledTreeNode;
 import com.devepos.adt.base.ui.tree.TreeNodeBase;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchMatch;
 
 /**
  * Tree node for a match from the code search
@@ -21,18 +22,11 @@ public class SearchMatchNode extends TreeNodeBase implements IStyledTreeNode {
   private static final StyledString.Styler HIGHLIGHT_STYLER = StyledString
       .createColorRegistryStyler(null, "org.eclipse.search.ui.match.highlight");
 
-  private String content;
-  private String uri;
+  private ICodeSearchMatch match;
 
-  public SearchMatchNode(final String snippetLine, final String match, final String uri,
-      final ICollectionTreeNode parent) {
-    super(snippetLine, snippetLine, "", parent);
-    this.uri = uri;
-    content = match;
-  }
-
-  public String getContent() {
-    return content;
+  public SearchMatchNode(final ICodeSearchMatch match, final ICollectionTreeNode parent) {
+    super(match.getSnippet(), match.getSnippet(), "", parent);
+    this.match = match;
   }
 
   @Override
@@ -42,6 +36,8 @@ public class SearchMatchNode extends TreeNodeBase implements IStyledTreeNode {
 
   @Override
   public StyledString getStyledText() {
+    String uri = match.getUri();
+    String content = match.getSnippet();
     StyledString styledSnippet = new StyledString();
     String fragment = uri.substring(uri.indexOf("#"));
     if (fragment == null) {
@@ -71,7 +67,7 @@ public class SearchMatchNode extends TreeNodeBase implements IStyledTreeNode {
   }
 
   public String getUri() {
-    return uri;
+    return match.getUri();
   }
 
 }

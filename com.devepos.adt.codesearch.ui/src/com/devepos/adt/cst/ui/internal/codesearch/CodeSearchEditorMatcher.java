@@ -147,29 +147,14 @@ public class CodeSearchEditorMatcher implements IEditorMatchAdapter {
     return document;
   }
 
-  private Match getMatch(final SearchMatchNode textLine, final IDocument document,
+  private Match getMatch(final SearchMatchNode matchNode, final IDocument document,
       final String fileUri) {
-    // final IFile file) {
-    if (fileUri == null /* || document == null */ || textLine == null) {
-      return null;
-    }
-    String matchedUri = textLine.getUri();
-    if (matchedUri != null && !matchedUri.startsWith(fileUri)) {
+    if (fileUri == null /* || document == null */ || matchNode == null) {
       return null;
     }
 
-    Match[] matches = searchResult.getMatches(textLine);
-    /*
-     * Easy solution, but requires offset and length determination in the backend.
-     * During active "multiline" search this should not be a problem, but during
-     * line by line search a reverse offset calculation needs to be done (i.e. until
-     * start line of document)
-     * -------------------------------------------------------------------
-     */
-    // return matches != null && matches.length > 0 ? matches[0] : null;
-    /*
-     * -------------------------------------------------------------------
-     */
+    Match[] matches = searchResult.getMatches(matchNode);
+
     // each line should consist of exactly one match
     if (matches == null || matches.length != 1) {
       return null;
@@ -182,7 +167,7 @@ public class CodeSearchEditorMatcher implements IEditorMatchAdapter {
     }
 
     try {
-      String fragment = new URI(matchedUri).getFragment();
+      String fragment = new URI(matchNode.getUri()).getFragment();
       if (fragment == null) {
         return null;
       }
