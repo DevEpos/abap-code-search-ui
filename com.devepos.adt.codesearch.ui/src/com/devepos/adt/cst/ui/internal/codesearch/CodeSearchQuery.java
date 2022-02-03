@@ -50,7 +50,7 @@ public class CodeSearchQuery implements ISearchQuery {
 
   @Override
   public String getLabel() {
-    return "ABAP Code Search+ Query";
+    return "ABAP Code Search Query";
   }
 
   public IAbapProjectProvider getProjectProvider() {
