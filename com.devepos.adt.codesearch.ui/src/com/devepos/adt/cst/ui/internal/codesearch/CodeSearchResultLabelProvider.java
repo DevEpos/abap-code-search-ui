@@ -1,5 +1,8 @@
 package com.devepos.adt.cst.ui.internal.codesearch;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -21,6 +24,8 @@ import com.devepos.adt.base.ui.util.AdtTypeUtil;
  */
 class CodeSearchResultLabelProvider extends LabelProvider implements ILabelProvider,
     IStyledLabelProvider {
+
+  private NumberFormat matchCountFormat = new DecimalFormat("###,###");
 
   @Override
   public Image getImage(final Object element) {
@@ -63,8 +68,9 @@ class CodeSearchResultLabelProvider extends LabelProvider implements ILabelProvi
         }
         Integer matchCount = (Integer) searchResult.getNodeValue();
         if (matchCount != null) {
-          text.append(String.format(" %d %s", matchCount, matchCount > 1 ? "Matches" : "Match"),
-              StyledString.COUNTER_STYLER);
+          text.append(String.format(" %s %s", matchCountFormat.format(matchCount), matchCount > 1
+              ? "Matches"
+              : "Match"), StyledString.COUNTER_STYLER);
         }
       }
     }
