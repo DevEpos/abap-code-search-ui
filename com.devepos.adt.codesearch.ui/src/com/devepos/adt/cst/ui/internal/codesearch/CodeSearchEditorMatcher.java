@@ -38,10 +38,13 @@ public class CodeSearchEditorMatcher implements IEditorMatchAdapter {
 
   private IProject project;
   private CodeSearchResult searchResult;
+  private IPlainTextFragmentHandler plainTextFragmentHandler;
 
   public CodeSearchEditorMatcher(final CodeSearchResult searchResult, final IProject project) {
     this.project = project;
     this.searchResult = searchResult;
+    IContentHandlingFactory factory = AdtContentHandlingFactory.getContentHandlingFactory();
+    plainTextFragmentHandler = factory.createPlainTextFragmentHandler();
   }
 
   @Override
@@ -76,7 +79,7 @@ public class CodeSearchEditorMatcher implements IEditorMatchAdapter {
         .toString());
     if (matchNodesInFile != null) {
       for (SearchMatchNode matchNode : matchNodesInFile) {
-        Match match = getMatch(matchNode, document, fileUri.toString());
+        Match match = getMatch(matchNode, document);
         if (match != null) {
           matches.add(match);
         }
@@ -147,12 +150,15 @@ public class CodeSearchEditorMatcher implements IEditorMatchAdapter {
     return document;
   }
 
-  private Match getMatch(final SearchMatchNode matchNode, final IDocument document,
-      final String fileUri) {
-    if (fileUri == null /* || document == null */ || matchNode == null) {
-      return null;
-    }
-
+  /**
+   * Retrieves match that corresponds to the given match node and determines the correct offset and
+   * length (if not already done so) from the given document
+   *
+   * @param matchNode the node of the match
+   * @param document  the document where the match exists
+   * @return match with a fully qualified offset/length or <code>null</code>
+   */
+  private Match getMatch(final SearchMatchNode matchNode, final IDocument document) {
     Match[] matches = searchResult.getMatches(matchNode);
 
     // each line should consist of exactly one match
@@ -168,11 +174,9 @@ public class CodeSearchEditorMatcher implements IEditorMatchAdapter {
 
     try {
       String fragment = new URI(matchNode.getUri()).getFragment();
-      if (fragment == null) {
+      if (fragment == null || document == null) {
         return null;
       }
-      IContentHandlingFactory factory = AdtContentHandlingFactory.getContentHandlingFactory();
-      IPlainTextFragmentHandler plainTextFragmentHandler = factory.createPlainTextFragmentHandler();
       IPlainTextPosition position = plainTextFragmentHandler.parsePosition(fragment);
       if (position.getStartLine() <= 0) {
         return null;
