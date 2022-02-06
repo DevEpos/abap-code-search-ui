@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.search.ui.ISearchQuery;
 import org.eclipse.search.ui.text.AbstractTextSearchResult;
@@ -46,7 +47,11 @@ public class CodeSearchResult extends AbstractTextSearchResult {
    * search view
    */
   public void addResult(final ICodeSearchResult result) {
-    if (result == null || result.getNumberOfResults() <= 0) {
+    if (result == null) {
+      return;
+    }
+    logMessages(result);
+    if (result.getNumberOfResults() <= 0) {
       return;
     }
 
@@ -203,6 +208,16 @@ public class CodeSearchResult extends AbstractTextSearchResult {
    */
   public void setNoObjectsInScope() {
     noObjectsInScope = true;
+  }
+
+  private void logMessages(final ICodeSearchResult result) {
+    if (result.getResponseMessageList() != null) {
+      IStatus searchStatus = result.getResponseMessageList()
+          .toStatus(CodeSearchUIPlugin.PLUGIN_ID, "Problems occurred during ABAP Code search");
+      if (searchStatus != null) {
+        CodeSearchUIPlugin.getDefault().getLog().log(searchStatus);
+      }
+    }
   }
 
 }

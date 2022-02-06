@@ -283,8 +283,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
    * @generated
    */
   @Override
-  public EAttribute getCodeSearchResult_NumberOfResults() {
-    return (EAttribute) codeSearchResultEClass.getEStructuralFeatures().get(1);
+  public EReference getCodeSearchResult_ResponseMessageList() {
+    return (EReference) codeSearchResultEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -294,7 +294,7 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
    * @generated
    */
   @Override
-  public EAttribute getCodeSearchResult_NumberOfSearchedObjects() {
+  public EAttribute getCodeSearchResult_NumberOfResults() {
     return (EAttribute) codeSearchResultEClass.getEStructuralFeatures().get(2);
   }
 
@@ -305,8 +305,19 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
    * @generated
    */
   @Override
-  public EAttribute getCodeSearchResult_QueryTimeInMs() {
+  public EAttribute getCodeSearchResult_NumberOfSearchedObjects() {
     return (EAttribute) codeSearchResultEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EAttribute getCodeSearchResult_QueryTimeInMs() {
+    return (EAttribute) codeSearchResultEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -487,6 +498,7 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
 
     codeSearchResultEClass = createEClass(CODE_SEARCH_RESULT);
     createEReference(codeSearchResultEClass, CODE_SEARCH_RESULT__SEARCH_OBJECTS);
+    createEReference(codeSearchResultEClass, CODE_SEARCH_RESULT__RESPONSE_MESSAGE_LIST);
     createEAttribute(codeSearchResultEClass, CODE_SEARCH_RESULT__NUMBER_OF_RESULTS);
     createEAttribute(codeSearchResultEClass, CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS);
     createEAttribute(codeSearchResultEClass, CODE_SEARCH_RESULT__QUERY_TIME_IN_MS);
@@ -540,6 +552,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
         XMLTypePackage.eNS_URI);
     IAdtCorePackage theAdtCorePackage = (IAdtCorePackage) EPackage.Registry.INSTANCE.getEPackage(
         IAdtCorePackage.eNS_URI);
+    IAdtBasePackage theAdtBasePackage = (IAdtBasePackage) EPackage.Registry.INSTANCE.getEPackage(
+        IAdtBasePackage.eNS_URI);
 
     // Create type parameters
 
@@ -579,6 +593,10 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
         "searchObjects", null, 0, -1, ICodeSearchResult.class, !IS_TRANSIENT, !IS_VOLATILE,
         IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
         IS_ORDERED);
+    initEReference(getCodeSearchResult_ResponseMessageList(), theAdtBasePackage
+        .getResponseMessageList(), null, "responseMessageList", null, 0, 1, ICodeSearchResult.class,
+        !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+        !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getCodeSearchResult_NumberOfResults(), theXMLTypePackage.getInt(),
         "numberOfResults", null, 0, 1, ICodeSearchResult.class, !IS_TRANSIENT, !IS_VOLATILE,
         IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -663,6 +681,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
         "result" });
     addAnnotation(getCodeSearchResult_SearchObjects(), source, new String[] { "kind", "element",
         "name", "searchObject", "namespace", "##targetNamespace" });
+    addAnnotation(getCodeSearchResult_ResponseMessageList(), source, new String[] { "kind",
+        "element", "name", "responseMessages", "namespace", "http://www.devepos.com/adt/base" });
     addAnnotation(getCodeSearchResult_NumberOfResults(), source, new String[] { "kind", "attribute",
         "name", "numberOfResults", "namespace", "##targetNamespace" });
     addAnnotation(getCodeSearchResult_NumberOfSearchedObjects(), source, new String[] { "kind",

@@ -21,6 +21,7 @@
     </genClasses>
     <genClasses ecoreClass="codesearch.ecore#//CodeSearchResult">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference codesearch.ecore#//CodeSearchResult/searchObjects"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference codesearch.ecore#//CodeSearchResult/responseMessageList"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchResult/numberOfResults"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchResult/numberOfSearchedObjects"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchResult/queryTimeInMs"/>

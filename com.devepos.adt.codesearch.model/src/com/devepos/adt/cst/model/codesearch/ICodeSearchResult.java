@@ -5,6 +5,8 @@ package com.devepos.adt.cst.model.codesearch;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
+import com.devepos.adt.base.model.adtbase.IResponseMessageList;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Result</b></em>'.
@@ -16,6 +18,8 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getSearchObjects <em>Search
  * Objects</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getResponseMessageList
+ * <em>Response Message List</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getNumberOfResults <em>Number
  * Of Results</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getNumberOfSearchedObjects
@@ -42,6 +46,20 @@ public interface ICodeSearchResult extends EObject {
    * @generated
    */
   EList<ICodeSearchObject> getSearchObjects();
+
+  /**
+   * Returns the value of the '<em><b>Response Message List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @return the value of the '<em>Response Message List</em>' containment reference.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchResult_ResponseMessageList()
+   * @model containment="true" suppressedSetVisibility="true"
+   *        extendedMetaData="kind='element' name='responseMessages'
+   *        namespace='http://www.devepos.com/adt/base'"
+   * @generated
+   */
+  IResponseMessageList getResponseMessageList();
 
   /**
    * Returns the value of the '<em><b>Number Of Results</b></em>' attribute.

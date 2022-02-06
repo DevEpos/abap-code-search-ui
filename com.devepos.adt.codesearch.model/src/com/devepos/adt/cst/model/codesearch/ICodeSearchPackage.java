@@ -41,7 +41,7 @@ public interface ICodeSearchPackage extends EPackage {
    *
    * @generated
    */
-  String eNS_URI = "http://www.devepos.com/adt/codesearchtools";
+  String eNS_URI = "http://www.devepos.com/adt/cst";
 
   /**
    * The package namespace name.
@@ -208,6 +208,16 @@ public interface ICodeSearchPackage extends EPackage {
   int CODE_SEARCH_RESULT__SEARCH_OBJECTS = 0;
 
   /**
+   * The feature id for the '<em><b>Response Message List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   * @ordered
+   */
+  int CODE_SEARCH_RESULT__RESPONSE_MESSAGE_LIST = 1;
+
+  /**
    * The feature id for the '<em><b>Number Of Results</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -215,7 +225,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_RESULT__NUMBER_OF_RESULTS = 1;
+  int CODE_SEARCH_RESULT__NUMBER_OF_RESULTS = 2;
 
   /**
    * The feature id for the '<em><b>Number Of Searched Objects</b></em>' attribute.
@@ -225,7 +235,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS = 2;
+  int CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS = 3;
 
   /**
    * The feature id for the '<em><b>Query Time In Ms</b></em>' attribute.
@@ -235,7 +245,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_RESULT__QUERY_TIME_IN_MS = 3;
+  int CODE_SEARCH_RESULT__QUERY_TIME_IN_MS = 4;
 
   /**
    * The number of structural features of the '<em>Result</em>' class.
@@ -245,7 +255,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_RESULT_FEATURE_COUNT = 4;
+  int CODE_SEARCH_RESULT_FEATURE_COUNT = 5;
 
   /**
    * The number of operations of the '<em>Result</em>' class.
@@ -598,6 +608,20 @@ public interface ICodeSearchPackage extends EPackage {
   EReference getCodeSearchResult_SearchObjects();
 
   /**
+   * Returns the meta object for the containment reference
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getResponseMessageList
+   * <em>Response Message List</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @return the meta object for the containment reference '<em>Response Message List</em>'.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getResponseMessageList()
+   * @see #getCodeSearchResult()
+   * @generated
+   */
+  EReference getCodeSearchResult_ResponseMessageList();
+
+  /**
    * Returns the meta object for the attribute
    * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getNumberOfResults <em>Number Of
    * Results</em>}'.
@@ -924,6 +948,17 @@ public interface ICodeSearchPackage extends EPackage {
      * @generated
      */
     EReference CODE_SEARCH_RESULT__SEARCH_OBJECTS = eINSTANCE.getCodeSearchResult_SearchObjects();
+
+    /**
+     * The meta object literal for the '<em><b>Response Message List</b></em>' containment reference
+     * feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    EReference CODE_SEARCH_RESULT__RESPONSE_MESSAGE_LIST = eINSTANCE
+        .getCodeSearchResult_ResponseMessageList();
 
     /**
      * The meta object literal for the '<em><b>Number Of Results</b></em>' attribute feature.

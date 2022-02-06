@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import com.devepos.adt.base.model.adtbase.IResponseMessageList;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchObject;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
@@ -28,6 +29,8 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
  * <ul>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getSearchObjects <em>Search
  * Objects</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getResponseMessageList
+ * <em>Response Message List</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getNumberOfResults
  * <em>Number Of Results</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getNumberOfSearchedObjects
@@ -50,6 +53,18 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
    * @ordered
    */
   protected EList<ICodeSearchObject> searchObjects;
+
+  /**
+   * The cached value of the '{@link #getResponseMessageList() <em>Response Message List</em>}'
+   * containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @see #getResponseMessageList()
+   * @generated
+   * @ordered
+   */
+  protected IResponseMessageList responseMessageList;
 
   /**
    * The default value of the '{@link #getNumberOfResults() <em>Number Of Results</em>}' attribute.
@@ -162,6 +177,68 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
    * @generated
    */
   @Override
+  public IResponseMessageList getResponseMessageList() {
+    return responseMessageList;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  public NotificationChain basicSetResponseMessageList(
+      final IResponseMessageList newResponseMessageList, NotificationChain msgs) {
+    IResponseMessageList oldResponseMessageList = responseMessageList;
+    responseMessageList = newResponseMessageList;
+    if (eNotificationRequired()) {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+          ICodeSearchPackage.CODE_SEARCH_RESULT__RESPONSE_MESSAGE_LIST, oldResponseMessageList,
+          newResponseMessageList);
+      if (msgs == null) {
+        msgs = notification;
+      } else {
+        msgs.add(notification);
+      }
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  public void setResponseMessageList(final IResponseMessageList newResponseMessageList) {
+    if (newResponseMessageList != responseMessageList) {
+      NotificationChain msgs = null;
+      if (responseMessageList != null) {
+        msgs = ((InternalEObject) responseMessageList).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+            - ICodeSearchPackage.CODE_SEARCH_RESULT__RESPONSE_MESSAGE_LIST, null, msgs);
+      }
+      if (newResponseMessageList != null) {
+        msgs = ((InternalEObject) newResponseMessageList).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+            - ICodeSearchPackage.CODE_SEARCH_RESULT__RESPONSE_MESSAGE_LIST, null, msgs);
+      }
+      msgs = basicSetResponseMessageList(newResponseMessageList, msgs);
+      if (msgs != null) {
+        msgs.dispatch();
+      }
+    } else if (eNotificationRequired()) {
+      eNotify(new ENotificationImpl(this, Notification.SET,
+          ICodeSearchPackage.CODE_SEARCH_RESULT__RESPONSE_MESSAGE_LIST, newResponseMessageList,
+          newResponseMessageList));
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
   public int getNumberOfResults() {
     return numberOfResults;
   }
@@ -248,6 +325,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
     switch (featureID) {
     case ICodeSearchPackage.CODE_SEARCH_RESULT__SEARCH_OBJECTS:
       return ((InternalEList<?>) getSearchObjects()).basicRemove(otherEnd, msgs);
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__RESPONSE_MESSAGE_LIST:
+      return basicSetResponseMessageList(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -263,6 +342,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
     switch (featureID) {
     case ICodeSearchPackage.CODE_SEARCH_RESULT__SEARCH_OBJECTS:
       return getSearchObjects();
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__RESPONSE_MESSAGE_LIST:
+      return getResponseMessageList();
     case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_RESULTS:
       return getNumberOfResults();
     case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS:
@@ -286,6 +367,9 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
     case ICodeSearchPackage.CODE_SEARCH_RESULT__SEARCH_OBJECTS:
       getSearchObjects().clear();
       getSearchObjects().addAll((Collection<? extends ICodeSearchObject>) newValue);
+      return;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__RESPONSE_MESSAGE_LIST:
+      setResponseMessageList((IResponseMessageList) newValue);
       return;
     case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_RESULTS:
       setNumberOfResults((Integer) newValue);
@@ -312,6 +396,9 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
     case ICodeSearchPackage.CODE_SEARCH_RESULT__SEARCH_OBJECTS:
       getSearchObjects().clear();
       return;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__RESPONSE_MESSAGE_LIST:
+      setResponseMessageList((IResponseMessageList) null);
+      return;
     case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_RESULTS:
       setNumberOfResults(NUMBER_OF_RESULTS_EDEFAULT);
       return;
@@ -336,6 +423,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
     switch (featureID) {
     case ICodeSearchPackage.CODE_SEARCH_RESULT__SEARCH_OBJECTS:
       return searchObjects != null && !searchObjects.isEmpty();
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__RESPONSE_MESSAGE_LIST:
+      return responseMessageList != null;
     case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_RESULTS:
       return numberOfResults != NUMBER_OF_RESULTS_EDEFAULT;
     case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS:
