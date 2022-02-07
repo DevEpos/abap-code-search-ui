@@ -104,21 +104,14 @@ public class CodeSearchResult extends AbstractTextSearchResult {
       return "ABAP Code Search result";
     }
     String resultsLabel = null;
-    boolean hasMoreResults = false;
     if (noObjectsInScope) {
       resultsLabel = "No Objects in scope";
     } else {
       if (resultCount == 1) {
         resultsLabel = AdtBaseUIResources.getString(IAdtBaseStrings.SearchUI_OneResult_xmsg);
       } else if (resultCount > 1) {
-        if (hasMoreResults) {
-          resultsLabel = AdtBaseUIResources.format(
-              IAdtBaseStrings.SearchUI_ResultsExceedMaximum_xmsg, searchQuery.getQuerySpecs()
-                  .getMaxResults());
-        } else {
-          resultsLabel = AdtBaseUIResources.format(IAdtBaseStrings.SearchUI_SpecificResults_xmsg,
-              resultCount);
-        }
+        resultsLabel = AdtBaseUIResources.format(IAdtBaseStrings.SearchUI_SpecificResults_xmsg,
+            resultCount);
       } else {
         resultsLabel = AdtBaseUIResources.getString(IAdtBaseStrings.SearchUI_NoResults_xmsg);
       }

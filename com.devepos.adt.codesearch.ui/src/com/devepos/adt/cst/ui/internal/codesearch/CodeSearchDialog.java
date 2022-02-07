@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Text;
 
 import com.devepos.adt.base.ui.project.AbapProjectProxy;
@@ -52,16 +51,11 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     IChangeableSearchPage<CodeSearchQuery> {
   public static final String PAGE_ID = "com.devepos.adt.codesearch.ui.searchpage.codeSearch"; //$NON-NLS-1$
 
-  private static final int DEFAULT_SCALE = 2;
-  private static final int MAX_SCALE = 21;
-  private static final int MULTIPLIER = 50;
-
   private static final String LAST_PROJECT_PREF = "lastProject"; //$NON-NLS-1$
   private static final String FUGR_INCLUDES_BITS = "functionGroup.includeBits";
   private static final String FUGR_INCLUDES_ALL_ENABLED = "functionGroup.includes.allEnabled";
   private static final String CLASS_INCLUDES_BITS = "class.includeBits";
   private static final String CLASS_INCLUDES_ALL_ENABLED = "class.includes.allEnabled";
-  private static final String MAX_RESULTS = "maxResults";
 
   private Map<ValidationSource, IStatus> allValidationStatuses;
   private ISearchPageContainer container;
@@ -69,7 +63,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
   private Composite mainComposite;
   private Composite statusArea;
-  private Label maxResultsLabel;
   private Label searchStatusImageLabel;
   private Label searchStatusTextLabel;
 
@@ -85,13 +78,10 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private Text patternsText;
   private Text objectNameInput;
   private Text filterInput;
-  private Scale maxResultsScale;
   private ProjectInput projectInput;
 
   private IAbapProjectProvider projectProvider;
   private CodeSearchQuerySpecification querySpecs;
-  private int maxResults;
-  private boolean allResults;
 
   private IDialogSettings dialogSettings;
   private IPreferenceStore prefStore;
@@ -140,7 +130,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(customTypeOptions);
     createIncludeConfigOptions(customTypeOptions);
 
-    createMaxResultsControl(mainComposite);
     createProjectInput(mainComposite);
     createStatusArea(mainComposite);
     registerContentAssist();
@@ -198,13 +187,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     }
     objectNameInput.setText(querySpecs.getObjectNames());
     filterInput.setText(querySpecs.getObjectScopeFiltersString());
-
-    if (querySpecs.isAllResults()) {
-      updateMaxResultsByScale(MAX_SCALE);
-    } else {
-      updateMaxResultsByScale(querySpecs.getMaxResults() / MULTIPLIER);
-    }
-    updateMaxResultsLabel();
 
     matchAllPatterns.setSelection(querySpecs.isMatchAllPatterns());
     useRegExpCheck.setSelection(querySpecs.isUseRegExp());
@@ -265,8 +247,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
       querySpecs.setMatchAllPatterns(matchAllPatterns.getSelection());
       querySpecs.setUseRegExp(useRegExpCheck.getSelection());
     }
-    querySpecs.setMaxResults(maxResults);
-    querySpecs.setAllResults(allResults);
   }
 
   private void createAdditionalSettingsGroup(final Composite parent) {
@@ -335,39 +315,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
         querySpecs.getFugrIncludesParam());
 
     fugrIncludeConfigGroup.createControl(parent);
-  }
-
-  private void createMaxResultsControl(final Composite parent) {
-
-    Composite scaleComposite = new Composite(parent, SWT.NONE);
-    GridDataFactory.fillDefaults().applyTo(scaleComposite);
-    GridLayoutFactory.swtDefaults().numColumns(3).applyTo(scaleComposite);
-
-    Label maxResults = new Label(scaleComposite, SWT.NONE);
-    maxResults.setText("&Max. number of results:");
-    GridDataFactory.fillDefaults()
-        .indent(SWT.DEFAULT, 5)
-        .align(SWT.FILL, SWT.CENTER)
-        .applyTo(maxResults);
-
-    maxResultsScale = new Scale(scaleComposite, SWT.HORIZONTAL);
-    maxResultsScale.setIncrement(1);
-    maxResultsScale.setMinimum(1);
-    maxResultsScale.setMaximum(MAX_SCALE);
-    maxResultsScale.addSelectionListener(widgetSelectedAdapter(e -> {
-      updateMaxResultsByScale(maxResultsScale.getSelection());
-      updateMaxResultsLabel();
-    }));
-    GridDataFactory.fillDefaults()
-        .align(SWT.FILL, SWT.CENTER)
-        .grab(true, false)
-        .applyTo(maxResultsScale);
-
-    maxResultsLabel = new Label(scaleComposite, SWT.NONE);
-    GridDataFactory.fillDefaults()
-        .align(SWT.LEAD, SWT.CENTER)
-        .hint(convertHorizontalDLUsToPixels(50), SWT.DEFAULT)
-        .applyTo(maxResultsLabel);
   }
 
   private void createObjectScopeGroup(final Composite parent) {
@@ -518,12 +465,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private void readDialogSettings() {
     IDialogSettings dialogSettings = getDialogSettings();
 
-    try {
-      maxResults = dialogSettings.getInt(MAX_RESULTS);
-    } catch (NumberFormatException e) {
-      maxResults = DEFAULT_SCALE * MULTIPLIER;
-    }
-
     IncludeFlagsParameter classIncludesParam = querySpecs.getClassIncludesParam();
     try {
       classIncludesParam.setIncludeFlags(dialogSettings.getInt(CLASS_INCLUDES_BITS));
@@ -555,18 +496,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
    */
   private void setInitialData() {
     ignoreCaseCheck.setSelection(true);
-    setInitialMaxResultsScale();
     setInitialProject();
-  }
-
-  private void setInitialMaxResultsScale() {
-    int currentMaxResultsScale = maxResults / MULTIPLIER;
-    if (currentMaxResultsScale >= MAX_SCALE) {
-      currentMaxResultsScale = MAX_SCALE;
-    }
-    maxResultsScale.setSelection(currentMaxResultsScale);
-    updateMaxResultsByScale(currentMaxResultsScale);
-    updateMaxResultsLabel();
   }
 
   private void setInitialProject() {
@@ -602,20 +532,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
         getShell().pack(true);
       }
     });
-  }
-
-  private void updateMaxResultsByScale(final int selectedScale) {
-    if (selectedScale == MAX_SCALE) {
-      allResults = true;
-    } else {
-      allResults = false;
-      maxResults = selectedScale * MULTIPLIER;
-    }
-  }
-
-  private void updateMaxResultsLabel() {
-    String count = allResults ? "All" : String.valueOf(maxResults);
-    maxResultsLabel.setText(String.format("%s Results", count));
   }
 
   private void updateOKStatus() {
@@ -724,7 +640,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
   private void writeDialogSettings() {
     IDialogSettings dialogSettings = getDialogSettings();
-    dialogSettings.put(MAX_RESULTS, maxResults);
     dialogSettings.put(CLASS_INCLUDES_ALL_ENABLED, querySpecs.getClassIncludesParam()
         .isAllIncludes());
     dialogSettings.put(CLASS_INCLUDES_BITS, querySpecs.getClassIncludesParam().getIncludeFlags());

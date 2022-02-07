@@ -29,7 +29,6 @@ public class CodeSearchQuerySpecification {
   private String destinationId;
   private IAbapProjectProvider projectProvider;
 
-  private boolean allResults;
   private boolean ignoreCaseCheck;
   private boolean ignoreCommentLines;
   private boolean matchAllPatterns;
@@ -40,7 +39,6 @@ public class CodeSearchQuerySpecification {
 
   private String patterns;
   private String objectNames;
-  private int maxResults;
   private IncludeFlagsParameter classIncludesParam;
   private IncludeFlagsParameter fugrIncludesParam;
 
@@ -50,7 +48,6 @@ public class CodeSearchQuerySpecification {
 
   public CodeSearchQuerySpecification() {
     destinationId = null;
-    allResults = false;
   }
 
   /**
@@ -76,11 +73,6 @@ public class CodeSearchQuerySpecification {
     }
     if (matchAllPatterns) {
       uriParameters.put(SearchParameter.MATCH_ALL.getUriName(), true);
-    }
-    if (allResults) {
-      uriParameters.put(SearchParameter.ALL_RESULTS.getUriName(), true);
-    } else {
-      uriParameters.put(SearchParameter.MAX_RESULTS.getUriName(), maxResults);
     }
     uriParameters.put(SearchParameter.CLASS_INCLUDES.getUriName(), getClassIncludesParam()
         .getUriParamValue());
@@ -143,10 +135,6 @@ public class CodeSearchQuerySpecification {
     return fugrIncludesParam;
   }
 
-  public int getMaxResults() {
-    return maxResults;
-  }
-
   public String getObjectNames() {
     return objectNames;
   }
@@ -198,10 +186,6 @@ public class CodeSearchQuerySpecification {
     return query.toString();
   }
 
-  public boolean isAllResults() {
-    return allResults;
-  }
-
   public boolean isIgnoreCaseCheck() {
     return ignoreCaseCheck;
   }
@@ -233,10 +217,6 @@ public class CodeSearchQuerySpecification {
     return useRegExp;
   }
 
-  public void setAllResults(final boolean allResults) {
-    this.allResults = allResults;
-  }
-
   public void setClassIncludesParam(final IncludeFlagsParameter classIncludesParam) {
     this.classIncludesParam = classIncludesParam;
   }
@@ -259,10 +239,6 @@ public class CodeSearchQuerySpecification {
 
   public void setMatchAllPatterns(final boolean matchAllPatterns) {
     this.matchAllPatterns = matchAllPatterns;
-  }
-
-  public void setMaxResults(final int maxResults) {
-    this.maxResults = maxResults;
   }
 
   public void setMultilineSearchOption(final boolean multilineSearchOption) {

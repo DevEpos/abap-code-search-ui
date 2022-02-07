@@ -4,8 +4,6 @@ public enum SearchParameter {
   FUGR_INCLUDES("fugrIncludes"),
   CLASS_INCLUDES("classIncludes"),
   MAX_OBJECTS("maxObjects"),
-  MAX_RESULTS("maxResults"),
-  ALL_RESULTS("allResults"),
   IGNORE_CASE("ignoreCase"),
   IGNORE_COMMENT_LINES("ignoreCommentLines"),
   USE_REGEX("useRegex"),
