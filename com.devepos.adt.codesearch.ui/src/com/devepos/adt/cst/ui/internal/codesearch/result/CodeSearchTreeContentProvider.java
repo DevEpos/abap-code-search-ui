@@ -38,9 +38,6 @@ public class CodeSearchTreeContentProvider extends TreeContentProvider {
   private Object[] getNonPackageResults(final List<ITreeNode> children) {
     List<ITreeNode> nonPackageNodes = new ArrayList<>();
     collectNonPackageResults(children, nonPackageNodes);
-    // return nonPackageNodes.stream().sorted((node1, node2) -> {
-    // return node1.getDisplayName().compareTo(node2.getDisplayName());
-    // }).toArray();
     return nonPackageNodes.toArray();
   }
 
