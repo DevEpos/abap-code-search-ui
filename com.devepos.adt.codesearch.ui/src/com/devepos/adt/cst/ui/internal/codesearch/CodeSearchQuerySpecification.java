@@ -37,14 +37,14 @@ public class CodeSearchQuerySpecification {
   private boolean singlePattern;
   private boolean useRegExp;
 
-  private String patterns;
-  private String objectNames;
+  private String patterns = "";
+  private String objectNames = "";
   private IncludeFlagsParameter classIncludesParam;
   private IncludeFlagsParameter fugrIncludesParam;
 
   private Map<String, Object> objectScopeFilters;
 
-  private String objectScopeFiltersString;
+  private String objectScopeFiltersString = "";
 
   public CodeSearchQuerySpecification() {
     destinationId = null;
