@@ -11,6 +11,8 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.search.ui.ISearchPage;
 import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.ui.PlatformUI;
@@ -33,7 +35,7 @@ import com.sap.adt.tools.core.model.adtcore.IAdtObjectReference;
 
 /**
  * Handler implementation for code search command
- * 
+ *
  * @author Ludwig Stockbauer-Muhr
  *
  */
@@ -45,15 +47,14 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
 
   @Override
   public Object execute(final ExecutionEvent event) throws ExecutionException {
-
+    ISelection selection = HandlerUtil.getCurrentSelection(event);
     // collect objects from selection
-    final List<IAdtObject> selectedObjects = AdtUIUtil.getAdtObjectsFromSelection(false, HandlerUtil
-        .getCurrentSelection(event));
+    final List<IAdtObject> selectedObjects = AdtUIUtil.getAdtObjectsFromSelection(false, selection);
     if (selectedObjects == null || selectedObjects.isEmpty()) {
       return null;
     }
 
-    createQuery(selectedObjects);
+    createQuery(selectedObjects, selection);
     if (searchQuery == null) {
       return null;
     }
@@ -72,7 +73,7 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
     }
   }
 
-  private void createQuery(final List<IAdtObject> selectedObjects) {
+  private void createQuery(final List<IAdtObject> selectedObjects, final ISelection selection) {
     List<String> packages = new ArrayList<>();
     List<String> objectNames = new ArrayList<>();
     Set<String> objectTypes = new HashSet<>();
@@ -112,6 +113,10 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
     if (project != null) {
       querySpecs.setProjectProvider(AbapProjectProviderAccessor.getProviderForDestination(
           DestinationUtil.getDestinationId(project)));
+    }
+
+    if (selection instanceof ITextSelection) {
+      querySpecs.setPatterns(((ITextSelection) selection).getText());
     }
 
     searchQuery = new CodeSearchQuery(querySpecs);

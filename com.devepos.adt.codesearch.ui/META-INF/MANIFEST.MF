@@ -26,6 +26,7 @@ Require-Bundle:
  org.eclipse.core.databinding.property,
  org.eclipse.core.expressions,
  org.eclipse.jface.databinding,
+ org.eclipse.jface.text,
  org.eclipse.ui,
  org.eclipse.ui.editors,
  org.eclipse.search,
