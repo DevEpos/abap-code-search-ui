@@ -332,8 +332,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     GridDataFactory.fillDefaults()
         .align(SWT.FILL, SWT.CENTER)
         .grab(true, false)
+        .hint(200, SWT.DEFAULT)
         .applyTo(objectNameInput);
-
     Label filter = new Label(objectScopeGroup, SWT.NONE);
     filter.setText("&Filters:");
     GridDataFactory.fillDefaults()
@@ -347,6 +347,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     GridDataFactory.fillDefaults()
         .align(SWT.FILL, SWT.CENTER)
         .grab(true, false)
+        .hint(200, SWT.DEFAULT)
         .applyTo(filterInput);
 
     filterInput.addModifyListener(event -> {
@@ -365,7 +366,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     AdtSWTUtilFactory.getOrCreateSWTUtil().addTextEditMenu(patternsText);
     GridDataFactory.fillDefaults()
         .grab(true, false)
-        .hint(SWT.DEFAULT, 70)
+        .hint(SWT.DEFAULT, 80)
         .align(SWT.FILL, SWT.TOP)
         .applyTo(patternsText);
 
