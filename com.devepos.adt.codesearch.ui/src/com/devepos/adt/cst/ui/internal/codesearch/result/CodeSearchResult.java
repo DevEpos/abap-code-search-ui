@@ -1,4 +1,4 @@
-package com.devepos.adt.cst.ui.internal.codesearch;
+package com.devepos.adt.cst.ui.internal.codesearch.result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ import com.devepos.adt.base.ui.tree.PackageNode;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.IImages;
+import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchQuery;
 
 /**
  * Represents the result of an ABAP Code Search

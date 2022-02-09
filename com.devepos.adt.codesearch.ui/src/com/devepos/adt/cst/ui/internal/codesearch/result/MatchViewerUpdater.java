@@ -1,4 +1,4 @@
-package com.devepos.adt.cst.ui.internal.codesearch;
+package com.devepos.adt.cst.ui.internal.codesearch.result;
 
 import java.util.HashSet;
 import java.util.Set;
