@@ -54,7 +54,7 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
    * Identifies the feature to enable/disable the new RegEx engine which is
    * available starting with ABAP NW 7.55
    */
-  public static final String PCRE_ENABLED_FEATURE = "pcreEnabled";
+  public static final String PCRE_AVAILABLE_FEATURE = "pcreAvailable";
 
   private ICodeSearchService codeSearchService;
   private String destinationId;
@@ -98,7 +98,7 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     super.setElement(element);
     pageIsUseable = true;
 
-    project = getElement().<IProject>getAdapter(IProject.class);
+    project = getElement().getAdapter(IProject.class);
 
     destinationId = DestinationUtil.getDestinationId(project);
     projectProvider = AbapProjectProviderAccessor.getProviderForDestination(destinationId);
@@ -141,7 +141,7 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     if (!pageIsUseable) {
       return;
     }
-    IStatus status = codeSearchService.testTagsFeatureAvailability(project);
+    IStatus status = codeSearchService.testCodeSearchFeatureAvailability(project);
     if (!status.isOK()) {
       pageIsUseable = false;
       pageNotUseableStatus = status;
@@ -165,7 +165,7 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     }
     // check if the setting is available in the backend
     pcreEnabled.setEnabled(searchFeatures != null && searchFeatures.isFeatureEnabled(
-        PCRE_ENABLED_FEATURE));
+        PCRE_AVAILABLE_FEATURE));
   }
 
   private void createErrorControl(final Composite parent) {
