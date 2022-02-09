@@ -14,6 +14,7 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchFactory;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameter;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
+import com.devepos.adt.cst.ui.internal.messages.Messages;
 import com.devepos.adt.cst.ui.internal.preferences.ICodeSearchPrefs;
 import com.sap.adt.destinations.model.IDestinationData;
 
@@ -167,19 +168,23 @@ public class CodeSearchQuerySpecification {
     StringBuffer query = new StringBuffer();
     if (!StringUtil.isEmpty(objectNames) || !StringUtil.isEmpty(objectNames) || !StringUtil.isEmpty(
         objectScopeFiltersString)) {
-      query.append("Pattern: ");
+      query.append(Messages.CodeSearchQuerySpecification_patternQueryPart_xtol);
     }
     query.append("'");
     query.append(singlePattern ? patterns.replaceAll(Text.DELIMITER, "\\\\n")
         : patterns.replaceAll(Text.DELIMITER, ","));
     query.append("'");
     if (!StringUtil.isBlank(objectNames)) {
-      query.append("\nObject Names: '");
+      query.append("\n");
+      query.append(Messages.CodeSearchQuerySpecification_objectNameQueryPart_xtol);
+      query.append(": '");
       query.append(objectNames);
       query.append("'");
     }
     if (!StringUtil.isBlank(objectScopeFiltersString)) {
-      query.append("\nScope: '");
+      query.append("\n");
+      query.append(Messages.CodeSearchQuerySpecification_scopeQueyPart_xtol);
+      query.append(": '");
       query.append(objectScopeFiltersString);
       query.append("'");
     }

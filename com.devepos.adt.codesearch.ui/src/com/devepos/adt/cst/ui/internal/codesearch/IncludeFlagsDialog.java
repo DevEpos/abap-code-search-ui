@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import com.devepos.adt.cst.ui.internal.messages.Messages;
 import com.sap.adt.util.ui.swt.AdtSWTUtilFactory;
 import com.sap.adt.util.ui.swt.IAdtSWTUtil;
 
@@ -79,7 +80,7 @@ public class IncludeFlagsDialog extends TrayDialog {
     Composite contents = (Composite) super.createDialogArea(parent);
 
     Label label = new Label(contents, SWT.NONE);
-    label.setText("Select the includes that should be searched");
+    label.setText(Messages.IncludeFlagsDialog_dialogPurpose_xmsg);
     GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(label);
 
     createIncludeChecks(contents);
@@ -137,14 +138,14 @@ public class IncludeFlagsDialog extends TrayDialog {
     IAdtSWTUtil swtUtil = AdtSWTUtilFactory.getOrCreateSWTUtil();
     Button selectAllButton = new Button(buttonComposite, SWT.PUSH);
     swtUtil.setButtonWidthHint(selectAllButton);
-    selectAllButton.setText("Select &all");
+    selectAllButton.setText(Messages.IncludeFlagsDialog_selectAll_xchk);
     selectAllButton.addSelectionListener(widgetSelectedAdapter(e -> {
       performCheckBoxSelection(true);
     }));
 
     Button deselectAllButton = new Button(buttonComposite, SWT.PUSH);
     swtUtil.setButtonWidthHint(deselectAllButton);
-    deselectAllButton.setText("&Deselect all");
+    deselectAllButton.setText(Messages.IncludeFlagsDialog_deselectAll_xchk);
     deselectAllButton.addSelectionListener(widgetSelectedAdapter(e -> {
       performCheckBoxSelection(false);
     }));

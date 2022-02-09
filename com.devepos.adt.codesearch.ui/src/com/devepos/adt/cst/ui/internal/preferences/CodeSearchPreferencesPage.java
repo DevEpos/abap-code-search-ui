@@ -13,6 +13,7 @@ import com.devepos.adt.base.ui.preferences.FieldEditorPrefPageBase;
 import com.devepos.adt.base.ui.preferences.ILinkToAdtPageBlock;
 import com.devepos.adt.base.ui.preferences.LinkToAdtPageBlocksFactory;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
+import com.devepos.adt.cst.ui.internal.messages.Messages;
 import com.devepos.adt.cst.ui.internal.pages.CodeSearchPropertyPage;
 
 /**
@@ -42,21 +43,21 @@ public class CodeSearchPreferencesPage extends FieldEditorPrefPageBase implement
   }
 
   private void createGeneralSettings(final Composite parent) {
-    final Group group = createGroup("General settings", parent);
+    final Group group = createGroup(Messages.CodeSearchPreferencesPage_generalSettingsGroup_xlbl,
+        parent);
 
     Composite maxSearchResultsParent = createEditorParent(group);
     IntegerFieldEditor maxSearchResultsEditor = new IntegerFieldEditor(ICodeSearchPrefs.MAX_OBJECTS,
-        "&Max. objects to search in a single request", maxSearchResultsParent, 5);
+        Messages.CodeSearchPreferencesPage_maxNumberOfRequestObjectsPref_xlbl,
+        maxSearchResultsParent, 5);
     maxSearchResultsEditor.setValidRange(100, 10000);
     maxSearchResultsEditor.getLabelControl(maxSearchResultsParent)
-        .setToolTipText(
-            "Restricts the maximum number of objects to be searched in a single search request");
+        .setToolTipText(Messages.CodeSearchPreferencesPage_maxNumberOfRequestObjectsPref_xtol);
     addEditor(maxSearchResultsEditor);
 
     addEditor(addBooleanEditor(ICodeSearchPrefs.REUSE_LAST_SEARCH_QUERY,
-        "Reuse search query when opened from result view",
-        "This will prevent the creation of a new history entry and overwrites the current result",
-        createEditorParent(group)));
+        Messages.CodeSearchPreferencesPage_reuseSearchQueryPref_xchk,
+        Messages.CodeSearchPreferencesPage_reuseSearchQueryPref_xtol, createEditorParent(group)));
   }
 
   private Group createGroup(final String label, final Composite parent) {

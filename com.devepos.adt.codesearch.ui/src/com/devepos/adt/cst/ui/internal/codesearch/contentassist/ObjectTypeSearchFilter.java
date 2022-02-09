@@ -20,6 +20,7 @@ import com.devepos.adt.base.ui.search.contentassist.SearchFilterValueProposal;
 import com.devepos.adt.base.ui.util.AdtTypeUtil;
 import com.devepos.adt.base.ui.util.IAdtObjectTypeProxy;
 import com.devepos.adt.cst.ui.internal.codesearch.FilterName;
+import com.devepos.adt.cst.ui.internal.messages.Messages;
 
 /**
  * Search filter for object type
@@ -40,9 +41,8 @@ public class ObjectTypeSearchFilter implements ISearchFilter, ITextQueryProposal
   @Override
   public String getDescription() {
     if (description == null) {
-      description = NLS.bind(
-          "Use ''{0}'' to restrict the search query by certain Fields.\n\nExample:\n   {0} : {1}",
-          new Object[] { FilterName.OBJECT_TYPE.getContentAssistName(), "clas" });
+      description = NLS.bind(Messages.SearchFilters_objectTypeFilterDescription_xmsg, new Object[] {
+          FilterName.OBJECT_TYPE.getContentAssistName(), "clas" });
     }
     return description;
   }

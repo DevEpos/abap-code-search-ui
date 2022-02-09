@@ -1,5 +1,7 @@
 package com.devepos.adt.cst.ui.internal.codesearch;
 
+import com.devepos.adt.cst.ui.internal.messages.Messages;
+
 /**
  * Defines an include of an ABAP function group
  *
@@ -7,8 +9,8 @@ package com.devepos.adt.cst.ui.internal.codesearch;
  *
  */
 public enum FunctionGroupInclude implements IIncludeToSearch {
-  FUNCTION_INCLUDE("func", "&Functions", 0x10),
-  NON_FUNCTION_INCLUDE("nonFunc", "&Other includes", 0x20);
+  FUNCTION_INCLUDE("func", Messages.FunctionGroupInclude_functionsIncludes_xchk, 0x10),
+  NON_FUNCTION_INCLUDE("nonFunc", Messages.FunctionGroupInclude_otherIncludes_xchk, 0x20);
 
   private String apiName;
   private int bit;

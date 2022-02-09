@@ -37,6 +37,7 @@ import com.devepos.adt.base.ui.tree.ITreeNode;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchDialog;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchQuery;
+import com.devepos.adt.cst.ui.internal.messages.Messages;
 import com.devepos.adt.cst.ui.internal.preferences.CodeSearchPreferencesPage;
 import com.sap.adt.tools.core.model.adtcore.IAdtCoreFactory;
 import com.sap.adt.tools.core.model.adtcore.IAdtObjectReference;
@@ -195,14 +196,15 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   }
 
   private void initializeActions() {
-    openPreferencesAction = ActionFactory.createAction("Open Code Search preferences", null, () -> {
-      PreferencesUtil.createPreferenceDialogOn(null, CodeSearchPreferencesPage.PAGE_ID,
-          new String[] { CodeSearchPreferencesPage.PAGE_ID }, (Object) null).open();
-    });
-    groupByPackageAction = new PreferenceToggleAction("Group by Package", AdtBaseUIResources
-        .getImageDescriptor(IAdtBaseImages.PACKAGE), GROUP_BY_PACKAGE_PREF, true, CodeSearchUIPlugin
-            .getDefault()
-            .getPreferenceStore());
+    openPreferencesAction = ActionFactory.createAction(
+        Messages.CodeSearchResultPage_openSearchPreferencesAction_xlbl, null, () -> {
+          PreferencesUtil.createPreferenceDialogOn(null, CodeSearchPreferencesPage.PAGE_ID,
+              new String[] { CodeSearchPreferencesPage.PAGE_ID }, (Object) null).open();
+        });
+    groupByPackageAction = new PreferenceToggleAction(
+        Messages.CodeSearchResultPage_groupByPackageAction_xtol, AdtBaseUIResources
+            .getImageDescriptor(IAdtBaseImages.PACKAGE), GROUP_BY_PACKAGE_PREF, true,
+        CodeSearchUIPlugin.getDefault().getPreferenceStore());
   }
 
   private boolean navigateToElement(final Object element, final boolean activate) {

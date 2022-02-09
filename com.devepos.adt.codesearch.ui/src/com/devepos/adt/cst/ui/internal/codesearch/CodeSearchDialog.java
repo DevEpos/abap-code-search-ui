@@ -44,6 +44,7 @@ import com.devepos.adt.base.ui.util.TextControlUtil;
 import com.devepos.adt.base.util.StringUtil;
 import com.devepos.adt.cst.search.CodeSearchFactory;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
+import com.devepos.adt.cst.ui.internal.messages.Messages;
 import com.devepos.adt.cst.ui.internal.preferences.ICodeSearchPrefs;
 import com.sap.adt.util.ui.swt.AdtSWTUtilFactory;
 
@@ -254,21 +255,20 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     final Group group = new Group(parent, SWT.NONE);
     GridDataFactory.fillDefaults().applyTo(group);
     GridLayoutFactory.swtDefaults().numColumns(1).applyTo(group);
-    group.setText("Additional Settings");
+    group.setText(Messages.CodeSearchDialog_additionalSettingsGroup_xlbl);
 
     ignoreCommentLinesCheck = new Button(group, SWT.CHECK);
-    ignoreCommentLinesCheck.setText("Ignore &comment lines");
+    ignoreCommentLinesCheck.setText(Messages.CodeSearchDialog_ignoreCommentLines_xchk);
 
     multilineSearchOption = new Button(group, SWT.CHECK);
-    multilineSearchOption.setText("M&ultiline search");
-    multilineSearchOption.setToolTipText("Each source code object will be searched as a whole.\n"
-        + "That way it is possible to find patterns that span multiple lines\n\n"
-        + "Note: This setting should only be used together with 'Single Pattern mode' or 'Regular Expressions'");
+    multilineSearchOption.setText(Messages.CodeSearchDialog_multilineSearch_xchk);
+    multilineSearchOption.setToolTipText(Messages.CodeSearchDialog_multilineSearch_xtol);
   }
 
   private void createIncludeConfigOptions(final Composite parent) {
-    classIncludeConfigGroup = new IncludeFlagsRadioButtonGroup("Class includes to search",
-        querySpecs.getClassIncludesParam()) {
+    classIncludeConfigGroup = new IncludeFlagsRadioButtonGroup(
+        Messages.CodeSearchDialog_classIncludesRadioGroup_xlbl, querySpecs
+            .getClassIncludesParam()) {
       @Override
       protected IncludeFlagsDialog createDialog() {
         return new IncludeFlagsDialog(getShell(), groupTitle, includeFlagsParam.getIncludeFlags(),
@@ -286,8 +286,10 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
                 .equalWidth(true)
                 .applyTo(groupsComposite);
 
-            globalClassIncludesGroup = createGroup(groupsComposite, "Global class includes");
-            otherClassIncludesGroup = createGroup(groupsComposite, "Other includes");
+            globalClassIncludesGroup = createGroup(groupsComposite,
+                Messages.CodeSearchDialog_globalClassIncludesSection_xlbl);
+            otherClassIncludesGroup = createGroup(groupsComposite,
+                Messages.CodeSearchDialog_otherClassIncludeSection_xlbl);
           }
 
           @Override
@@ -312,8 +314,9 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
     classIncludeConfigGroup.createControl(parent);
 
-    fugrIncludeConfigGroup = new IncludeFlagsRadioButtonGroup("Function Group includes to search",
-        querySpecs.getFugrIncludesParam());
+    fugrIncludeConfigGroup = new IncludeFlagsRadioButtonGroup(
+        Messages.CodeSearchDialog_functionGroupIncludesRadioGroup_xlbl, querySpecs
+            .getFugrIncludesParam());
 
     fugrIncludeConfigGroup.createControl(parent);
   }
@@ -322,10 +325,10 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     Group objectScopeGroup = new Group(parent, SWT.NONE);
     GridDataFactory.fillDefaults().grab(true, false).applyTo(objectScopeGroup);
     GridLayoutFactory.swtDefaults().applyTo(objectScopeGroup);
-    objectScopeGroup.setText("Object Selection");
+    objectScopeGroup.setText(Messages.CodeSearchDialog_objectScopeGroup_xlbl);
 
     Label name = new Label(objectScopeGroup, SWT.NONE);
-    name.setText("Object &Name:");
+    name.setText(Messages.CodeSearchDialog_objectNameFilter_xlbl);
     GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(name);
 
     objectNameInput = new Text(objectScopeGroup, SWT.BORDER);
@@ -336,7 +339,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
         .hint(200, SWT.DEFAULT)
         .applyTo(objectNameInput);
     Label filter = new Label(objectScopeGroup, SWT.NONE);
-    filter.setText("&Filters:");
+    filter.setText(Messages.CodeSearchDialog_objectScopeFilters_xlbl);
     GridDataFactory.fillDefaults()
         .indent(SWT.DEFAULT, 5)
         .align(SWT.FILL, SWT.CENTER)
@@ -361,7 +364,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     final Group patternsGroup = new Group(parent, SWT.NONE);
     GridDataFactory.fillDefaults().grab(true, false).applyTo(patternsGroup);
     GridLayoutFactory.swtDefaults().numColumns(2).applyTo(patternsGroup);
-    patternsGroup.setText("Search P&attern: *");
+    patternsGroup.setText(Messages.CodeSearchDialog_searchPatternFilter_xlbl);
 
     patternsText = new Text(patternsGroup, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
     AdtSWTUtilFactory.getOrCreateSWTUtil().addTextEditMenu(patternsText);
@@ -382,10 +385,10 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     GridLayoutFactory.swtDefaults().margins(5, 0).applyTo(patternOptions);
 
     ignoreCaseCheck = new Button(patternOptions, SWT.CHECK);
-    ignoreCaseCheck.setText("Ignore &Case");
+    ignoreCaseCheck.setText(Messages.CodeSearchDialog_ignoreCaseOption_xchk);
 
     useRegExpCheck = new Button(patternOptions, SWT.CHECK);
-    useRegExpCheck.setText("&Regular Expressions");
+    useRegExpCheck.setText(Messages.CodeSearchDialog_regularExpressionsOption_xchk);
     useRegExpCheck.addSelectionListener(widgetSelectedAdapter(e -> {
       boolean useRegex = useRegExpCheck.getSelection();
       singlePattern.setEnabled(!useRegex);
@@ -394,10 +397,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     }));
 
     singlePattern = new Button(patternOptions, SWT.CHECK);
-    singlePattern.setText("Single Pattern mode");
-    singlePattern.setToolTipText(
-        "If active the entered search pattern will be viewed as a single pattern"
-            + ", otherwise each line will be viewed as a pattern");
+    singlePattern.setText(Messages.CodeSearchDialog_singlePatternModeOption_xchk);
+    singlePattern.setToolTipText(Messages.CodeSearchDialog_singlePatternModeOption_xtol);
     singlePattern.addSelectionListener(widgetSelectedAdapter(e -> {
       boolean isChecked = singlePattern.getSelection();
 
@@ -411,9 +412,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     }));
 
     matchAllPatterns = new Button(patternOptions, SWT.CHECK);
-    matchAllPatterns.setText("Match all");
-    matchAllPatterns.setToolTipText("An object is only included in the result list if "
-        + "all entered search patterns are found");
+    matchAllPatterns.setText(Messages.CodeSearchDialog_matchAllOption_xchk);
+    matchAllPatterns.setToolTipText(Messages.CodeSearchDialog_matchAllOption_xtol);
   }
 
   private void createProjectInput(final Composite parent) {
@@ -595,11 +595,10 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     } catch (PatternSyntaxException regexError) {
       if (line <= 0) {
         return new Status(IStatus.ERROR, CodeSearchUIPlugin.PLUGIN_ID, NLS.bind(
-            "The pattern ''{0}'' is not a valid regular expression", regex));
+            Messages.CodeSearchDialog_invalidRegexPattern_xmsg, regex));
       }
       return new Status(IStatus.ERROR, CodeSearchUIPlugin.PLUGIN_ID, NLS.bind(
-          "The pattern ''{0}'' in line {1} is not a valid regular expression", new Object[] { regex,
-              line }));
+          Messages.CodeSearchDialog_invalidRegexPatternInLine_xmsg, new Object[] { regex, line }));
 
     }
     return Status.OK_STATUS;

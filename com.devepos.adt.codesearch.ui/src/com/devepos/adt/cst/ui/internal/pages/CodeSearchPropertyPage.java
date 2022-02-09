@@ -40,6 +40,7 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
 import com.devepos.adt.cst.search.CodeSearchFactory;
 import com.devepos.adt.cst.search.ICodeSearchService;
 import com.devepos.adt.cst.ui.internal.codesearch.NamedItem;
+import com.devepos.adt.cst.ui.internal.messages.Messages;
 
 /**
  * Describes project specific settings of the Code Search
@@ -190,11 +191,12 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
   }
 
   private void createParallelSettings(final Composite parent) {
-    Group group = createGroup("Parallel processing", parent, false);
+    Group group = createGroup(Messages.CodeSearchPropertyPage_parallelProcessingGroup_xlbl, parent,
+        false);
     GridLayoutFactory.swtDefaults().numColumns(2).applyTo(group);
 
     parallelEnabled = new Button(group, SWT.CHECK);
-    parallelEnabled.setText("Enable &Parallel Processing");
+    parallelEnabled.setText(Messages.CodeSearchPropertyPage_parallelProcessingPref_xchk);
     parallelEnabled.addSelectionListener(widgetSelectedAdapter(e -> {
       boolean isParallelEnabled = parallelEnabled.getSelection();
       serverGroupText.setEnabled(isParallelEnabled);
@@ -202,9 +204,8 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     GridDataFactory.fillDefaults().span(2, 1).applyTo(parallelEnabled);
 
     Label serverGroupLabel = new Label(group, SWT.NONE);
-    serverGroupLabel.setText("&Server group:");
-    serverGroupLabel.setToolTipText(
-        "The server group to be used for parallel processing (see transaction RZ12)\nIf the value is empty the default server group will be used");
+    serverGroupLabel.setText(Messages.CodeSearchPropertyPage_serverGroupPref_xlbl);
+    serverGroupLabel.setToolTipText(Messages.CodeSearchPropertyPage_serverGroupPref_xtol);
 
     serverGroupText = new Text(group, SWT.NONE | SWT.BORDER);
     serverGroupText.setTextLimit(20);
@@ -219,14 +220,13 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
   }
 
   private void createRegexSettings(final Composite parent) {
-    Group group = createGroup("Settings for Regular Expression Engine", parent);
+    Group group = createGroup(Messages.CodeSearchPropertyPage_regexEngineSettingsGroup_xlbl,
+        parent);
 
     pcreEnabled = new Button(group, SWT.CHECK);
 
-    pcreEnabled.setText("Enable PCRE (Perl compatible regular expressions)");
-    pcreEnabled.setToolTipText(
-        "This advanced Regular Expression engine is only available starting with NetWeaver 7.55\n"
-            + "If enabled, but not available the old engine will be used automatically");
+    pcreEnabled.setText(Messages.CodeSearchPropertyPage_pcreEnabledPref_xchk);
+    pcreEnabled.setToolTipText(Messages.CodeSearchPropertyPage_pcreEnabledPref_xtol);
   }
 
   private void determineAvailableFeatures() {

@@ -17,6 +17,7 @@ import com.devepos.adt.base.plugin.features.AdtPluginFeaturesServiceFactory;
 import com.devepos.adt.base.plugin.features.IAdtPluginFeatures;
 import com.devepos.adt.base.ui.project.IAbapProjectProvider;
 import com.devepos.adt.cst.internal.CodeSearchPlugin;
+import com.devepos.adt.cst.internal.messages.Messages;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchScope;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
@@ -129,7 +130,7 @@ public class CodeSearchSearchService implements ICodeSearchService {
       return Status.OK_STATUS;
     }
     return new Status(IStatus.ERROR, CodeSearchPlugin.PLUGIN_ID, NLS.bind(
-        "ABAP Code Search is not available in project {0}", project.getName()));
+        Messages.CodeSearchSearchService_searchNotAvailableInProjectError_xmsg, project.getName()));
   }
 
   @Override

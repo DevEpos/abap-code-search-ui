@@ -21,6 +21,7 @@ import com.devepos.adt.cst.search.CodeSearchFactory;
 import com.devepos.adt.cst.search.ICodeSearchService;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.codesearch.result.CodeSearchResult;
+import com.devepos.adt.cst.ui.internal.messages.Messages;
 
 /**
  * Query for running Code Search
@@ -51,7 +52,7 @@ public class CodeSearchQuery implements ISearchQuery {
 
   @Override
   public String getLabel() {
-    return "ABAP Code Search Query";
+    return Messages.CodeSearchQuery_queryName_xlbl;
   }
 
   public IAbapProjectProvider getProjectProvider() {

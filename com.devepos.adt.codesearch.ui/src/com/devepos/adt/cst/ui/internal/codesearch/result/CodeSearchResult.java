@@ -21,6 +21,7 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.IImages;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchQuery;
+import com.devepos.adt.cst.ui.internal.messages.Messages;
 
 /**
  * Represents the result of an ABAP Code Search
@@ -102,11 +103,11 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   @Override
   public String getLabel() {
     if (searchQuery == null) {
-      return "ABAP Code Search result";
+      return Messages.CodeSearchResult_placeholderResultName_xlbl;
     }
     String resultsLabel = null;
     if (noObjectsInScope) {
-      resultsLabel = "No Objects in scope";
+      resultsLabel = Messages.CodeSearchResult_noObjectsInScope_xmsg;
     } else {
       if (resultCount == 1) {
         resultsLabel = AdtBaseUIResources.getString(IAdtBaseStrings.SearchUI_OneResult_xmsg);
@@ -117,8 +118,8 @@ public class CodeSearchResult extends AbstractTextSearchResult {
         resultsLabel = AdtBaseUIResources.getString(IAdtBaseStrings.SearchUI_NoResults_xmsg);
       }
     }
-    return String.format("%s %s - %s", "Code Matches for", searchQuery.getQuerySpecs(),
-        resultsLabel);
+    return String.format("%s %s - %s", Messages.CodeSearchResult_codeResultsLabelPrefix_xlbl,
+        searchQuery.getQuerySpecs(), resultsLabel);
   }
 
   public Set<SearchMatchNode> getMatchNodesForFileUri(final String fileUri) {
@@ -207,7 +208,8 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   private void logMessages(final ICodeSearchResult result) {
     if (result.getResponseMessageList() != null) {
       IStatus searchStatus = result.getResponseMessageList()
-          .toStatus(CodeSearchUIPlugin.PLUGIN_ID, "Problems occurred during ABAP Code search");
+          .toStatus(CodeSearchUIPlugin.PLUGIN_ID,
+              Messages.CodeSearchResult_codeSearchProblemsLogTitle_xmsg);
       if (searchStatus != null) {
         CodeSearchUIPlugin.getDefault().getLog().log(searchStatus);
       }

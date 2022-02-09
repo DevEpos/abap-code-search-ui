@@ -16,6 +16,7 @@ import com.devepos.adt.base.ui.tree.IAdtObjectReferenceNode;
 import com.devepos.adt.base.ui.tree.IStyledTreeNode;
 import com.devepos.adt.base.ui.tree.ITreeNode;
 import com.devepos.adt.base.ui.util.AdtTypeUtil;
+import com.devepos.adt.cst.ui.internal.messages.Messages;
 
 /**
  * Custom view label provider for the Result Tree
@@ -59,7 +60,7 @@ class CodeSearchResultLabelProvider extends LabelProvider implements ILabelProvi
         String type = ((IAdtObjectReferenceNode) element).getAdtObjectType();
         String typeDescription = null;
         if (IAdtObjectTypeConstants.BUSINESS_OBJ_TYPE_PROGRAM.equals(type)) {
-          typeDescription = "Program";
+          typeDescription = Messages.CodeSearchResultLabelProvider_1;
         } else if (!IAdtObjectTypeConstants.CLASS_INCLUDE.equals(type)) {
           typeDescription = AdtTypeUtil.getInstance().getTypeDescription(type);
         }
@@ -69,8 +70,9 @@ class CodeSearchResultLabelProvider extends LabelProvider implements ILabelProvi
         Integer matchCount = (Integer) searchResult.getNodeValue();
         if (matchCount != null) {
           text.append(String.format(" %s %s", matchCountFormat.format(matchCount), matchCount > 1
-              ? "Matches"
-              : "Match"), StyledString.COUNTER_STYLER);
+              ? Messages.CodeSearchResultLabelProvider_multiMatchesSuffix_xmsg
+              : Messages.CodeSearchResultLabelProvider_singleMatchSuffix_xmsg),
+              StyledString.COUNTER_STYLER);
         }
       }
     }
