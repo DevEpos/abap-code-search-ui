@@ -420,7 +420,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
     projectInput.createControl(parent);
     projectInput.addProjectValidator(project -> CodeSearchFactory.getCodeSearchService()
-        .testTagsFeatureAvailability(project));
+        .testCodeSearchFeatureAvailability(project));
     projectInput.addStatusChangeListener(status -> {
       if (validateAndSetStatus(status, ValidationSource.PROJECT)) {
         validateFilterPattern();

@@ -63,7 +63,7 @@ public interface ICodeSearchService {
    *                availability
    * @return the validation status
    */
-  IStatus testTagsFeatureAvailability(final IProject project);
+  IStatus testCodeSearchFeatureAvailability(final IProject project);
 
   /**
    * Updates the given code search settings in the ABAP backend specified by the

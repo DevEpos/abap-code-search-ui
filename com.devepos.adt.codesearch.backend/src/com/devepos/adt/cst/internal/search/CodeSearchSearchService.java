@@ -122,7 +122,7 @@ public class CodeSearchSearchService implements ICodeSearchService {
   }
 
   @Override
-  public IStatus testTagsFeatureAvailability(final IProject project) {
+  public IStatus testCodeSearchFeatureAvailability(final IProject project) {
     final String destinationId = DestinationUtil.getDestinationId(project);
     var uriDiscovery = new CodeSearchUriDiscovery(destinationId);
     if (uriDiscovery.isResourceDiscoverySuccessful() && uriDiscovery.getCodeSearchUri() != null) {
