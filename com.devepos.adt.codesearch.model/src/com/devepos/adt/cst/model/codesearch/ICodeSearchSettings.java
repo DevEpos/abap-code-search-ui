@@ -13,12 +13,14 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreEnabled <em>Pcre
- * Enabled</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isParallelEnabled
  * <em>Parallel Enabled</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#getParallelServerGroup
  * <em>Parallel Server Group</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreExtendedDisabled
+ * <em>Pcre Extended Disabled</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreSingleLineEnabled
+ * <em>Pcre Single Line Enabled</em>}</li>
  * </ul>
  *
  * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchSettings()
@@ -26,33 +28,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface ICodeSearchSettings extends EObject {
-  /**
-   * Returns the value of the '<em><b>Pcre Enabled</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   *
-   * @return the value of the '<em>Pcre Enabled</em>' attribute.
-   * @see #setPcreEnabled(boolean)
-   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchSettings_PcreEnabled()
-   * @model dataType="org.eclipse.emf.ecore.xml.type.Boolean"
-   *        extendedMetaData="kind='attribute' name='pcreEnabled' namespace='##targetNamespace'"
-   * @generated
-   */
-  boolean isPcreEnabled();
-
-  /**
-   * Sets the value of the
-   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreEnabled <em>Pcre
-   * Enabled</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   *
-   * @param value the new value of the '<em>Pcre Enabled</em>' attribute.
-   * @see #isPcreEnabled()
-   * @generated
-   */
-  void setPcreEnabled(boolean value);
-
   /**
    * Returns the value of the '<em><b>Parallel Enabled</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -107,5 +82,61 @@ public interface ICodeSearchSettings extends EObject {
    * @generated
    */
   void setParallelServerGroup(String value);
+
+  /**
+   * Returns the value of the '<em><b>Pcre Extended Disabled</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @return the value of the '<em>Pcre Extended Disabled</em>' attribute.
+   * @see #setPcreExtendedDisabled(boolean)
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchSettings_PcreExtendedDisabled()
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+   *        extendedMetaData="kind='attribute' name='pcreExtendedDisabled'
+   *        namespace='##targetNamespace'"
+   * @generated
+   */
+  boolean isPcreExtendedDisabled();
+
+  /**
+   * Sets the value of the
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreExtendedDisabled
+   * <em>Pcre Extended Disabled</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @param value the new value of the '<em>Pcre Extended Disabled</em>' attribute.
+   * @see #isPcreExtendedDisabled()
+   * @generated
+   */
+  void setPcreExtendedDisabled(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Pcre Single Line Enabled</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @return the value of the '<em>Pcre Single Line Enabled</em>' attribute.
+   * @see #setPcreSingleLineEnabled(boolean)
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchSettings_PcreSingleLineEnabled()
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+   *        extendedMetaData="kind='attribute' name='pcreSingleLineEnabled'
+   *        namespace='##targetNamespace'"
+   * @generated
+   */
+  boolean isPcreSingleLineEnabled();
+
+  /**
+   * Sets the value of the
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreSingleLineEnabled
+   * <em>Pcre Single Line Enabled</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @param value the new value of the '<em>Pcre Single Line Enabled</em>' attribute.
+   * @see #isPcreSingleLineEnabled()
+   * @generated
+   */
+  void setPcreSingleLineEnabled(boolean value);
 
 } // ICodeSearchSettings

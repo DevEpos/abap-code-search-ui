@@ -36,11 +36,13 @@ public class Messages extends NLS {
   public static String CodeSearchPreferencesPage_maxNumberOfRequestObjectsPref_xtol;
   public static String CodeSearchPreferencesPage_reuseSearchQueryPref_xchk;
   public static String CodeSearchPreferencesPage_reuseSearchQueryPref_xtol;
+  public static String CodeSearchPropertyPage_disablePcreExtendedModePref_xchk;
+  public static String CodeSearchPropertyPage_disablePcreExtendedModePref_xtol;
+  public static String CodeSearchPropertyPage_enablePcreSingleLineModePref_xchk;
+  public static String CodeSearchPropertyPage_enablePcreSingleLineModePref_xtol;
   public static String CodeSearchPropertyPage_parallelProcessingGroup_xlbl;
   public static String CodeSearchPropertyPage_parallelProcessingPref_xchk;
-  public static String CodeSearchPropertyPage_pcreEnabledPref_xchk;
-  public static String CodeSearchPropertyPage_pcreEnabledPref_xtol;
-  public static String CodeSearchPropertyPage_regexEngineSettingsGroup_xlbl;
+  public static String CodeSearchPropertyPage_pcreRegexEngineSettingsGroup_xlbl;
   public static String CodeSearchPropertyPage_serverGroupPref_xlbl;
   public static String CodeSearchPropertyPage_serverGroupPref_xtol;
   public static String CodeSearchQuery_queryName_xlbl;

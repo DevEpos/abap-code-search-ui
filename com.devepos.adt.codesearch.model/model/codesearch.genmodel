@@ -27,9 +27,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchResult/queryTimeInMs"/>
     </genClasses>
     <genClasses ecoreClass="codesearch.ecore#//CodeSearchSettings">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/pcreEnabled"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/parallelEnabled"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/parallelServerGroup"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/pcreExtendedDisabled"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/pcreSingleLineEnabled"/>
     </genClasses>
     <genClasses ecoreClass="codesearch.ecore#//CodeSearchScopeParameter">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchScopeParameter/name"/>

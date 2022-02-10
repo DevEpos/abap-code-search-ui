@@ -63,7 +63,8 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
   private boolean pageIsUseable;
   private IStatus pageNotUseableStatus;
   private Button parallelEnabled;
-  private Button pcreEnabled;
+  private Button pcreSingleLineEnabled;
+  private Button pcreExtendedDisabled;
   private IProject project;
   private IAbapProjectProvider projectProvider;
   private IAdtPluginFeatures searchFeatures;
@@ -164,9 +165,11 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     if (!pageIsUseable) {
       return;
     }
+    boolean pcreAvailable = searchFeatures != null && searchFeatures.isFeatureEnabled(
+        PCRE_AVAILABLE_FEATURE);
     // check if the setting is available in the backend
-    pcreEnabled.setEnabled(searchFeatures != null && searchFeatures.isFeatureEnabled(
-        PCRE_AVAILABLE_FEATURE));
+    pcreExtendedDisabled.setEnabled(pcreAvailable);
+    pcreSingleLineEnabled.setEnabled(pcreAvailable);
   }
 
   private void createErrorControl(final Composite parent) {
@@ -220,13 +223,21 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
   }
 
   private void createRegexSettings(final Composite parent) {
-    Group group = createGroup(Messages.CodeSearchPropertyPage_regexEngineSettingsGroup_xlbl,
+    Group group = createGroup(Messages.CodeSearchPropertyPage_pcreRegexEngineSettingsGroup_xlbl,
         parent);
 
-    pcreEnabled = new Button(group, SWT.CHECK);
+    pcreExtendedDisabled = new Button(group, SWT.CHECK);
 
-    pcreEnabled.setText(Messages.CodeSearchPropertyPage_pcreEnabledPref_xchk);
-    pcreEnabled.setToolTipText(Messages.CodeSearchPropertyPage_pcreEnabledPref_xtol);
+    pcreExtendedDisabled.setText(Messages.CodeSearchPropertyPage_disablePcreExtendedModePref_xchk);
+    pcreExtendedDisabled.setToolTipText(
+        Messages.CodeSearchPropertyPage_disablePcreExtendedModePref_xtol);
+
+    pcreSingleLineEnabled = new Button(group, SWT.CHECK);
+
+    pcreSingleLineEnabled.setText(
+        Messages.CodeSearchPropertyPage_enablePcreSingleLineModePref_xchk);
+    pcreSingleLineEnabled.setToolTipText(
+        Messages.CodeSearchPropertyPage_enablePcreSingleLineModePref_xtol);
   }
 
   private void determineAvailableFeatures() {
@@ -240,9 +251,11 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     if (searchSettings == null) {
       return false;
     }
-    if (searchSettings.isParallelEnabled() != parallelEnabled.getSelection() || pcreEnabled
-        .getEnabled() && searchSettings.isPcreEnabled() != pcreEnabled.getSelection()
-        || !serverGroupText.getText().equals(searchSettings.getParallelServerGroup())) {
+    if (searchSettings.isParallelEnabled() != parallelEnabled.getSelection() || searchSettings
+        .isPcreExtendedDisabled() != pcreExtendedDisabled.getSelection() || pcreSingleLineEnabled
+            .getSelection() != searchSettings.isPcreSingleLineEnabled() || !serverGroupText
+                .getText()
+                .equals(searchSettings.getParallelServerGroup())) {
       return true;
     }
     return false;
@@ -275,10 +288,10 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
   }
 
   private void setDefaultValues() {
-    if (pcreEnabled == null || pcreEnabled.isDisposed()) {
+    if (pcreExtendedDisabled == null || pcreExtendedDisabled.isDisposed()) {
       return;
     }
-    pcreEnabled.setSelection(false);
+    pcreExtendedDisabled.setSelection(false);
     parallelEnabled.setSelection(false);
     serverGroupText.setText("");
     serverGroupText.setEnabled(false);
@@ -290,7 +303,8 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
 
   private void updateInputFromModel() {
     if (searchSettings != null) {
-      pcreEnabled.setSelection(searchSettings.isPcreEnabled());
+      pcreExtendedDisabled.setSelection(searchSettings.isPcreExtendedDisabled());
+      pcreSingleLineEnabled.setSelection(searchSettings.isPcreSingleLineEnabled());
       parallelEnabled.setSelection(searchSettings.isParallelEnabled());
       serverGroupText.setText(searchSettings.getParallelServerGroup());
       if (parallelEnabled.getSelection()) {
@@ -301,7 +315,8 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
 
   private void updateModelFromUi() {
     if (searchSettings != null) {
-      searchSettings.setPcreEnabled(pcreEnabled.getSelection());
+      searchSettings.setPcreExtendedDisabled(pcreExtendedDisabled.getSelection());
+      searchSettings.setPcreSingleLineEnabled(pcreSingleLineEnabled.getSelection());
       searchSettings.setParallelEnabled(parallelEnabled.getSelection());
       searchSettings.setParallelServerGroup(serverGroupText.getText());
     }

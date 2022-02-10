@@ -280,16 +280,6 @@ public interface ICodeSearchPackage extends EPackage {
   int CODE_SEARCH_SETTINGS = 3;
 
   /**
-   * The feature id for the '<em><b>Pcre Enabled</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   *
-   * @generated
-   * @ordered
-   */
-  int CODE_SEARCH_SETTINGS__PCRE_ENABLED = 0;
-
-  /**
    * The feature id for the '<em><b>Parallel Enabled</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -297,7 +287,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_SETTINGS__PARALLEL_ENABLED = 1;
+  int CODE_SEARCH_SETTINGS__PARALLEL_ENABLED = 0;
 
   /**
    * The feature id for the '<em><b>Parallel Server Group</b></em>' attribute.
@@ -307,7 +297,27 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_SETTINGS__PARALLEL_SERVER_GROUP = 2;
+  int CODE_SEARCH_SETTINGS__PARALLEL_SERVER_GROUP = 1;
+
+  /**
+   * The feature id for the '<em><b>Pcre Extended Disabled</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   * @ordered
+   */
+  int CODE_SEARCH_SETTINGS__PCRE_EXTENDED_DISABLED = 2;
+
+  /**
+   * The feature id for the '<em><b>Pcre Single Line Enabled</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   * @ordered
+   */
+  int CODE_SEARCH_SETTINGS__PCRE_SINGLE_LINE_ENABLED = 3;
 
   /**
    * The number of structural features of the '<em>Settings</em>' class.
@@ -317,7 +327,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_SETTINGS_FEATURE_COUNT = 3;
+  int CODE_SEARCH_SETTINGS_FEATURE_COUNT = 4;
 
   /**
    * The number of operations of the '<em>Settings</em>' class.
@@ -677,20 +687,6 @@ public interface ICodeSearchPackage extends EPackage {
 
   /**
    * Returns the meta object for the attribute
-   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreEnabled <em>Pcre
-   * Enabled</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   *
-   * @return the meta object for the attribute '<em>Pcre Enabled</em>'.
-   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreEnabled()
-   * @see #getCodeSearchSettings()
-   * @generated
-   */
-  EAttribute getCodeSearchSettings_PcreEnabled();
-
-  /**
-   * Returns the meta object for the attribute
    * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isParallelEnabled <em>Parallel
    * Enabled</em>}'.
    * <!-- begin-user-doc -->
@@ -716,6 +712,34 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    */
   EAttribute getCodeSearchSettings_ParallelServerGroup();
+
+  /**
+   * Returns the meta object for the attribute
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreExtendedDisabled
+   * <em>Pcre Extended Disabled</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @return the meta object for the attribute '<em>Pcre Extended Disabled</em>'.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreExtendedDisabled()
+   * @see #getCodeSearchSettings()
+   * @generated
+   */
+  EAttribute getCodeSearchSettings_PcreExtendedDisabled();
+
+  /**
+   * Returns the meta object for the attribute
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreSingleLineEnabled
+   * <em>Pcre Single Line Enabled</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @return the meta object for the attribute '<em>Pcre Single Line Enabled</em>'.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreSingleLineEnabled()
+   * @see #getCodeSearchSettings()
+   * @generated
+   */
+  EAttribute getCodeSearchSettings_PcreSingleLineEnabled();
 
   /**
    * Returns the meta object for class
@@ -1004,15 +1028,6 @@ public interface ICodeSearchPackage extends EPackage {
     EClass CODE_SEARCH_SETTINGS = eINSTANCE.getCodeSearchSettings();
 
     /**
-     * The meta object literal for the '<em><b>Pcre Enabled</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     *
-     * @generated
-     */
-    EAttribute CODE_SEARCH_SETTINGS__PCRE_ENABLED = eINSTANCE.getCodeSearchSettings_PcreEnabled();
-
-    /**
      * The meta object literal for the '<em><b>Parallel Enabled</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1031,6 +1046,26 @@ public interface ICodeSearchPackage extends EPackage {
      */
     EAttribute CODE_SEARCH_SETTINGS__PARALLEL_SERVER_GROUP = eINSTANCE
         .getCodeSearchSettings_ParallelServerGroup();
+
+    /**
+     * The meta object literal for the '<em><b>Pcre Extended Disabled</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    EAttribute CODE_SEARCH_SETTINGS__PCRE_EXTENDED_DISABLED = eINSTANCE
+        .getCodeSearchSettings_PcreExtendedDisabled();
+
+    /**
+     * The meta object literal for the '<em><b>Pcre Single Line Enabled</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    EAttribute CODE_SEARCH_SETTINGS__PCRE_SINGLE_LINE_ENABLED = eINSTANCE
+        .getCodeSearchSettings_PcreSingleLineEnabled();
 
     /**
      * The meta object literal for the
