@@ -33,18 +33,19 @@ public class CodeSearchQuerySpecification {
   private boolean ignoreCaseCheck;
   private boolean ignoreCommentLines;
   private boolean matchAllPatterns;
+  private boolean sequentialMatching;
   private boolean multilineSearchOption;
+
   private boolean readPackageHierarchy;
+
   private boolean singlePattern;
   private boolean useRegExp;
-
   private String patterns = "";
   private String objectNames = "";
+
   private IncludeFlagsParameter classIncludesParam;
   private IncludeFlagsParameter fugrIncludesParam;
-
   private Map<String, Object> objectScopeFilters;
-
   private String objectScopeFiltersString = "";
 
   public CodeSearchQuerySpecification() {
@@ -74,6 +75,9 @@ public class CodeSearchQuerySpecification {
     }
     if (matchAllPatterns) {
       uriParameters.put(SearchParameter.MATCH_ALL.getUriName(), true);
+    }
+    if (sequentialMatching) {
+      uriParameters.put(SearchParameter.SEQUENTIAL_MATCHING.getUriName(), true);
     }
     uriParameters.put(SearchParameter.CLASS_INCLUDES.getUriName(), getClassIncludesParam()
         .getUriParamValue());
@@ -214,6 +218,10 @@ public class CodeSearchQuerySpecification {
     return readPackageHierarchy;
   }
 
+  public boolean isSequentialMatching() {
+    return sequentialMatching;
+  }
+
   public boolean isSinglePattern() {
     return singlePattern;
   }
@@ -273,6 +281,10 @@ public class CodeSearchQuerySpecification {
    */
   public void setReadPackageHierarchy(final boolean readPackageHierarchy) {
     this.readPackageHierarchy = readPackageHierarchy;
+  }
+
+  public void setSequentialMatching(final boolean sequentialMatching) {
+    this.sequentialMatching = sequentialMatching;
   }
 
   public void setSinglePattern(final boolean singlePattern) {

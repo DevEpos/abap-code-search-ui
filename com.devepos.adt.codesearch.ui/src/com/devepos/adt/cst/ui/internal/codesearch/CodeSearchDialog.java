@@ -73,6 +73,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private Button useRegExpCheck;
   private Button matchAllPatterns;
   private Button ignoreCommentLinesCheck;
+  private Button sequentialMatchingCheck;
   private IncludeFlagsRadioButtonGroup classIncludeConfigGroup;
   private IncludeFlagsRadioButtonGroup fugrIncludeConfigGroup;
 
@@ -196,15 +197,9 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     multilineSearchOption.setSelection(querySpecs.isMultilineSearchOption());
     ignoreCommentLinesCheck.setSelection(querySpecs.isIgnoreCommentLines());
     ignoreCaseCheck.setSelection(querySpecs.isIgnoreCaseCheck());
+    sequentialMatchingCheck.setSelection(querySpecs.isSequentialMatching());
 
-    if (querySpecs.isUseRegExp()) {
-      singlePattern.setEnabled(false);
-    }
-    if (querySpecs.isSinglePattern()) {
-      useRegExpCheck.setEnabled(false);
-      matchAllPatterns.setEnabled(false);
-      multilineSearchOption.setEnabled(false);
-    }
+    updateOptionEnabledment();
 
     IncludeFlagsParameter classIncludesParamCurrent = this.querySpecs.getClassIncludesParam();
     IncludeFlagsParameter classIncludesParamOld = querySpecs.getClassIncludesParam();
@@ -237,18 +232,11 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     querySpecs.setIgnoreCaseCheck(ignoreCaseCheck.getSelection());
     querySpecs.setIgnoreCommentLines(ignoreCommentLinesCheck.getSelection());
     querySpecs.setObjectNames(objectNameInput.getText());
-
-    if (singlePattern.getSelection()) {
-      querySpecs.setSinglePattern(true);
-      querySpecs.setMultilineSearchOption(true);
-      querySpecs.setMatchAllPatterns(false);
-      querySpecs.setUseRegExp(false);
-    } else {
-      querySpecs.setSinglePattern(false);
-      querySpecs.setMultilineSearchOption(multilineSearchOption.getSelection());
-      querySpecs.setMatchAllPatterns(matchAllPatterns.getSelection());
-      querySpecs.setUseRegExp(useRegExpCheck.getSelection());
-    }
+    querySpecs.setSinglePattern(singlePattern.getSelection());
+    querySpecs.setSequentialMatching(sequentialMatchingCheck.getSelection());
+    querySpecs.setMultilineSearchOption(multilineSearchOption.getSelection());
+    querySpecs.setMatchAllPatterns(matchAllPatterns.getSelection());
+    querySpecs.setUseRegExp(useRegExpCheck.getSelection());
   }
 
   private void createAdditionalSettingsGroup(final Composite parent) {
@@ -263,6 +251,27 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     multilineSearchOption = new Button(group, SWT.CHECK);
     multilineSearchOption.setText(Messages.CodeSearchDialog_multilineSearch_xchk);
     multilineSearchOption.setToolTipText(Messages.CodeSearchDialog_multilineSearch_xtol);
+
+    singlePattern = new Button(group, SWT.CHECK);
+    singlePattern.setText(Messages.CodeSearchDialog_singlePatternModeOption_xchk);
+    singlePattern.setToolTipText(Messages.CodeSearchDialog_singlePatternModeOption_xtol);
+    singlePattern.addSelectionListener(widgetSelectedAdapter(e -> {
+      updateOptionSelection();
+      updateOptionEnabledment();
+    }));
+
+    matchAllPatterns = new Button(group, SWT.CHECK);
+    matchAllPatterns.setText(Messages.CodeSearchDialog_matchAllOption_xchk);
+    matchAllPatterns.setToolTipText(Messages.CodeSearchDialog_matchAllOption_xtol);
+
+    sequentialMatchingCheck = new Button(group, SWT.CHECK);
+    sequentialMatchingCheck.setText(Messages.CodeSearchDialog_sequentialMatchingOption_xchk);
+    sequentialMatchingCheck.setToolTipText(
+        Messages.CodeSearchDialog_seqeuentialMatchingOption_xtol);
+    sequentialMatchingCheck.addSelectionListener(widgetSelectedAdapter(e -> {
+      updateOptionSelection();
+      updateOptionEnabledment();
+    }));
   }
 
   private void createIncludeConfigOptions(final Composite parent) {
@@ -390,30 +399,11 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     useRegExpCheck = new Button(patternOptions, SWT.CHECK);
     useRegExpCheck.setText(Messages.CodeSearchDialog_regularExpressionsOption_xchk);
     useRegExpCheck.addSelectionListener(widgetSelectedAdapter(e -> {
-      boolean useRegex = useRegExpCheck.getSelection();
-      singlePattern.setEnabled(!useRegex);
+      updateOptionSelection();
+      updateOptionEnabledment();
       validateSearchPatterns();
       updateOKStatus();
     }));
-
-    singlePattern = new Button(patternOptions, SWT.CHECK);
-    singlePattern.setText(Messages.CodeSearchDialog_singlePatternModeOption_xchk);
-    singlePattern.setToolTipText(Messages.CodeSearchDialog_singlePatternModeOption_xtol);
-    singlePattern.addSelectionListener(widgetSelectedAdapter(e -> {
-      boolean isChecked = singlePattern.getSelection();
-
-      multilineSearchOption.setEnabled(!isChecked);
-      matchAllPatterns.setEnabled(!isChecked);
-      useRegExpCheck.setEnabled(!isChecked);
-
-      multilineSearchOption.setSelection(isChecked);
-      matchAllPatterns.setSelection(false);
-      matchAllPatterns.setSelection(false);
-    }));
-
-    matchAllPatterns = new Button(patternOptions, SWT.CHECK);
-    matchAllPatterns.setText(Messages.CodeSearchDialog_matchAllOption_xchk);
-    matchAllPatterns.setToolTipText(Messages.CodeSearchDialog_matchAllOption_xtol);
   }
 
   private void createProjectInput(final Composite parent) {
@@ -546,6 +536,34 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
           .anyMatch(s -> s.getSeverity() == IStatus.ERROR);
       container.setPerformActionEnabled(!isError);
     });
+  }
+
+  private void updateOptionEnabledment() {
+    boolean isSinglePattern = singlePattern.getSelection();
+    boolean isSequentialMatching = sequentialMatchingCheck.getSelection();
+
+    singlePattern.setEnabled(!isSequentialMatching);
+    sequentialMatchingCheck.setEnabled(!isSinglePattern);
+    useRegExpCheck.setEnabled(!isSinglePattern);
+
+    if (!isSinglePattern && !isSequentialMatching) {
+      multilineSearchOption.setEnabled(true);
+      matchAllPatterns.setEnabled(true);
+    } else {
+      multilineSearchOption.setEnabled((!isSinglePattern && !isSequentialMatching));
+      matchAllPatterns.setEnabled((!isSinglePattern && !isSequentialMatching));
+    }
+  }
+
+  private void updateOptionSelection() {
+    if (sequentialMatchingCheck.getSelection()) {
+      singlePattern.setSelection(false);
+      matchAllPatterns.setSelection(true);
+    } else if (singlePattern.getSelection()) {
+      sequentialMatchingCheck.setSelection(false);
+      multilineSearchOption.setSelection(true);
+      useRegExpCheck.setSelection(false);
+    }
   }
 
   private IStatus updateStatus(final IStatus status, final ValidationSource type) {

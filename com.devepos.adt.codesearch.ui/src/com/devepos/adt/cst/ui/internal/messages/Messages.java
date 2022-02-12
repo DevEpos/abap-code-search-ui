@@ -29,6 +29,8 @@ public class Messages extends NLS {
   public static String CodeSearchDialog_otherClassIncludeSection_xlbl;
   public static String CodeSearchDialog_regularExpressionsOption_xchk;
   public static String CodeSearchDialog_searchPatternFilter_xlbl;
+  public static String CodeSearchDialog_seqeuentialMatchingOption_xtol;
+  public static String CodeSearchDialog_sequentialMatchingOption_xchk;
   public static String CodeSearchDialog_singlePatternModeOption_xchk;
   public static String CodeSearchDialog_singlePatternModeOption_xtol;
   public static String CodeSearchPreferencesPage_generalSettingsGroup_xlbl;

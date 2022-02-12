@@ -11,7 +11,8 @@ public enum SearchParameter {
   MULTI_LINE("multiLine"),
   SINGLE_PATTERN("singlePattern"),
   SCOPE_ID("scopeId"),
-  SCOPE_OFFSET("scopeOffset");
+  SCOPE_OFFSET("scopeOffset"),
+  SEQUENTIAL_MATCHING("seqMatching");
 
   private String uriParamName;
 
