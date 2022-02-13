@@ -20,4 +20,9 @@ public interface ICodeSearchPrefs {
    * Maximum objects that will be selected during the Code Search
    */
   String MAX_OBJECTS = "codeSearch.maxObjects";
+  /**
+   * Concatenates lines of the search pattern with \n if single pattern mode and regular expressions
+   * are active
+   */
+  String SINGLE_PATTERN_REGEX_CONCAT_WITH_LF = "codeSearch.singlePattern.regex.concatPatternLinesWithLf";
 }

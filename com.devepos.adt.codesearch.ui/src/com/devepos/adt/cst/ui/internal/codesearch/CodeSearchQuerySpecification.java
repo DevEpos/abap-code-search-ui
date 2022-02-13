@@ -306,7 +306,19 @@ public class CodeSearchQuerySpecification {
 
   private Object getAdjustedPatterns() {
     if (singlePattern) {
-      return patterns.replaceAll(Text.DELIMITER, System.lineSeparator());
+      String lineBreakReplacement = null;
+      if (useRegExp) {
+        if (CodeSearchUIPlugin.getDefault()
+            .getPreferenceStore()
+            .getBoolean(ICodeSearchPrefs.SINGLE_PATTERN_REGEX_CONCAT_WITH_LF)) {
+          lineBreakReplacement = "\\\n";
+        } else {
+          lineBreakReplacement = "";
+        }
+      } else {
+        lineBreakReplacement = System.lineSeparator();
+      }
+      return patterns.replaceAll(Text.DELIMITER, lineBreakReplacement);
     }
     return Stream.of(patterns.split(Text.DELIMITER))
         .filter(pattern -> !pattern.isBlank())

@@ -40,6 +40,7 @@ public class CodeSearchPreferencesPage extends FieldEditorPrefPageBase implement
         .create());
 
     createGeneralSettings(parent);
+    createSearchDialogSettings(parent);
   }
 
   private void createGeneralSettings(final Composite parent) {
@@ -66,5 +67,17 @@ public class CodeSearchPreferencesPage extends FieldEditorPrefPageBase implement
     GridDataFactory.fillDefaults().grab(true, false).applyTo(group);
     group.setText(label);
     return group;
+  }
+
+  private void createSearchDialogSettings(final Composite parent) {
+    final Group group = createGroup(
+        Messages.CodeSearchPreferencesPage_searchDialogSettingsGroup_xlbl, parent);
+
+    final Group singlePatternModeGroup = createGroup(
+        Messages.CodeSearchPreferencesPage_singlePatternModeSettingsGroup_xlbl, group);
+
+    addEditor(addBooleanEditor(ICodeSearchPrefs.SINGLE_PATTERN_REGEX_CONCAT_WITH_LF,
+        Messages.CodeSearchPreferencesPage_concatLinesWithLfRegexSinglePatternPref_xlbl,
+        createEditorParent(singlePatternModeGroup)));
   }
 }
