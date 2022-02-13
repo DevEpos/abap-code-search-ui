@@ -485,7 +485,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
   private void registerContentAssist() {
     // set up content assist for the filters text
-    ISearchFilterProvider filterProvider = new CodeSearchFilters(projectProvider);
+    ISearchFilterProvider filterProvider = new CodeSearchScopeFilters(projectProvider);
     filterHandler = new SearchFilterHandler(filterProvider);
     filterHandler.addContentAssist(filterInput);
   }

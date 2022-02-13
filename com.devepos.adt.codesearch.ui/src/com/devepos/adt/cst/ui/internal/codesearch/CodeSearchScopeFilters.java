@@ -19,12 +19,12 @@ import com.devepos.adt.cst.ui.internal.codesearch.contentassist.ObjectTypeSearch
  * @author Ludwig Stockbauer-Muhr
  *
  */
-public class CodeSearchFilters implements ISearchFilterProvider {
+public class CodeSearchScopeFilters implements ISearchFilterProvider {
   private static final List<ISearchFilter> EMPTY_FILTERS = new ArrayList<>();
   private List<ISearchFilter> parameters;
   private IAbapProjectProvider projectProvider;
 
-  public CodeSearchFilters(final IAbapProjectProvider projectProvider) {
+  public CodeSearchScopeFilters(final IAbapProjectProvider projectProvider) {
     this.projectProvider = projectProvider;
   }
 
