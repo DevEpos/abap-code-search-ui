@@ -238,6 +238,16 @@ public interface ICodeSearchPackage extends EPackage {
   int CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS = 3;
 
   /**
+   * The feature id for the '<em><b>Number Of Searched Sources</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   * @ordered
+   */
+  int CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_SOURCES = 4;
+
+  /**
    * The feature id for the '<em><b>Query Time In Ms</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -245,7 +255,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_RESULT__QUERY_TIME_IN_MS = 4;
+  int CODE_SEARCH_RESULT__QUERY_TIME_IN_MS = 5;
 
   /**
    * The number of structural features of the '<em>Result</em>' class.
@@ -255,7 +265,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_RESULT_FEATURE_COUNT = 5;
+  int CODE_SEARCH_RESULT_FEATURE_COUNT = 6;
 
   /**
    * The number of operations of the '<em>Result</em>' class.
@@ -661,6 +671,20 @@ public interface ICodeSearchPackage extends EPackage {
 
   /**
    * Returns the meta object for the attribute
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getNumberOfSearchedSources
+   * <em>Number Of Searched Sources</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @return the meta object for the attribute '<em>Number Of Searched Sources</em>'.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getNumberOfSearchedSources()
+   * @see #getCodeSearchResult()
+   * @generated
+   */
+  EAttribute getCodeSearchResult_NumberOfSearchedSources();
+
+  /**
+   * Returns the meta object for the attribute
    * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getQueryTimeInMs <em>Query Time
    * In Ms</em>}'.
    * <!-- begin-user-doc -->
@@ -1004,6 +1028,17 @@ public interface ICodeSearchPackage extends EPackage {
      */
     EAttribute CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS = eINSTANCE
         .getCodeSearchResult_NumberOfSearchedObjects();
+
+    /**
+     * The meta object literal for the '<em><b>Number Of Searched Sources</b></em>' attribute
+     * feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    EAttribute CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_SOURCES = eINSTANCE
+        .getCodeSearchResult_NumberOfSearchedSources();
 
     /**
      * The meta object literal for the '<em><b>Query Time In Ms</b></em>' attribute feature.

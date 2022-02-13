@@ -2,6 +2,7 @@ package com.devepos.adt.cst.ui.internal.codesearch.result;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -56,6 +57,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   private static final String GROUP_GROUPING = "com.devepos.adt.cst.searchResult.grouping";
   private IStructuredContentProvider contentProvider;
   private IAction openPreferencesAction;
+  private IAction openRuntimeInformation;
   private ContextHelper contextHelper;
   private PreferenceToggleAction groupByPackageAction;
   private IPropertyChangeListener prefChangeListener;
@@ -115,7 +117,9 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
 
   @Override
   public void setActionBars(final IActionBars actionBars) {
-    actionBars.getMenuManager().add(openPreferencesAction);
+    IMenuManager menuMgr = actionBars.getMenuManager();
+    menuMgr.appendToGroup(IContextMenuConstants.GROUP_ADDITIONS, openRuntimeInformation);
+    menuMgr.appendToGroup(IContextMenuConstants.GROUP_PROPERTIES, openPreferencesAction);
   }
 
   @Override
@@ -205,6 +209,13 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
         Messages.CodeSearchResultPage_groupByPackageAction_xtol, AdtBaseUIResources
             .getImageDescriptor(IAdtBaseImages.PACKAGE), GROUP_BY_PACKAGE_PREF, true,
         CodeSearchUIPlugin.getDefault().getPreferenceStore());
+    openRuntimeInformation = ActionFactory.createAction("Show Query Runtime Information", null,
+        () -> {
+          CodeSearchRuntimeInfoDialog dialog = new CodeSearchRuntimeInfoDialog(getViewPart()
+              .getViewSite()
+              .getShell(), (CodeSearchResult) getInput());
+          dialog.open();
+        });
   }
 
   private boolean navigateToElement(final Object element, final boolean activate) {

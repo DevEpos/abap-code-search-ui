@@ -98,6 +98,7 @@ public class CodeSearchQuery implements ISearchQuery {
     if (scope == null || scope.getObjectCount() <= 0) {
       searchResult.setNoObjectsInScope();
     } else {
+      searchResult.setObjectScopeCount(scope.getObjectCount());
       startSearchingWithScope(monitor, scope, service, destinationId);
     }
 
