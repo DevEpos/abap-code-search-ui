@@ -121,7 +121,7 @@ public class CodeSearchQuery implements ISearchQuery {
     int packageSize = (int) uriParams.get(SearchParameter.MAX_OBJECTS.getUriName());
 
     int currentOffset = 0;
-    int workUnits = scope.getObjectCount() / packageSize;
+    int workUnits = (int) Math.ceil(scope.getObjectCount() / (float) packageSize);
     if (workUnits <= 0) {
       workUnits = 1;
     }
