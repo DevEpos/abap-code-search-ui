@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -159,6 +160,12 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     ISearchResultViewPart activeSearchView = null;
 
     if (prefStore.getBoolean(ICodeSearchPrefs.REUSE_LAST_SEARCH_QUERY) && previousQuery != null) {
+      // if the query is still running, reusing it is not possible
+      if (NewSearchUI.isQueryRunning(previousQuery)) {
+        MessageDialog.openError(getShell(), Messages.CodeSearchDialog_queryStillRunningError_xtit,
+            Messages.CodeSearchDialog_queryReuseNotPossibleErrorText_xmsg);
+        return false;
+      }
       query = previousQuery;
       activeSearchView = NewSearchUI.getSearchResultView();
       query.setQuerySpecs(querySpecs);
