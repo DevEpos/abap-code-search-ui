@@ -433,7 +433,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
     GridDataFactory.swtDefaults()
         .align(SWT.FILL, SWT.FILL)
-        .hint(500, SWT.DEFAULT)
+        .hint(550, SWT.DEFAULT)
         .grab(true, false)
         .applyTo(statusArea);
     GridLayoutFactory.fillDefaults().numColumns(2).applyTo(statusArea);
@@ -551,14 +551,13 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
     singlePattern.setEnabled(!isSequentialMatching);
     sequentialMatchingCheck.setEnabled(!isSinglePattern);
-    useRegExpCheck.setEnabled(!isSinglePattern);
 
     if (!isSinglePattern && !isSequentialMatching) {
       multilineSearchOption.setEnabled(true);
       matchAllPatterns.setEnabled(true);
     } else {
-      multilineSearchOption.setEnabled((!isSinglePattern && !isSequentialMatching));
-      matchAllPatterns.setEnabled((!isSinglePattern && !isSequentialMatching));
+      multilineSearchOption.setEnabled(!isSinglePattern && !isSequentialMatching);
+      matchAllPatterns.setEnabled(!isSinglePattern && !isSequentialMatching);
     }
   }
 
@@ -566,10 +565,11 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     if (sequentialMatchingCheck.getSelection()) {
       singlePattern.setSelection(false);
       matchAllPatterns.setSelection(true);
+      multilineSearchOption.setSelection(false);
     } else if (singlePattern.getSelection()) {
       sequentialMatchingCheck.setSelection(false);
       multilineSearchOption.setSelection(true);
-      useRegExpCheck.setSelection(false);
+      matchAllPatterns.setSelection(false);
     }
   }
 
