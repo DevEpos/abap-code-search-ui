@@ -39,6 +39,7 @@ import com.devepos.adt.base.ui.util.TextControlUtil;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
 import com.devepos.adt.cst.search.CodeSearchFactory;
 import com.devepos.adt.cst.search.ICodeSearchService;
+import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.codesearch.NamedItem;
 import com.devepos.adt.cst.ui.internal.messages.Messages;
 
@@ -70,6 +71,7 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
   private IAdtPluginFeatures searchFeatures;
   private ICodeSearchSettings searchSettings;
   private Text serverGroupText;
+  private boolean pcreAvailable;
 
   public CodeSearchPropertyPage() {
     codeSearchService = CodeSearchFactory.getCodeSearchService();
@@ -165,7 +167,7 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     if (!pageIsUseable) {
       return;
     }
-    boolean pcreAvailable = searchFeatures != null && searchFeatures.isFeatureEnabled(
+    pcreAvailable = searchFeatures != null && searchFeatures.isFeatureEnabled(
         PCRE_AVAILABLE_FEATURE);
     // check if the setting is available in the backend
     pcreExtendedDisabled.setEnabled(pcreAvailable);
@@ -225,6 +227,12 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
   private void createRegexSettings(final Composite parent) {
     Group group = createGroup(Messages.CodeSearchPropertyPage_pcreRegexEngineSettingsGroup_xlbl,
         parent);
+
+    if (!pcreAvailable) {
+      MessageLine pcreNotAvailableInfo = new MessageLine(group);
+      pcreNotAvailableInfo.setStatus(new Status(IStatus.INFO, CodeSearchUIPlugin.PLUGIN_ID,
+          Messages.CodeSearchPropertyPage_pcreNotAvailableInfo_xmsg));
+    }
 
     pcreExtendedDisabled = new Button(group, SWT.CHECK);
 
