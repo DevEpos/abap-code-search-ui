@@ -126,8 +126,6 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
       createRegexSettings(main);
       createParallelSettings(main);
       updateInputFromModel();
-
-      checkProjectDependentFeatures();
     } else {
       createErrorControl(main);
     }
@@ -161,17 +159,6 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
       pageIsUseable = false;
       pageNotUseableStatus = loggedOnStatus;
     }
-  }
-
-  private void checkProjectDependentFeatures() {
-    if (!pageIsUseable) {
-      return;
-    }
-    pcreAvailable = searchFeatures != null && searchFeatures.isFeatureEnabled(
-        PCRE_AVAILABLE_FEATURE);
-    // check if the setting is available in the backend
-    pcreExtendedDisabled.setEnabled(pcreAvailable);
-    pcreSingleLineEnabled.setEnabled(pcreAvailable);
   }
 
   private void createErrorControl(final Composite parent) {
@@ -237,11 +224,12 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     pcreExtendedDisabled = new Button(group, SWT.CHECK);
 
     pcreExtendedDisabled.setText(Messages.CodeSearchPropertyPage_disablePcreExtendedModePref_xchk);
+    pcreExtendedDisabled.setEnabled(pcreAvailable);
     pcreExtendedDisabled.setToolTipText(
         Messages.CodeSearchPropertyPage_disablePcreExtendedModePref_xtol);
 
     pcreSingleLineEnabled = new Button(group, SWT.CHECK);
-
+    pcreSingleLineEnabled.setEnabled(pcreAvailable);
     pcreSingleLineEnabled.setText(
         Messages.CodeSearchPropertyPage_enablePcreSingleLineModePref_xchk);
     pcreSingleLineEnabled.setToolTipText(
@@ -253,6 +241,8 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
       return;
     }
     searchFeatures = codeSearchService.getSearchSettingsFeatures(destinationId);
+    pcreAvailable = searchFeatures != null && searchFeatures.isFeatureEnabled(
+        PCRE_AVAILABLE_FEATURE);
   }
 
   private boolean isPageDirty() {
