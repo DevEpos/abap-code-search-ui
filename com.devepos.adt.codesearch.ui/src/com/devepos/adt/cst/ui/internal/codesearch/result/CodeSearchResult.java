@@ -58,13 +58,14 @@ public class CodeSearchResult extends AbstractTextSearchResult {
       return;
     }
     logMessages(result);
-    if (result.getNumberOfResults() <= 0) {
-      return;
-    }
     overallServerTimeInMs += result.getQueryTimeInMs();
     resultCount += result.getNumberOfResults();
     searchedObjectsCount += result.getNumberOfSearchedObjects();
     searchedSourcesCount += result.getNumberOfSearchedSources();
+
+    if (result.getNumberOfResults() <= 0) {
+      return;
+    }
 
     if (resultTree == null) {
       resultTree = new ResultTreeBuilder(fileMatchesCache, searchQuery.getProjectProvider()
