@@ -6,10 +6,10 @@
 <title>ABAP Code Search +</title>
 </head>
 <body id="doc-body">
-	<h2 class="heading">ABAP Code Search +</h2>
+	<h2 class="heading">ABAP Code Search</h2>
 	<p>
-		The <i>ABAP Code Search +</i> is a tool which offers the possibility to search in abap source code for a given string. 
-            The most important features provided by the ABAP Code Search+ are: 
+		The <i>ABAP Code Search</i> is a tool which offers the possibility to search in ABAP source code for a given string. 
+            The most important features provided by the ABAP Code Search are: 
             <ul id="features" class="list">
                    <li>works for R/3 environments as well as for S/4 </li>
                    <li>allows a detailed scope definition with filtering by object type, application component, etc... </li>
@@ -25,7 +25,7 @@
 	<figure id="figure1" style="width:50%">
 		<img src="../images/CodeSearchView.png">
 		<figcaption>
-			<strong>Figure 1:</strong> The Code Search+ Dialog
+			<strong>Figure 1:</strong> The Code Search Dialog
 		</figcaption>
 	</figure>
 	<!-- Description of general setup of the Search view -->
@@ -40,10 +40,10 @@
 	<h4 class="heading">Search Pattern</h4>
 	<p> 
 	In the text area you can enter the search pattern. It can contain one or more patterns. In case of multiple patterns, each pattern has to be entered in a separate line.	
-	Additionally you have 3 options to configure the search pattern
+	Additionally you have 2 options to configure the search pattern
         <ol class="list">
-		<li>Ignore Case: setting this check box will result in applying the search pattern in upper case </li>
-  		<li>Regular Expressions: by setting this checkbox you specify that the entered pattern uses regular expressions( depending on the system you can even use PCRE see project specific settings) </li>
+		<li><b>Ignore Case</b> <br> When this option is set the lower/upper case of the source code will be ignored</li>
+  		<li><b>Regular Expressions</b> <br> By setting this checkbox you specify that the entered pattern uses regular expressions</li>
 		</ol>
 	</p>
 
@@ -51,8 +51,9 @@
 	<p> 
 	The object selection can be defined using 2 fields: 
 	<ol class="list">
-		<li>Object Name: A text input control to enter one or multiple object names to restrict the scope. Wildcards are supported</li>
-		<li>Filters: A text control for entering the filters which will restrict the scope. This field provides assistance for
+		<li><b>Object Name</b> <br> A text input control to enter one or multiple object names to restrict the scope. Wildcards are supported. 
+			The end of each object name is automatically expanded by a "*" if it does not end with "\<". Multipe object names are split by a space</li>
+		<li><b>Filters</b> <br> A text control for entering the filters which will restrict the scope. This field provides assistance for
 			the following criteria: type, owner, package, applicaton component and date of creation. All filters 
 			also provide further content assistance to see which options are available (see the following
 			image) </li>
@@ -82,16 +83,18 @@
 	<h4 class="heading">Additional Settings</h4>
 	Additionally you have 5 options to configure the behavior of the search
         <ol class="list">
-			<li>Ignore Comment Lines: if this checkbox is set the system will not search for the entered pattern in comment lines</li>
-  			<li>Multiline Search: by setting this checkbox you specify that the entered pattern can be split between multiple lines. If the checkbox is not set the system will search only for matches which contain the pattern in a single line. To-do Wenn single pattern gesetzt ist und die pattern mehrere Zeilen hat</li>
-			<li>Single Pattern mode: As a default the search result will contain the source code files which contain at least on line from the search pattern. 
+			<li><b>Ignore Comment Lines</b> <br> If this checkbox is set the system will not search for the entered pattern in comment lines</li>
+  			<li><b>Multiline Search</b> <br> By setting this checkbox you specify that each source code object will be searched as a whole. 
+				That way it is possible to find patterns that span multiple lines.
+				If the checkbox is not set the system will search only for matches which contain the pattern in a single line.</li>
+			<li><b>Single Pattern mode</b> <br> As a default the search result will contain the source code files which contain at least on line from the search pattern. 
 				By setting this checkbox means that the whole content of the search pattern text area is considered as one pattern ( relevant for multiline pattern).
 			    Further configuration setting for this option is available in the <i>General Settings</i></li>
-			<li>Match All: this checkbox is only relevant if the pattern contains more than one line. If this checkbox is set the system will search for source code files
+			<li><b>Match All</b> <br> This checkbox is only relevant if the pattern contains more than one line. If this checkbox is set the system will search for source code files
 				which contains all patterns listed in the search pattern text area <b>without</b> considering their order. If this checkbox is not set the system will execute an OR search between all lines 
 				of the pattern individually</li>
-			<li>Sequential Matching:this checkbox is only relevant if the pattern contains more than one line. If this checkbox is set the system will search for source code files
-				which contains all patterns listed in the search pattern text area <b>considering their order</b>.If this checkbox is not set the system will execute an OR search between all lines 
+			<li><b>Sequential Matching</b> <br> Checkbox is only relevant if the pattern contains more than one line. If this checkbox is set the system will search for source code files
+				which contain all patterns listed in the search pattern text area <b>considering their order</b>.If this checkbox is not set the system will execute an OR search between all lines 
 				of the pattern individually</li>	
 		</ol>
 	</p>
@@ -107,10 +110,10 @@
 	</figure>
 	</p>
 	<ol class="list">
-		<li>Max. number of objects to search in a single request: this option allows you to control the number of development objects which should be scanned 
+		<li><b>Max. number of objects to search in a single request</b> <br> this option allows you to control the number of development objects which should be scanned 
 			in a single search request. A search request is not the same as the whole search run. 
 			A search run is split into multiple search request(see The Search Result View for more details )</li>
-		<li>Concatenate lines of the search pattern with '\n' for regulor expressions: this option is relevant if the entered pattern has multiple lines and 
+		<li><b>Concatenate lines of the search pattern with '\n' for regulor expressions</b> <br> This option is relevant if the entered pattern has multiple lines and 
 			you have activated the options: <i>Regular Expressions</i> and <i>Single Pattern Mode</i>. By activating this option the system will automatically enhance
 		    the entered pattern with a new line character after each line of the pattern and consider it a single pattern for the search. 
 			A recommandation to use this option deactivated is that if you structure very complex patterns you can devide them in different lines 
@@ -127,17 +130,21 @@
 					filter
 			</figcaption>
 	</figure>
+   <br>
+   <br>
 	<ol class="list">
 			PCRE(Pearl compatible regular expressions) specific options:
 			<blockquote>
 				<strong>Note:</strong> This option is only active for systems higher or equal to 7.55.
 			</blockquote> 
-		<li>Disable Extended Mode: on a default basis the extended mode is activated and you have to escape the white spaces in your pattern. 
+		<li><b>Disable Extended Mode</b> <br> on a default basis the extended mode is activated and you have to escape the white spaces in your pattern. 
 			If you don´t want to do that you activate this option and the spaces entered in the pattern are considered as they are</li>
-		<li>Enable Single Line Mode: If this option is enabled the "." will also include the new line character during the search with regular expressions.</li>
-        <li>Enable Parallel Processing: by activating this checkbox the system will execute the search with parallel processes. 
+		<li><b>Enable Single Line Mode</b> <br> If this option is enabled the "." will also match the new line character during the search.</li>
+	</ol>
+		<ol>   
+		<li><b>Enable Parallel Processing</b> <br> by activating this checkbox the system will execute the search with parallel processes. 
           Depending on the workload of the system the search will occupy a maximum of 10 processes if available. </li>
-         <li>Server Group: you can choose an existing server group which will be considered for the parallel processing. 
+         <li><b>Server Group</b> <br> you can choose an existing server group which will be considered for the parallel processing. 
           A validition of the entered value is available. </li>
     </ol>
     </p>
