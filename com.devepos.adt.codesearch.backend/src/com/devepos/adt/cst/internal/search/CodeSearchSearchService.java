@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
@@ -16,7 +17,10 @@ import com.devepos.adt.base.plugin.features.AdtPluginFeaturesServiceFactory;
 import com.devepos.adt.base.plugin.features.IAdtPluginFeatures;
 import com.devepos.adt.base.ui.project.IAbapProjectProvider;
 import com.devepos.adt.cst.internal.CodeSearchPlugin;
+import com.devepos.adt.cst.internal.messages.Messages;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScope;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
 import com.devepos.adt.cst.search.ICodeSearchService;
 import com.sap.adt.communication.resources.AdtRestResourceFactory;
@@ -25,10 +29,17 @@ import com.sap.adt.communication.resources.ResourceException;
 import com.sap.adt.communication.session.AdtSystemSessionFactory;
 import com.sap.adt.communication.session.ISystemSession;
 
+/**
+ * Standard implementation of the interface {@link ICodeSearchService}
+ *
+ * @author Ludwig Stockbauer-Muhr
+ *
+ */
 public class CodeSearchSearchService implements ICodeSearchService {
 
   @Override
-  public IAdtUriTemplateProvider getNamedItemProvider(final IAbapProjectProvider projectProvider) {
+  public IAdtUriTemplateProvider getNamedItemUriTemplateProvider(
+      final IAbapProjectProvider projectProvider) {
     if (projectProvider == null) {
       throw new IllegalArgumentException("Parameter 'projectProvider' must be filled!");
     }
@@ -75,21 +86,51 @@ public class CodeSearchSearchService implements ICodeSearchService {
   }
 
   @Override
-  public ICodeSearchResult search(final String destinationId,
-      final Map<String, Object> uriParameters) {
-    // TODO Auto-generated method stub
+  public ICodeSearchScope createScope(final String destinationId,
+      final ICodeSearchScopeParameters scopeParameters, final IProgressMonitor monitor) {
+
+    CodeSearchUriDiscovery discovery = new CodeSearchUriDiscovery(destinationId);
+    URI resourceUri = discovery.getCodeSearchScopeUri();
+    if (resourceUri != null) {
+      final ISystemSession session = AdtSystemSessionFactory.createSystemSessionFactory()
+          .createStatelessSession(destinationId);
+
+      final IRestResource restResource = AdtRestResourceFactory.createRestResourceFactory()
+          .createRestResource(resourceUri, session);
+      restResource.addContentHandler(new CodeSearchScopeParametersContentHandler());
+      restResource.addContentHandler(new CodeSearchScopeContentHandler());
+      return restResource.post(monitor, ICodeSearchScope.class, scopeParameters);
+    }
     return null;
   }
 
   @Override
-  public IStatus testTagsFeatureAvailability(final IProject project) {
+  public ICodeSearchResult search(final String destinationId,
+      final Map<String, Object> uriParameters, final IProgressMonitor monitor) {
+
+    CodeSearchUriDiscovery discovery = new CodeSearchUriDiscovery(destinationId);
+    URI resourceUri = discovery.createCodeSearchUriFromTemplate(uriParameters);
+    if (resourceUri != null) {
+      final ISystemSession session = AdtSystemSessionFactory.createSystemSessionFactory()
+          .createStatelessSession(destinationId);
+
+      final IRestResource restResource = AdtRestResourceFactory.createRestResourceFactory()
+          .createRestResource(resourceUri, session);
+      restResource.addContentHandler(new CodeSearchResultContentHandler());
+      return restResource.get(monitor, ICodeSearchResult.class);
+    }
+    return null;
+  }
+
+  @Override
+  public IStatus testCodeSearchFeatureAvailability(final IProject project) {
     final String destinationId = DestinationUtil.getDestinationId(project);
     var uriDiscovery = new CodeSearchUriDiscovery(destinationId);
     if (uriDiscovery.isResourceDiscoverySuccessful() && uriDiscovery.getCodeSearchUri() != null) {
       return Status.OK_STATUS;
     }
     return new Status(IStatus.ERROR, CodeSearchPlugin.PLUGIN_ID, NLS.bind(
-        "ABAP Code Search is not available in project {0}", project.getName()));
+        Messages.CodeSearchSearchService_searchNotAvailableInProjectError_xmsg, project.getName()));
   }
 
   @Override

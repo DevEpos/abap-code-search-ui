@@ -13,18 +13,23 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchMatch;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchObject;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScope;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameter;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
- * end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model <b>Factory</b>.
+ * <!-- end-user-doc -->
  *
  * @generated
  */
 public class CodeSearchFactory extends EFactoryImpl implements ICodeSearchFactory {
   /**
-   * Creates the default factory implementation. <!-- begin-user-doc --> <!--
-   * end-user-doc -->
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -42,8 +47,9 @@ public class CodeSearchFactory extends EFactoryImpl implements ICodeSearchFactor
   }
 
   /**
-   * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc
-   * -->
+   * Creates an instance of the factory.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -52,7 +58,8 @@ public class CodeSearchFactory extends EFactoryImpl implements ICodeSearchFactor
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -67,6 +74,12 @@ public class CodeSearchFactory extends EFactoryImpl implements ICodeSearchFactor
       return createCodeSearchResult();
     case ICodeSearchPackage.CODE_SEARCH_SETTINGS:
       return createCodeSearchSettings();
+    case ICodeSearchPackage.CODE_SEARCH_SCOPE_PARAMETER:
+      return createCodeSearchScopeParameter();
+    case ICodeSearchPackage.CODE_SEARCH_SCOPE:
+      return createCodeSearchScope();
+    case ICodeSearchPackage.CODE_SEARCH_SCOPE_PARAMETERS:
+      return createCodeSearchScopeParameters();
     default:
       throw new IllegalArgumentException("The class '" + eClass.getName()
           + "' is not a valid classifier");
@@ -74,7 +87,8 @@ public class CodeSearchFactory extends EFactoryImpl implements ICodeSearchFactor
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -85,7 +99,8 @@ public class CodeSearchFactory extends EFactoryImpl implements ICodeSearchFactor
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -96,7 +111,8 @@ public class CodeSearchFactory extends EFactoryImpl implements ICodeSearchFactor
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -107,7 +123,8 @@ public class CodeSearchFactory extends EFactoryImpl implements ICodeSearchFactor
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -118,7 +135,44 @@ public class CodeSearchFactory extends EFactoryImpl implements ICodeSearchFactor
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public ICodeSearchScopeParameter createCodeSearchScopeParameter() {
+    CodeSearchScopeParameter codeSearchScopeParameter = new CodeSearchScopeParameter();
+    return codeSearchScopeParameter;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public ICodeSearchScope createCodeSearchScope() {
+    CodeSearchScope codeSearchScope = new CodeSearchScope();
+    return codeSearchScope;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public ICodeSearchScopeParameters createCodeSearchScopeParameters() {
+    CodeSearchScopeParameters codeSearchScopeParameters = new CodeSearchScopeParameters();
+    return codeSearchScopeParameters;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @generated
    */
@@ -128,7 +182,8 @@ public class CodeSearchFactory extends EFactoryImpl implements ICodeSearchFactor
   }
 
   /**
-   * <!-- begin-user-doc --> <!-- end-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    *
    * @deprecated
    * @generated

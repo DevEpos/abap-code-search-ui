@@ -3,12 +3,15 @@ package com.devepos.adt.cst.search;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 
 import com.devepos.adt.base.IAdtUriTemplateProvider;
 import com.devepos.adt.base.plugin.features.IAdtPluginFeatures;
 import com.devepos.adt.base.ui.project.IAbapProjectProvider;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScope;
+import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
 
 /**
@@ -24,7 +27,7 @@ public interface ICodeSearchService {
    * @param projectProvider provides ABAP project
    * @return URI template provider for named items
    */
-  IAdtUriTemplateProvider getNamedItemProvider(IAbapProjectProvider projectProvider);
+  IAdtUriTemplateProvider getNamedItemUriTemplateProvider(IAbapProjectProvider projectProvider);
 
   /**
    * Retrieves the list of available features to configure the code search
@@ -47,9 +50,11 @@ public interface ICodeSearchService {
    *
    * @param destinationId destination Id for ABAP project
    * @param uriParameters map of URI parameters
+   * @param monitor       progress monitor
    * @return search results
    */
-  ICodeSearchResult search(String destinationId, Map<String, Object> uriParameters);
+  ICodeSearchResult search(String destinationId, Map<String, Object> uriParameters,
+      IProgressMonitor monitor);
 
   /**
    * Tests the availablity of the ABAP Code search feature in the given project
@@ -58,7 +63,7 @@ public interface ICodeSearchService {
    *                availability
    * @return the validation status
    */
-  IStatus testTagsFeatureAvailability(final IProject project);
+  IStatus testCodeSearchFeatureAvailability(final IProject project);
 
   /**
    * Updates the given code search settings in the ABAP backend specified by the
@@ -69,4 +74,15 @@ public interface ICodeSearchService {
    * @return the status of the update operation
    */
   IStatus updateSettings(String destinationId, ICodeSearchSettings settings);
+
+  /**
+   * Creates the passed search scope in the ABAP project of the given destination id
+   *
+   * @param destinationId   the destination Id for the target ABAP project
+   * @param scopeParameters the parameters of the search scope
+   * @param monitor         progress monitor of the background job
+   * @return the persisted search scope
+   */
+  ICodeSearchScope createScope(String destinationId, ICodeSearchScopeParameters scopeParameters,
+      IProgressMonitor monitor);
 }

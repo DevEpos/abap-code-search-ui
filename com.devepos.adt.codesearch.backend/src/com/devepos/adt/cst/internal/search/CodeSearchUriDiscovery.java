@@ -19,6 +19,7 @@ public class CodeSearchUriDiscovery extends CodeSearchToolsUriDiscoveryBase {
       + "/codesearch"; //$NON-NLS-1$
 
   private static final String DISCOVERY_TERM_CODE_SEARCH = "codesearch"; //$NON-NLS-1$
+  private static final String DISCOVERY_TERM_CODE_SEARCH_SCOPE = "codesearchScope"; //$NON-NLS-1$
   private static final String DISCOVERY_TERM_CODE_SEARCH_SETTINGS = "codesearchSettings"; //$NON-NLS-1$
   private static final String NAMED_ITEM_TEMPLATE = "{?maxItemCount,name,description,data}"; //$NON-NLS-1$
 
@@ -27,14 +28,13 @@ public class CodeSearchUriDiscovery extends CodeSearchToolsUriDiscoveryBase {
   }
 
   /**
-   * Creates a valid REST resource URI from the given map of parameter values and
-   * the given query string
+   * Creates a valid REST resource URI for the Code Search from the given map of
+   * parameter values
    *
-   * @param parameters map of parameter key and their corresponding values
-   * @param query
-   * @return REST resource URI
+   * @param parameterMap map of parameter key and their corresponding values
+   * @return REST resource URI for Code Search
    */
-  public URI createResourceUriFromTemplate(final Map<String, Object> parameterMap) {
+  public URI createCodeSearchUriFromTemplate(final Map<String, Object> parameterMap) {
     final IAdtUriTemplate template = getCodeSearchTemplate();
     URI uri = null;
     if (template != null) {
@@ -78,6 +78,15 @@ public class CodeSearchUriDiscovery extends CodeSearchToolsUriDiscoveryBase {
     return getUriFromCollectionMember(DISCOVERY_TERM_CODE_SEARCH);
   }
 
+  /**
+   * Retrieves the resource URI for the code search scope
+   *
+   * @return the resource URI for the code search scope
+   */
+  public URI getCodeSearchScopeUri() {
+    return getUriFromCollectionMember(DISCOVERY_TERM_CODE_SEARCH_SCOPE);
+  }
+
   public IAdtUriTemplate getNamedItemTemplate(final String discoveryTerm) {
     final URI uri = getUriFromCollectionMember(discoveryTerm);
     return uri != null ? getNamedItemTemplateForUri(uri) : null;
@@ -90,4 +99,5 @@ public class CodeSearchUriDiscovery extends CodeSearchToolsUriDiscoveryBase {
     }
     return uriTemplate;
   }
+
 }

@@ -10,7 +10,7 @@ import com.sap.adt.communication.content.AdtMediaType;
 
 /**
  * Content handler for serializing/deserializing settings for the Code Search
- * 
+ *
  * @author Ludwig Stockbauer-Muhr
  *
  */

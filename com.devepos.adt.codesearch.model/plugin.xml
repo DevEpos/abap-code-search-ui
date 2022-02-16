@@ -6,6 +6,10 @@
 
 <plugin>
 
+
+
+
+
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated codesearch -->
       <package
@@ -20,5 +24,4 @@
             type="codesearch"
             class="com.devepos.adt.cst.model.codesearch.util.CodeSearchResourceFactory"/>
    </extension>
-
 </plugin>

@@ -13,9 +13,9 @@ public class CodeSearchFactory {
   private static ICodeSearchService INSTANCE;
 
   /**
-   * Creates new search service instance for searching in ABAP Code
+   * Retrieves instance of {@link ICodeSearchService}
    *
-   * @return new search service instance for searching in ABAP Code
+   * @return search service instance for searching in ABAP Code
    */
   public static ICodeSearchService getCodeSearchService() {
     if (INSTANCE == null) {

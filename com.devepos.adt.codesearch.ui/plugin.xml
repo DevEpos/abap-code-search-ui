@@ -2,6 +2,85 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=com.sap.adt.ris.whereused.ui.callWhereUsed">
+         <command
+               commandId="com.devepos.adt.codesearch.ui.callCodeSearch"
+               icon="icons/codesearch.png"
+               label="%menus.searchCode.label"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate>
+                     <and>
+                        <test
+                              property="com.sap.adt.tools.core.objectTypes.hasGlobalWorkbenchType"
+                              value="CLAS/OC, INTF/OI, PROG/P, PROG/I, FUGR/F, BDEF/BDO, DDLS/DF, DDLX/EX, DCLS/DL, TYPE/DG, XSLT/VT, DEVC/K">
+                        </test>
+                        <adapt
+                              type="com.devepos.adt.base.ui.adtobject.IAdtObject">
+                           <test
+                                 forcePluginActivation="true"
+                                 property="com.devepos.adt.codesearch.ui.isCodeSearchAvailable">
+                           </test>
+                        </adapt>
+                     </and>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:#EditorContext?before=com.sap.adt.tools.core.ui.rename">
+         <command
+               commandId="com.devepos.adt.codesearch.ui.callCodeSearch"
+               icon="icons/codesearch.png"
+               label="%menus.searchCode.label"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+              <with
+                    variable="activeEditorInput">
+                  <adapt
+                        type="com.devepos.adt.base.ui.adtobject.IAdtObject">
+                     <test
+                           forcePluginActivation="true"
+                           property="com.devepos.adt.codesearch.ui.isCodeSearchAvailable">
+                     </test>
+                     <test
+                           property="com.devepos.adt.codesearch.ui.isObjectSearchable">
+                     </test>
+                  </adapt>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="com.devepos.adt.codesearch.ui.commands.category"
+            name="%commands.category.name">
+      </category>
+      <command
+            categoryId="org.eclipse.search.ui.category.search"
+            id="com.devepos.adt.codesearch.ui.callCodeSearch"
+            name="%commands.searchCode.name">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.devepos.adt.cst.ui.internal.handlers.CodeSearchHandler"
+            commandId="com.devepos.adt.codesearch.ui.callCodeSearch">
+      </handler>
+   </extension>
+   <extension
          point="org.eclipse.search.searchPages">
       <page
             class="com.devepos.adt.cst.ui.internal.codesearch.CodeSearchDialog"
@@ -14,10 +93,10 @@
    <extension
          point="org.eclipse.search.searchResultViewPages">
       <viewPage
-            class="com.devepos.adt.cst.ui.internal.codesearch.CodeSearchResultPage"
+            class="com.devepos.adt.cst.ui.internal.codesearch.result.CodeSearchResultPage"
             icon="icons/codesearch.png"
             id="com.devepos.adt.cst.ui.internal.codesearch.CodeSearchResultPage"
-            searchResultClass="com.devepos.adt.cst.ui.internal.codesearch.CodeSearchResult">
+            searchResultClass="com.devepos.adt.cst.ui.internal.codesearch.result.CodeSearchResult">
       </viewPage>
    </extension>
    <extension
@@ -43,6 +122,16 @@
             id="com.devepos.adt.codesearch.ui.pages.CodeSearchPropertyPage"
             name="%codeSearch.displayName">
       </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="com.devepos.adt.cst.ui.internal.CodeSearchPropertyTester"
+            id="com.devepos.adt.codesearch.ui.CodeSearchPropertyTester"
+            namespace="com.devepos.adt.codesearch.ui"
+            properties="isCodeSearchAvailable, isObjectSearchable"
+            type="com.devepos.adt.base.ui.adtobject.IAdtObject">
+      </propertyTester>
    </extension>
 
 </plugin>

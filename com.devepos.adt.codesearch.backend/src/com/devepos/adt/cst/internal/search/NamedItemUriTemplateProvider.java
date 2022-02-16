@@ -40,7 +40,7 @@ class NamedItemUriTemplateProvider implements IAdtUriTemplateProvider, IProperty
   }
 
   private void initUriDiscovery() {
-    if ((uriDiscovery != null) || !projectProvider.hasProject()) {
+    if (uriDiscovery != null || !projectProvider.hasProject()) {
       return;
     }
     uriDiscovery = new CodeSearchUriDiscovery(projectProvider.getDestinationId());
