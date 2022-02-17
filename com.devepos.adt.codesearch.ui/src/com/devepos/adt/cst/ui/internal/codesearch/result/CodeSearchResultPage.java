@@ -38,6 +38,8 @@ import com.devepos.adt.base.ui.tree.ITreeNode;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchDialog;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchQuery;
+import com.devepos.adt.cst.ui.internal.help.HelpContexts;
+import com.devepos.adt.cst.ui.internal.help.HelpUtil;
 import com.devepos.adt.cst.ui.internal.messages.Messages;
 import com.devepos.adt.cst.ui.internal.preferences.CodeSearchPreferencesPage;
 import com.sap.adt.tools.core.model.adtcore.IAdtCoreFactory;
@@ -82,6 +84,8 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   @Override
   public void createControl(final Composite parent) {
     super.createControl(parent);
+
+    HelpUtil.setHelp(parent, HelpContexts.CODE_SEARCH_RESULT);
 
     contextHelper = ContextHelper.createForServiceLocator(getSite());
     contextHelper.activateAbapContext();

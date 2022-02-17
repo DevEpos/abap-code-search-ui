@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html id="doc-page">
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ABAP Code Search - Search Dialog</title>
+</head>
+<body id="doc-body">
+	<h2 class="heading">Search Dialog Page</h2>
+
+	<figure id="figure1">
+		<img src="../../images/CodeSearchView.png">
+		<figcaption>
+			<strong>Figure 1:</strong> The Code Search Dialog
+		</figcaption>
+	</figure>
+
+	<!-- Description of general setup of the Search view -->
+	<p>The Code Search Dialog Page is structured into the following
+		main sections</p>
+	<ol class="list">
+		<li>Search Pattern (mandatory)</li>
+		<li>Object Selection</li>
+		<li>Additional Settings</li>
+	</ol>
+
+	<h3 class="heading">Search Pattern</h3>
+	<p>In the text area you can enter the search pattern. It can
+		contain one or more patterns. In case of multiple patterns, each
+		pattern has to be entered in a separate line. Additionally you have 2
+		options to configure the search pattern</p>
+	<ul class="list">
+		<li><em>Ignore Case</em> <br> When this option is set the
+			lower/upper case of the source code will be ignored</li>
+		<li><em>Regular Expressions</em> <br> By setting this
+			checkbox you specify that the entered pattern uses regular
+			expressions</li>
+	</ul>
+
+	<h3 class="heading">Object Selection</h3>
+	<p>The object selection can be defined using 2 fields:
+	<ul class="list">
+		<li><em>Object Name</em> <br> A text input control to enter
+			one or multiple object names to restrict the scope. Wildcards are
+			supported. The end of each object name is automatically expanded by a
+			<code class="code">*</code> if it does not end with <code
+				class="code">&lt;</code>. Multiple object names are split by a space</li>
+		<li><em>Filters</em> <br> A text control for entering the
+			filters which will restrict the scope. This field provides assistance
+			for the following criteria:
+			<ul>
+				<li>type</li>
+				<li>owner</li>
+				<li>package</li>
+				<li>application component</li>
+				<li>date of creation</li>
+			</ul> All filters also provide further content assistance to see which
+			options are available (see the following image)</li>
+	</ul>
+	<figure>
+		<img src="../../images/FiltersContentAssistSample.png">
+		<figcaption>
+			<strong>Figure 2:</strong> Content Assist for options for a filter
+		</figcaption>
+	</figure>
+	<div class="alert info">
+		<strong>TIP</strong><br> The filter control can also be used to
+		exclude objects from the scope by using ! as the negation sign. <br>e.g.
+		You can exclude objects of type class by using by using
+		<code class="code">type: !clas</code>
+	</div>
+
+	<p>
+		A more detailed configuration of the scope objects is possible for
+		classes and function groups because these objects contain different
+		includes. By default all includes associated with classes and function
+		groups will be scanned during the search. You can explicitly specify
+		which includes should be scanned clicking on the link behind the <i>Selected</i>
+		radio button.
+	</p>
+	<figure>
+		<img src="../../images/IncludeSpecification.png">
+		<figcaption>
+			<strong>Figure 3:</strong> Content Assist for options for a filter
+		</figcaption>
+	</figure>
+
+	<h3 class="heading">Additional Settings</h3>
+	Additionally you have the following options to configure the behavior
+	of the search
+	<ul class="list">
+		<li><em>Ignore Comment Lines</em> <br> If active the system
+			will not search for the entered pattern in commented lines</li>
+		<li><em>Multiline Search</em> <br> By setting this checkbox
+			you specify that each source code object will be searched as a whole.
+			That way it is possible to find patterns that span multiple lines. If
+			the checkbox is not set the system will search only for matches which
+			contain the pattern in a single line.</li>
+		<li><em>Single Pattern mode</em> <br> As a default the
+			search result will contain the source code files which contain at
+			least on line from the search pattern. By setting this checkbox means
+			that the whole content of the search pattern text area is considered
+			as one pattern (relevant for multiline pattern). Further
+			configuration setting for this option is available in the <i>General
+				Settings</i></li>
+		<li><em>Match All</em> <br> This checkbox is only relevant
+			if the pattern contains more than one line. If this checkbox is set
+			the system will search for source code files which contains all
+			patterns listed in the search pattern text area <b>without</b>
+			considering their order. <br>If this checkbox is not set the system will
+			execute an OR search between all lines of the pattern individually</li>
+		<li><em>Sequential Matching</em> <br> Checkbox is only
+			relevant if the pattern contains more than one line. If this checkbox
+			is set the system will search for source code files which contain all
+			patterns listed in the search pattern text area <b>considering
+				their order</b>. <br>If this checkbox is not set the system will
+			execute an OR search between all lines of the pattern individually</li>
+	</ul>
+
+	<h3>Related Information</h3>
+	<div>
+		<a class="link" href="search_result.html">Search Result</a>
+	</div>
+	<div>
+		<a class="link" href="preferences.html">Preferences</a>
+	</div>
+</body>
+</html>

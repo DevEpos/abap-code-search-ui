@@ -3,192 +3,42 @@
 <head>
 <link rel="stylesheet" type="text/css" href="../css/main.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>ABAP Code Search +</title>
+<title>ABAP Code Search</title>
 </head>
 <body id="doc-body">
 	<h2 class="heading">ABAP Code Search</h2>
 	<p>
-		The <i>ABAP Code Search</i> is a tool which offers the possibility to search in ABAP source code for a given string. 
-            The most important features provided by the ABAP Code Search are: 
-            <ul id="features" class="list">
-                   <li>works for R/3 environments as well as for S/4 </li>
-                   <li>allows a detailed scope definition with filtering by object type, application component, etc... </li>
-                   <li>supports specific search patterns with regex and multiline search</li>
-			</ul>	   
-        It is integrated in the eclipse <i>Search</i> dialog, which can be called via
-		<code class="code">STRG</code>
-		+
-		<code class="code">H</code>
-		or the eclipse menu <i>Search ➠ Search...</i>
-	<p>
-	<h3 class="heading">The User Interface</h3>
-	<figure id="figure1" style="width:50%">
-		<img src="../images/CodeSearchView.png">
-		<figcaption>
-			<strong>Figure 1:</strong> The Code Search Dialog
-		</figcaption>
-	</figure>
-	<!-- Description of general setup of the Search view -->
-	<p>The Code Search Dialog Page is structured into the following main
-		sections</p>
-	<ol class="list">
-		<li>Search Pattern (mandatory) </li>
-		<li>Object Selection </li>
-		<li>Additional Settings</li>
-	</ol>
-
-	<h4 class="heading">Search Pattern</h4>
-	<p> 
-	In the text area you can enter the search pattern. It can contain one or more patterns. In case of multiple patterns, each pattern has to be entered in a separate line.	
-	Additionally you have 2 options to configure the search pattern
-        <ol class="list">
-		<li><b>Ignore Case</b> <br> When this option is set the lower/upper case of the source code will be ignored</li>
-  		<li><b>Regular Expressions</b> <br> By setting this checkbox you specify that the entered pattern uses regular expressions</li>
-		</ol>
+		The <i>ABAP Code Search</i> is a tool which offers the possibility to
+		search in ABAP source code for a given string. The most important
+		features provided by the ABAP Code Search are
 	</p>
+	<ul id="features" class="list">
+		<li>works in R/3 environments as well as for S/4</li>
+		<li>allows a detailed scope definition with filtering by object
+			type, application component, etc...</li>
+		<li>supports specific search patterns with regular expressions
+			and multiline search</li>
+	</ul>
+	It is integrated in the eclipse
+	<i>Search</i> dialog, which can be called via
+	<code class="code">STRG</code>
+	+
+	<code class="code">H</code>
+	or the eclipse menu
+	<i>Search ➠ Search...</i>
 
-	<h4 class="heading">Object Selection </h4>
-	<p> 
-	The object selection can be defined using 2 fields: 
-	<ol class="list">
-		<li><b>Object Name</b> <br> A text input control to enter one or multiple object names to restrict the scope. Wildcards are supported. 
-			The end of each object name is automatically expanded by a "*" if it does not end with "\<". Multipe object names are split by a space</li>
-		<li><b>Filters</b> <br> A text control for entering the filters which will restrict the scope. This field provides assistance for
-			the following criteria: type, owner, package, applicaton component and date of creation. All filters 
-			also provide further content assistance to see which options are available (see the following
-			image) </li>
-	</ol>	
-	<figure>
-		<img src="../images/CodeSearchContentAssistExample.png">
-			<figcaption>
-				<strong>Figure 2:</strong> Content Assist for options for a
-					filter
-			</figcaption>
-	</figure>
-	<blockquote>
-		<strong>Tipp:</strong> The filter control can also be used to exclude objects from the scope by using ! as the negation sign. E.g. You can exclude objects of type class by using by using <code class="code">type:!clas</code>
-	</blockquote> 
 
-	A more detailed configuration of the scope objects is possible for classes and function groups because these objects contain different includes. By default all includes associated with classes and function groups will be scanned 
-    during the search. You can explicitely specify which includes should be scanned clicking on the link behind the <i>Selected</i> radio button.
-	For classes you can decide between 8 types of includes and for function groups you have 2 options.  
-	<figure>
-		<img src="../images/IncludeSpecification.png">
-			<figcaption>
-				<strong>Figure 3:</strong> Content Assist for options for a filter
-			</figcaption>
-	</figure>
-	</p>
-	
-	<h4 class="heading">Additional Settings</h4>
-	Additionally you have 5 options to configure the behavior of the search
-        <ol class="list">
-			<li><b>Ignore Comment Lines</b> <br> If this checkbox is set the system will not search for the entered pattern in comment lines</li>
-  			<li><b>Multiline Search</b> <br> By setting this checkbox you specify that each source code object will be searched as a whole. 
-				That way it is possible to find patterns that span multiple lines.
-				If the checkbox is not set the system will search only for matches which contain the pattern in a single line.</li>
-			<li><b>Single Pattern mode</b> <br> As a default the search result will contain the source code files which contain at least on line from the search pattern. 
-				By setting this checkbox means that the whole content of the search pattern text area is considered as one pattern ( relevant for multiline pattern).
-			    Further configuration setting for this option is available in the <i>General Settings</i></li>
-			<li><b>Match All</b> <br> This checkbox is only relevant if the pattern contains more than one line. If this checkbox is set the system will search for source code files
-				which contains all patterns listed in the search pattern text area <b>without</b> considering their order. If this checkbox is not set the system will execute an OR search between all lines 
-				of the pattern individually</li>
-			<li><b>Sequential Matching</b> <br> Checkbox is only relevant if the pattern contains more than one line. If this checkbox is set the system will search for source code files
-				which contain all patterns listed in the search pattern text area <b>considering their order</b>.If this checkbox is not set the system will execute an OR search between all lines 
-				of the pattern individually</li>	
-		</ol>
-	</p>
-    <h4 class="heading">General Settings</h4>
-	<p>
-	In the preferences menu you have the possibility to configure the following settings:	
-	<figure style="width:50%">
-		<img src="../images/GeneralSettings.png">
-			<figcaption>
-				<strong>Figure 4:</strong> General settings
-					filter
-			</figcaption>
-	</figure>
-	</p>
-	<ol class="list">
-		<li><b>Max. number of objects to search in a single request</b> <br> this option allows you to control the number of development objects which should be scanned 
-			in a single search request. A search request is not the same as the whole search run. 
-			A search run is split into multiple search request(see The Search Result View for more details )</li>
-		<li><b>Concatenate lines of the search pattern with '\n' for regulor expressions</b> <br> This option is relevant if the entered pattern has multiple lines and 
-			you have activated the options: <i>Regular Expressions</i> and <i>Single Pattern Mode</i>. By activating this option the system will automatically enhance
-		    the entered pattern with a new line character after each line of the pattern and consider it a single pattern for the search. 
-			A recommandation to use this option deactivated is that if you structure very complex patterns you can devide them in different lines 
-		   for a better overview but you still want it to be considered a single pattern </li>		
-	</ol>		
-	</p>
-    <h4 class="heading">Project Specific Settings</h4>
-    <p> 
-    In the preferences menu you have the possibility to configure the project specific settings:
-    <figure style="width:50%">
-		<img src="../images/ProjectSpecificSettings.png">
-			<figcaption>
-				<strong>Figure 5:</strong> Project specific settings
-					filter
-			</figcaption>
-	</figure>
-   <br>
-   <br>
-	<ol class="list">
-			PCRE(Pearl compatible regular expressions) specific options:
-			<blockquote>
-				<strong>Note:</strong> This option is only active for systems higher or equal to 7.55.
-			</blockquote> 
-		<li><b>Disable Extended Mode</b> <br> on a default basis the extended mode is activated and you have to escape the white spaces in your pattern. 
-			If you don´t want to do that you activate this option and the spaces entered in the pattern are considered as they are</li>
-		<li><b>Enable Single Line Mode</b> <br> If this option is enabled the "." will also match the new line character during the search.</li>
-	</ol>
-		<ol>   
-		<li><b>Enable Parallel Processing</b> <br> by activating this checkbox the system will execute the search with parallel processes. 
-          Depending on the workload of the system the search will occupy a maximum of 10 processes if available. </li>
-         <li><b>Server Group</b> <br> you can choose an existing server group which will be considered for the parallel processing. 
-          A validition of the entered value is available. </li>
-    </ol>
-    </p>
-
-<h3 class="heading">The Search Result View</h3>
-	<h4 class="heading">Retrieval of the Search Results</h4>
-        <p>As the search has to process a high number of source code objects (depending on the scope definition) the result list is build up incrementally. 
-        This way the user gets to see a part of the result, even if the search run is not finished yet. The objects in scope are split into multiple packages. The size of the packages 
-        can be set in the properties. The search will enhance the result tree with the found matches after each package. 
-        As long as the search is running a progress indicator in the eclipse status bar is informing about the completion level in percentage. 
-		In the extended toolbar of the search result you can find the <i>Runtime Information</i> of the search run. This overview shows how many objects 
-		have been scanned and the time needed for scan.
-		<figure>
-			<img src="../images/QueryRuntimeInformation.png">
-			<figcaption>
-				<strong>Figure 6:</strong> Query Runtime Information
-			</figcaption>
-		</figure>
-</p>
-        <h4 class="heading">Working with the Search Results</h4>
-	<p>Once a search returns some results they are displayed in the
-		Search View. As a default the matches are grouped by the main object (e.g. Function group, class) and the object where it can be found ( e.g function module, method). 
-                For each match there are several options available</p>
-	<ul class="list">
-		<li>Open the object in the corresponding eclipse editor (if
-		     one is registered for the type) and navigate to the line which contains the match 
-                     by double clicking on it</li>
-		<li>Navigate to the location of the next match via the context menu option <i>Next Match</i></li>
-	        <li>Navigate to the location of the previous match via the context menu option <i>Previous Match</i></li>
-                <li>Select one or multiple matches and choose the context menu option <i>Delete Selected Matches</i> to remove them from the current result list. 
-                    When refreshing the search result screen, the search is executed once again and the matches will be visible again in the result list</li>
-                <li>The <i>Remove All Matches</i> is used to delete all matches from the result list. In case that this option is triggered while the search run is still processing,
-                     only the current data from the result list will be deleted. The matches returned by the search after triggering this option will be displayed regularly </li>
-                <li>The <i>Copy</i> options, copies the text of the match in the clipboard </li>
-</ul>
-	<figure>
-		<img src="../images/MatchContextMenu.png">
-		<figcaption>
-			<strong>Figure 7:</strong> Context Menu for a one node in the result view
-		</figcaption>
-	</figure>
-	<blockquote>
-		<strong>Tipp:</strong> If you want to cancel the processing of a search request you can use the button <i>Cancel Current Search</i> from the toolbar of the search result view.
-	</blockquote> 
-
+	<h3 class="heading">Related Information</h3>
+	<div>
+		<a class="link" href="code_search/search_dialog.html">Search
+			Dialog</a>
+	</div>
+	<div>
+		<a class="link" href="code_search/search_result.html">Search
+			Result</a>
+	</div>
+	<div>
+		<a class="link" href="code_search/preferences.html">Preferences</a>
+	</div>
 </body>
 </html>

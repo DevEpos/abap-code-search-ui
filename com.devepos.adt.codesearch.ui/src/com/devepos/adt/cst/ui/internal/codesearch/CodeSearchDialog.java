@@ -45,6 +45,8 @@ import com.devepos.adt.base.ui.util.TextControlUtil;
 import com.devepos.adt.base.util.StringUtil;
 import com.devepos.adt.cst.search.CodeSearchFactory;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
+import com.devepos.adt.cst.ui.internal.help.HelpContexts;
+import com.devepos.adt.cst.ui.internal.help.HelpUtil;
 import com.devepos.adt.cst.ui.internal.messages.Messages;
 import com.devepos.adt.cst.ui.internal.preferences.ICodeSearchPrefs;
 import com.sap.adt.util.ui.swt.AdtSWTUtilFactory;
@@ -115,6 +117,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     readDialogSettings();
 
     mainComposite = new Composite(parent, SWT.NONE);
+    HelpUtil.setHelp(mainComposite, HelpContexts.CODE_SEARCH_DIALOG);
+
     GridLayoutFactory.swtDefaults().applyTo(mainComposite);
     setControl(mainComposite);
 

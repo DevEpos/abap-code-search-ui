@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html id="doc-page">
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ABAP Code Search - Result Page</title>
+</head>
+<body id="doc-body">
+	<h2 class="heading">Search Result View</h2>
+	<h3 class="heading">Retrieval of the Search Results</h3>
+	<p>
+		As the search has to process a high number of source code objects
+		(depending on the scope definition) the result list is build up
+		incrementally.<br> This way the user gets to see a part of the
+		result, even if the search run is not finished yet. The objects in
+		scope are split into multiple packages. The size of the packages can
+		be set in the properties. The search will enhance the result tree with
+		the found matches after each package. As long as the search is running
+		a progress indicator in the eclipse status bar is informing about the
+		completion level in percentage. In the extended toolbar of the search
+		result you can find the <i>Runtime Information</i> of the search run.
+		This overview shows how many objects have been scanned and the overall time
+		needed for the scan.
+	</p>
+	<figure>
+		<img src="../../images/QueryRuntimeInformation.png">
+		<figcaption>
+			<strong>Figure 1:</strong> Query Runtime Information
+		</figcaption>
+	</figure>
+
+
+	<h3 class="heading">Working with the Search Results</h3>
+	<p>
+		Once a search returns some results they are displayed in the <em>Search
+			View</em>. <br>As a default the matches are grouped by the main
+		object (e.g. Function group, class) and the object where it can be
+		found ( e.g function module, method). For each match there are several
+		options available
+	</p>
+	<ul class="list">
+		<li>Open the object in the corresponding eclipse editor (if one
+			is registered for the type) and navigate to the line which contains
+			the match by double clicking on it</li>
+		<li>Navigate to the location of the next match via the context
+			menu option <i>Next Match</i>
+		</li>
+		<li>Navigate to the location of the previous match via the
+			context menu option <i>Previous Match</i>
+		</li>
+		<li>Select one or multiple matches and choose the context menu
+			option <i>Delete Selected Matches</i> to remove them from the current
+			result list. When refreshing the search result screen, the search is
+			executed once again and the matches will be visible again in the
+			result list
+		</li>
+		<li>The <i>Remove All Matches</i> is used to delete all matches
+			from the result list. In case that this option is triggered while the
+			search run is still processing, only the current data from the result
+			list will be deleted. The matches returned by the search after
+			triggering this option will be displayed regularly
+		</li>
+		<li>The <i>Copy</i> options, copies the text of the match in the
+			clipboard
+		</li>
+	</ul>
+	<figure>
+		<img src="../../images/MatchContextMenu.png">
+		<figcaption>
+			<strong>Figure 2:</strong> Context Menu for a node in the result
+			view
+		</figcaption>
+	</figure>
+	<div class="alert info">
+		<strong>TIP</strong><br> If you want to cancel the processing of
+		a search request you can use the button <img
+			src="../../icons/stop.png"> from the toolbar of the search
+		result view.
+	</div>
+</body>
+</html>

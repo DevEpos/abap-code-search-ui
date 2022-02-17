@@ -35,7 +35,8 @@ Require-Bundle:
  org.eclipse.ui.ide,
  org.eclipse.text,
  com.sap.adt.destinations.ui,
- com.sap.adt.compatibility
+ com.sap.adt.compatibility,
+ org.eclipse.help
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: com.devepos.adt.codesearch.ui
 Bundle-Localization: OSGI-INF/l10n/bundle

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contexts>
+   <context id="code_search" title="Help for ABAP Code Search">
+      <topic href="html/code_search.html" label="ABAP Code Search"/>
+   </context>
+   <context id="code_search_dialog">
+      <topic href="html/code_search/search_dialog.html" label="ABAP Code Search - Dialog"/>
+   </context>
+   <context id="code_search_result">
+      <topic href="html/code_search/search_result.html" label="ABAP Code Search - Result"/>
+   </context>
+</contexts>

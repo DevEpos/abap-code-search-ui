@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toc label="Table of Contents" topic="html/overview.html">
+   <topic href="html/overview.html" label="About ABAP Code Search">
+   </topic>
+   <topic label="Concepts">
+      <topic href="html/code_search.html" label="ABAP Code Search">
+         <topic href="html/code_search/search_dialog.html" label="Search Dialog">
+         </topic>
+         <topic href="html/code_search/search_result.html" label="Search Result">
+         </topic>
+         <topic href="html/code_search/preferences.html" label="Preferences">
+         </topic>
+      </topic>
+   </topic>
+   <topic href="html/changelog/overview.html" label="What&apos;s New">
+      <topic href="html/changelog/v1_0_0.html" label="Version 1.0.0">
+      </topic>
+   </topic>
+</toc>
