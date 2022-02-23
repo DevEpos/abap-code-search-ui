@@ -2,9 +2,9 @@ package com.devepos.adt.cst.ui.internal.preferences;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -39,22 +39,7 @@ public class CodeSearchPreferencesPage extends FieldEditorPrefPageBase implement
         .align(SWT.RIGHT, SWT.FILL)
         .create());
 
-    createGeneralSettings(parent);
     createSearchDialogSettings(parent);
-  }
-
-  private void createGeneralSettings(final Composite parent) {
-    final Group group = createGroup(Messages.CodeSearchPreferencesPage_generalSettingsGroup_xlbl,
-        parent);
-
-    Composite maxSearchResultsParent = createEditorParent(group);
-    IntegerFieldEditor maxSearchResultsEditor = new IntegerFieldEditor(ICodeSearchPrefs.MAX_OBJECTS,
-        Messages.CodeSearchPreferencesPage_maxNumberOfRequestObjectsPref_xlbl,
-        maxSearchResultsParent, 5);
-    maxSearchResultsEditor.setValidRange(100, 10000);
-    maxSearchResultsEditor.getLabelControl(maxSearchResultsParent)
-        .setToolTipText(Messages.CodeSearchPreferencesPage_maxNumberOfRequestObjectsPref_xtol);
-    addEditor(maxSearchResultsEditor);
   }
 
   private Group createGroup(final String label, final Composite parent) {

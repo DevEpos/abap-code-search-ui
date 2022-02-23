@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Text;
 
 import com.devepos.adt.base.ui.project.IAbapProjectProvider;
@@ -83,8 +82,6 @@ public class CodeSearchQuerySpecification {
         .getUriParamValue());
     uriParameters.put(SearchParameter.FUGR_INCLUDES.getUriName(), getFugrIncludesParam()
         .getUriParamValue());
-
-    setParamsFromPrefStore(uriParameters);
 
     return uriParameters;
   }
@@ -332,11 +329,5 @@ public class CodeSearchQuerySpecification {
     final IDestinationData destData = projectProvider.getDestinationData();
     return String.format("%s-%s", destData.getSystemConfiguration().getSystemId(), destData
         .getClient());
-  }
-
-  private void setParamsFromPrefStore(final Map<String, Object> uriParameters) {
-    IPreferenceStore prefStore = CodeSearchUIPlugin.getDefault().getPreferenceStore();
-    uriParameters.put(SearchParameter.MAX_OBJECTS.getUriName(), prefStore.getInt(
-        ICodeSearchPrefs.MAX_OBJECTS));
   }
 }
