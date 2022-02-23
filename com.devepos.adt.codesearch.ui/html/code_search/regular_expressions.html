@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html id="doc-page">
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Regular Expressions</title>
+</head>
+<body id="doc-body">
+	<h2 class="heading">Regular Expressions</h2>
+	<p>
+		To enable more complex search queries in the <em>ABAP Code Search</em>
+		you can enable the regular expression in the search dialog.
+	</p>
+	<p>Depending on the Release of the targeted ABAP system one of the
+		following regular expression engines will be used</p>
+	<table>
+		<tr>
+			<th>Release</th>
+			<th>Engine</th>
+		</tr>
+		<tr>
+			<td>&lt; 7.55</td>
+			<td><a class="link"
+				href="https://help.sap.com/doc/abapdocu_755_index_htm/7.55/en-US/index.htm?file=abenregex_posix_syntax.htm"
+				target="_blank">POSIX Regular Expressions</a></td>
+		</tr>
+		<tr>
+			<td>&ge; 7.55</td>
+			<td><a class="link" target="_blank"
+				href="https://help.sap.com/doc/abapdocu_755_index_htm/7.55/en-US/index.htm?file=abenregex_pcre_syntax.htm">PCRE
+					(<strong>P</strong>erl <strong>c</strong>ompatible <strong>r</strong>egular
+					<strong>e</strong>xpressions)
+			</a></td>
+		</tr>
+	</table>
+
+	<div class="alert info">
+		<strong>INFO</strong><br> If you are restricted to the use of the
+		<em>POSIX</em> regular expressions you may sometime experience errors
+		during the search when the entered expression is too complex for the
+		engine.<br>
+	</div>
+
+	<div class="alert info">
+		<strong>TIP</strong><br> For more information about PCRE see
+		<ul>
+			<li><a class="link" target="_blank"
+				href="https://www.pcre.org/current/doc/html/pcre2syntax.html">Short
+					Syntax Overview</a></li>
+			<li><a class="link" href="https://perldoc.perl.org/perlre"
+				target="_blank">Perl documentation <strong>perlre</strong></a></li>
+		</ul>
+	</div>
+
+	<h3 class="heading">Related Information</h3>
+	<div>
+		<a class="link" href="search_dialog.html">Search Dialog</a>
+	</div>
+	<div>
+		<a class="link" href="search_result.html">Search Result</a>
+	</div>
+	<div>
+		<a class="link" href="preferences.html">Preferences</a>
+	</div>
+</body>
+</html>

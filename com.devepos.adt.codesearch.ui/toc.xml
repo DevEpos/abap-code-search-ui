@@ -10,6 +10,10 @@
          </topic>
          <topic href="html/code_search/preferences.html" label="Preferences">
          </topic>
+         <topic href="html/code_search/properties.html" label="Properties">
+         </topic>
+         <topic href="html/code_search/regular_expressions.html" label="Regular Expressions">
+         </topic>
       </topic>
    </topic>
    <topic href="html/changelog/overview.html" label="What&apos;s New">

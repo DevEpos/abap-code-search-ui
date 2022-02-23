@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html id="doc-page">
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ABAP Code Search - Project Specific Settings</title>
+</head>
+<body id="doc-body">
+	<h2 class="heading">Project Specific Settings</h2>
+	<p>Some preferences have to be configured directly at ABAP project
+		level</p>
+	<h3 class="heading">PCRE (Pearl compatible regular expressions)
+		specific options</h3>
+	<div class="alert warning">
+		<strong>NOTE</strong><br> PCRE is only available in systems
+		higher or equal to <strong>7.55</strong>. In older versions the older
+		<em>POSIX</em> library will be used
+	</div>
+
+	<ul class="list">
+		<li><em>Disable Extended Mode</em> <br> on a default basis
+			the extended mode is activated and you have to escape the white
+			spaces in your pattern. If you don´t want to do that you activate
+			this option and the spaces entered in the pattern are considered as
+			they are</li>
+		<li><em>Enable Single Line Mode</em> <br> If this option is
+			enabled the "." will also match the new line character during the
+			search.</li>
+	</ul>
+
+	<h3 class="heading">Parallel Processing</h3>
+	<p>To reduce the search duration, you can enable parallel
+		processing</p>
+	<ul class="list">
+		<li><em>Enable Parallel Processing</em> <br> by activating
+			this checkbox the system will execute the search with parallel
+			processes. Depending on the workload of the system the search will
+			occupy a maximum of 10 processes if available.</li>
+		<li><em>Objects to search in a single API call</em><br> This
+			setting controls how many objects will be searched during a single
+			back end call in an ongoing search query.</li>
+		<li><em>Server Group</em> <br> you can choose an existing
+			server group which will be considered for the parallel processing. A
+			validation of the entered value is available.</li>
+	</ul>
+
+	<h3 class="heading">Related Information</h3>
+	<div>
+		<a class="link" href="preferences.html">Preferences</a>
+	</div>
+	<div>
+		<a class="link" href="search_dialog.html">Search Dialog</a>
+	</div>
+	<div>
+		<a class="link" href="search_result.html">Search Result</a>
+	</div>
+</body>
+</html>
