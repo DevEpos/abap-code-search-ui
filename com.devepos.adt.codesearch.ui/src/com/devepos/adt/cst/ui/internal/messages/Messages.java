@@ -47,6 +47,8 @@ public class Messages extends NLS {
   public static String CodeSearchPropertyPage_disablePcreExtendedModePref_xtol;
   public static String CodeSearchPropertyPage_enablePcreSingleLineModePref_xchk;
   public static String CodeSearchPropertyPage_enablePcreSingleLineModePref_xtol;
+  public static String CodeSearchPropertyPage_invalidParlPackageSize_xmsg;
+  public static String CodeSearchPropertyPage_parallelPackageSizePref_xlbl;
   public static String CodeSearchPropertyPage_parallelProcessingGroup_xlbl;
   public static String CodeSearchPropertyPage_parallelProcessingPref_xchk;
   public static String CodeSearchPropertyPage_pcreNotAvailableInfo_xmsg;
