@@ -55,10 +55,6 @@ public class CodeSearchPreferencesPage extends FieldEditorPrefPageBase implement
     maxSearchResultsEditor.getLabelControl(maxSearchResultsParent)
         .setToolTipText(Messages.CodeSearchPreferencesPage_maxNumberOfRequestObjectsPref_xtol);
     addEditor(maxSearchResultsEditor);
-
-    addEditor(addBooleanEditor(ICodeSearchPrefs.REUSE_LAST_SEARCH_QUERY,
-        Messages.CodeSearchPreferencesPage_reuseSearchQueryPref_xchk,
-        Messages.CodeSearchPreferencesPage_reuseSearchQueryPref_xtol, createEditorParent(group)));
   }
 
   private Group createGroup(final String label, final Composite parent) {

@@ -15,14 +15,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.search.ui.ISearchPage;
 import org.eclipse.search.ui.ISearchPageContainer;
-import org.eclipse.search.ui.ISearchResultViewPart;
 import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
@@ -48,7 +45,6 @@ import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.help.HelpContexts;
 import com.devepos.adt.cst.ui.internal.help.HelpUtil;
 import com.devepos.adt.cst.ui.internal.messages.Messages;
-import com.devepos.adt.cst.ui.internal.preferences.ICodeSearchPrefs;
 import com.sap.adt.util.ui.swt.AdtSWTUtilFactory;
 
 public class CodeSearchDialog extends DialogPage implements ISearchPage,
@@ -89,8 +85,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private CodeSearchQuerySpecification querySpecs;
 
   private IDialogSettings dialogSettings;
-  private IPreferenceStore prefStore;
-  private CodeSearchQuery previousQuery;
 
   public CodeSearchDialog() {
     projectProvider = new AbapProjectProxy(null);
@@ -101,8 +95,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     for (ValidationSource s : ValidationSource.values()) {
       allValidationStatuses.put(s, Status.OK_STATUS);
     }
-
-    prefStore = CodeSearchUIPlugin.getDefault().getPreferenceStore();
   }
 
   private enum ValidationSource {
@@ -160,27 +152,12 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   @Override
   public boolean performAction() {
     collectQuerySpecs();
-    CodeSearchQuery query = null;
-    ISearchResultViewPart activeSearchView = null;
-
-    if (prefStore.getBoolean(ICodeSearchPrefs.REUSE_LAST_SEARCH_QUERY) && previousQuery != null) {
-      // if the query is still running, reusing it is not possible
-      if (NewSearchUI.isQueryRunning(previousQuery)) {
-        MessageDialog.openError(getShell(), Messages.CodeSearchDialog_queryStillRunningError_xtit,
-            Messages.CodeSearchDialog_queryReuseNotPossibleErrorText_xmsg);
-        return false;
-      }
-      query = previousQuery;
-      activeSearchView = NewSearchUI.getSearchResultView();
-      query.setQuerySpecs(querySpecs);
-    } else {
-      query = new CodeSearchQuery(querySpecs);
-    }
+    CodeSearchQuery query = new CodeSearchQuery(querySpecs);
+    query.setProjectProvider(projectProvider);
 
     writeDialogSettings();
 
-    query.setProjectProvider(projectProvider);
-    NewSearchUI.runQueryInBackground(query, activeSearchView);
+    NewSearchUI.runQueryInBackground(query);
     return true;
   }
 
@@ -224,8 +201,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
     classIncludeConfigGroup.updateControlsFromModel();
     fugrIncludeConfigGroup.updateControlsFromModel();
-
-    previousQuery = query;
   }
 
   @Override

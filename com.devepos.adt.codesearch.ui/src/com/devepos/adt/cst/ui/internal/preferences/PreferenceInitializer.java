@@ -20,7 +20,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
   public void initializeDefaultPreferences() {
     IPreferenceStore store = CodeSearchUIPlugin.getDefault().getPreferenceStore();
     store.setDefault(ICodeSearchPrefs.MAX_OBJECTS, 100);
-    store.setDefault(ICodeSearchPrefs.REUSE_LAST_SEARCH_QUERY, false);
     store.setDefault(ICodeSearchPrefs.SINGLE_PATTERN_REGEX_CONCAT_WITH_LF, false);
   }
 
