@@ -9,4 +9,12 @@
    <context id="code_search_result">
       <topic href="html/code_search/search_result.html" label="ABAP Code Search - Result"/>
    </context>
+   <context id="code_search_preferences">
+      <description>Configure workspace wide preferences for the ABAP Code Search</description>
+      <topic href="html/code_search/preferences.html" label="ABAP Code Search - Preferences"/>
+   </context>
+   <context id="code_search_properties">
+      <description>Configure project specific properties for the ABAP Code Search</description>
+      <topic href="html/code_search/properties.html" label="ABAP Code Search - Properties"/>
+   </context>
 </contexts>

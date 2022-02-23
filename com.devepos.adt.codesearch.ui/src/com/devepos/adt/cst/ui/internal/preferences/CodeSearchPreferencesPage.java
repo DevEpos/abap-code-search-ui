@@ -13,6 +13,8 @@ import com.devepos.adt.base.ui.preferences.FieldEditorPrefPageBase;
 import com.devepos.adt.base.ui.preferences.ILinkToAdtPageBlock;
 import com.devepos.adt.base.ui.preferences.LinkToAdtPageBlocksFactory;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
+import com.devepos.adt.cst.ui.internal.help.HelpContexts;
+import com.devepos.adt.cst.ui.internal.help.HelpUtil;
 import com.devepos.adt.cst.ui.internal.messages.Messages;
 import com.devepos.adt.cst.ui.internal.pages.CodeSearchPropertyPage;
 
@@ -29,6 +31,12 @@ public class CodeSearchPreferencesPage extends FieldEditorPrefPageBase implement
   @Override
   public void init(final IWorkbench workbench) {
     setPreferenceStore(CodeSearchUIPlugin.getDefault().getPreferenceStore());
+  }
+
+  @Override
+  protected Control createContents(final Composite parent) {
+    HelpUtil.setHelp(parent, HelpContexts.CODE_SEARCH_PREFERENCES);
+    return super.createContents(parent);
   }
 
   @Override

@@ -42,6 +42,8 @@ import com.devepos.adt.cst.search.CodeSearchFactory;
 import com.devepos.adt.cst.search.ICodeSearchService;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.codesearch.NamedItem;
+import com.devepos.adt.cst.ui.internal.help.HelpContexts;
+import com.devepos.adt.cst.ui.internal.help.HelpUtil;
 import com.devepos.adt.cst.ui.internal.messages.Messages;
 
 /**
@@ -129,6 +131,7 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
 
   @Override
   protected Control createContents(final Composite parent) {
+    HelpUtil.setHelp(parent, HelpContexts.CODE_SEARCH_PROPERTIES);
     Composite main = new Composite(parent, SWT.NONE);
     GridDataFactory.fillDefaults().grab(true, true).applyTo(main);
     GridLayoutFactory.swtDefaults().applyTo(main);

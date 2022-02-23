@@ -22,9 +22,7 @@ public class HelpUtil {
     if (control == null || control.isDisposed()) {
       return;
     }
-    PlatformUI.getWorkbench()
-        .getHelpSystem()
-        .setHelp(control, CodeSearchUIPlugin.PLUGIN_ID + "." + context.getHelpContextId());
+    PlatformUI.getWorkbench().getHelpSystem().setHelp(control, getFullyQualifiedContextId(context));
   }
 
   /**
