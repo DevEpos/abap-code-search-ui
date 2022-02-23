@@ -30,6 +30,7 @@
     <genClasses ecoreClass="codesearch.ecore#//CodeSearchSettings">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/parallelEnabled"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/parallelServerGroup"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/parallelPackageSize"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/pcreExtendedDisabled"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchSettings/pcreSingleLineEnabled"/>
     </genClasses>

@@ -3,6 +3,7 @@ package com.devepos.adt.cst.ui.internal.pages;
 import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.resources.IProject;
@@ -58,19 +59,25 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
    */
   public static final String PCRE_AVAILABLE_FEATURE = "pcreAvailable";
 
+  private static final int MIN_MAX_OBJECTS = 500;
+  private static final int MAX_MAX_OBJECTS = 10000;
+
   private ICodeSearchService codeSearchService;
   private String destinationId;
   private boolean pageIsInvalid;
   private boolean pageIsUseable;
   private IStatus pageNotUseableStatus;
+
   private Button parallelEnabled;
   private Button pcreSingleLineEnabled;
   private Button pcreExtendedDisabled;
+  private Text serverGroupText;
+  private Text parlPackageSize;
+
   private IProject project;
   private IAbapProjectProvider projectProvider;
   private IAdtPluginFeatures searchFeatures;
   private ICodeSearchSettings searchSettings;
-  private Text serverGroupText;
   private boolean pcreAvailable;
 
   public CodeSearchPropertyPage() {
@@ -88,6 +95,10 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
       return true;
     }
     if (dirty) {
+      validateParallelProcessingPackageSize();
+      if (getErrorMessage() != null) {
+        return false;
+      }
       updateModelFromUi();
     } else if (pageIsInvalid) {
       return false;
@@ -192,8 +203,22 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     parallelEnabled.addSelectionListener(widgetSelectedAdapter(e -> {
       boolean isParallelEnabled = parallelEnabled.getSelection();
       serverGroupText.setEnabled(isParallelEnabled);
+      parlPackageSize.setEnabled(isParallelEnabled);
     }));
     GridDataFactory.fillDefaults().span(2, 1).applyTo(parallelEnabled);
+
+    Label maxObjectsInRequestLabel = new Label(group, SWT.NONE);
+    maxObjectsInRequestLabel.setText(Messages.CodeSearchPropertyPage_parallelPackageSizePref_xlbl);
+
+    parlPackageSize = new Text(group, SWT.NONE | SWT.BORDER);
+    parlPackageSize.setTextLimit(5);
+    parlPackageSize.setEnabled(false);
+    parlPackageSize.addModifyListener(l -> {
+      validateParallelProcessingPackageSize();
+    });
+    GridDataFactory.fillDefaults()
+        .hint(convertWidthInCharsToPixels(5), SWT.DEFAULT)
+        .applyTo(parlPackageSize);
 
     Label serverGroupLabel = new Label(group, SWT.NONE);
     serverGroupLabel.setText(Messages.CodeSearchPropertyPage_serverGroupPref_xlbl);
@@ -209,6 +234,7 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     ContentAssistSupport.createNamedItemContentAssist(serverGroupText, projectProvider,
         codeSearchService.getNamedItemUriTemplateProvider(projectProvider), NamedItem.SERVER_GROUP,
         null);
+
   }
 
   private void createRegexSettings(final Composite parent) {
@@ -249,11 +275,16 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     if (searchSettings == null) {
       return false;
     }
-    if (searchSettings.isParallelEnabled() != parallelEnabled.getSelection() || searchSettings
-        .isPcreExtendedDisabled() != pcreExtendedDisabled.getSelection() || pcreSingleLineEnabled
-            .getSelection() != searchSettings.isPcreSingleLineEnabled() || !serverGroupText
+    if ((searchSettings.isParallelEnabled() != parallelEnabled.getSelection()) || (searchSettings
+        .isPcreExtendedDisabled() != pcreExtendedDisabled.getSelection()) || (pcreSingleLineEnabled
+            .getSelection() != searchSettings.isPcreSingleLineEnabled()) || !serverGroupText
                 .getText()
                 .equals(searchSettings.getParallelServerGroup())) {
+      return true;
+
+    }
+    if (!parlPackageSize.getText()
+        .equals(String.valueOf(searchSettings.getParallelPackageSize()))) {
       return true;
     }
     return false;
@@ -293,6 +324,8 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     parallelEnabled.setSelection(false);
     serverGroupText.setText("");
     serverGroupText.setEnabled(false);
+    parlPackageSize.setText(String.valueOf(MIN_MAX_OBJECTS));
+    parlPackageSize.setEnabled(false);
     setErrorMessage(null);
     pageIsInvalid = false;
 
@@ -305,9 +338,9 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
       pcreSingleLineEnabled.setSelection(searchSettings.isPcreSingleLineEnabled());
       parallelEnabled.setSelection(searchSettings.isParallelEnabled());
       serverGroupText.setText(searchSettings.getParallelServerGroup());
-      if (parallelEnabled.getSelection()) {
-        serverGroupText.setEnabled(true);
-      }
+      serverGroupText.setEnabled(parallelEnabled.getSelection());
+      parlPackageSize.setEnabled(parallelEnabled.getSelection());
+      parlPackageSize.setText(String.valueOf(searchSettings.getParallelPackageSize()));
     }
   }
 
@@ -317,6 +350,7 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
       searchSettings.setPcreSingleLineEnabled(pcreSingleLineEnabled.getSelection());
       searchSettings.setParallelEnabled(parallelEnabled.getSelection());
       searchSettings.setParallelServerGroup(serverGroupText.getText());
+      searchSettings.setParallelPackageSize(Integer.parseInt(parlPackageSize.getText()));
     }
   }
 
@@ -340,6 +374,27 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
       setErrorMessage(e.getCause().getLocalizedMessage());
       e.printStackTrace();
     } catch (InterruptedException e) {
+    }
+  }
+
+  private void validateParallelProcessingPackageSize() {
+    if (parlPackageSize == null || parlPackageSize.isDisposed()) {
+      return;
+    }
+    setErrorMessage(null);
+    try {
+      int maxObjects = Integer.parseInt(parlPackageSize.getText());
+      if (maxObjects < MIN_MAX_OBJECTS || maxObjects > MAX_MAX_OBJECTS) {
+        pageIsInvalid = true;
+        setErrorMessage(MessageFormat.format(
+            Messages.CodeSearchPropertyPage_invalidParlPackageSize_xmsg, MIN_MAX_OBJECTS,
+            MAX_MAX_OBJECTS));
+      }
+    } catch (NumberFormatException exc) {
+      pageIsInvalid = true;
+      setErrorMessage(MessageFormat.format(
+          Messages.CodeSearchPropertyPage_invalidParlPackageSize_xmsg, MIN_MAX_OBJECTS,
+          MAX_MAX_OBJECTS));
     }
   }
 }

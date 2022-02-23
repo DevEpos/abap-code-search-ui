@@ -17,6 +17,8 @@ import org.eclipse.emf.ecore.EObject;
  * <em>Parallel Enabled</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#getParallelServerGroup
  * <em>Parallel Server Group</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#getParallelPackageSize
+ * <em>Parallel Package Size</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreExtendedDisabled
  * <em>Pcre Extended Disabled</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreSingleLineEnabled
@@ -82,6 +84,34 @@ public interface ICodeSearchSettings extends EObject {
    * @generated
    */
   void setParallelServerGroup(String value);
+
+  /**
+   * Returns the value of the '<em><b>Parallel Package Size</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @return the value of the '<em>Parallel Package Size</em>' attribute.
+   * @see #setParallelPackageSize(int)
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchSettings_ParallelPackageSize()
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Int"
+   *        extendedMetaData="kind='attribute' name='parallelPackageSize'
+   *        namespace='##targetNamespace'"
+   * @generated
+   */
+  int getParallelPackageSize();
+
+  /**
+   * Sets the value of the
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#getParallelPackageSize
+   * <em>Parallel Package Size</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @param value the new value of the '<em>Parallel Package Size</em>' attribute.
+   * @see #getParallelPackageSize()
+   * @generated
+   */
+  void setParallelPackageSize(int value);
 
   /**
    * Returns the value of the '<em><b>Pcre Extended Disabled</b></em>' attribute.

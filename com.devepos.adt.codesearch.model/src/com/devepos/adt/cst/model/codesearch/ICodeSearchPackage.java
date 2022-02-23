@@ -310,6 +310,16 @@ public interface ICodeSearchPackage extends EPackage {
   int CODE_SEARCH_SETTINGS__PARALLEL_SERVER_GROUP = 1;
 
   /**
+   * The feature id for the '<em><b>Parallel Package Size</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   * @ordered
+   */
+  int CODE_SEARCH_SETTINGS__PARALLEL_PACKAGE_SIZE = 2;
+
+  /**
    * The feature id for the '<em><b>Pcre Extended Disabled</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -317,7 +327,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_SETTINGS__PCRE_EXTENDED_DISABLED = 2;
+  int CODE_SEARCH_SETTINGS__PCRE_EXTENDED_DISABLED = 3;
 
   /**
    * The feature id for the '<em><b>Pcre Single Line Enabled</b></em>' attribute.
@@ -327,7 +337,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_SETTINGS__PCRE_SINGLE_LINE_ENABLED = 3;
+  int CODE_SEARCH_SETTINGS__PCRE_SINGLE_LINE_ENABLED = 4;
 
   /**
    * The number of structural features of the '<em>Settings</em>' class.
@@ -337,7 +347,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_SETTINGS_FEATURE_COUNT = 4;
+  int CODE_SEARCH_SETTINGS_FEATURE_COUNT = 5;
 
   /**
    * The number of operations of the '<em>Settings</em>' class.
@@ -739,6 +749,20 @@ public interface ICodeSearchPackage extends EPackage {
 
   /**
    * Returns the meta object for the attribute
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#getParallelPackageSize
+   * <em>Parallel Package Size</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @return the meta object for the attribute '<em>Parallel Package Size</em>'.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#getParallelPackageSize()
+   * @see #getCodeSearchSettings()
+   * @generated
+   */
+  EAttribute getCodeSearchSettings_ParallelPackageSize();
+
+  /**
+   * Returns the meta object for the attribute
    * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchSettings#isPcreExtendedDisabled
    * <em>Pcre Extended Disabled</em>}'.
    * <!-- begin-user-doc -->
@@ -1081,6 +1105,16 @@ public interface ICodeSearchPackage extends EPackage {
      */
     EAttribute CODE_SEARCH_SETTINGS__PARALLEL_SERVER_GROUP = eINSTANCE
         .getCodeSearchSettings_ParallelServerGroup();
+
+    /**
+     * The meta object literal for the '<em><b>Parallel Package Size</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    EAttribute CODE_SEARCH_SETTINGS__PARALLEL_PACKAGE_SIZE = eINSTANCE
+        .getCodeSearchSettings_ParallelPackageSize();
 
     /**
      * The meta object literal for the '<em><b>Pcre Extended Disabled</b></em>' attribute feature.

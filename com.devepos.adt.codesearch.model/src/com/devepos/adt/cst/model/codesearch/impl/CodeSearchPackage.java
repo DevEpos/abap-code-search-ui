@@ -371,7 +371,7 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
    * @generated
    */
   @Override
-  public EAttribute getCodeSearchSettings_PcreExtendedDisabled() {
+  public EAttribute getCodeSearchSettings_ParallelPackageSize() {
     return (EAttribute) codeSearchSettingsEClass.getEStructuralFeatures().get(2);
   }
 
@@ -382,8 +382,19 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
    * @generated
    */
   @Override
-  public EAttribute getCodeSearchSettings_PcreSingleLineEnabled() {
+  public EAttribute getCodeSearchSettings_PcreExtendedDisabled() {
     return (EAttribute) codeSearchSettingsEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EAttribute getCodeSearchSettings_PcreSingleLineEnabled() {
+    return (EAttribute) codeSearchSettingsEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -529,6 +540,7 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     codeSearchSettingsEClass = createEClass(CODE_SEARCH_SETTINGS);
     createEAttribute(codeSearchSettingsEClass, CODE_SEARCH_SETTINGS__PARALLEL_ENABLED);
     createEAttribute(codeSearchSettingsEClass, CODE_SEARCH_SETTINGS__PARALLEL_SERVER_GROUP);
+    createEAttribute(codeSearchSettingsEClass, CODE_SEARCH_SETTINGS__PARALLEL_PACKAGE_SIZE);
     createEAttribute(codeSearchSettingsEClass, CODE_SEARCH_SETTINGS__PCRE_EXTENDED_DISABLED);
     createEAttribute(codeSearchSettingsEClass, CODE_SEARCH_SETTINGS__PCRE_SINGLE_LINE_ENABLED);
 
@@ -642,6 +654,9 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     initEAttribute(getCodeSearchSettings_ParallelServerGroup(), theXMLTypePackage.getString(),
         "parallelServerGroup", null, 0, 1, ICodeSearchSettings.class, !IS_TRANSIENT, !IS_VOLATILE,
         IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCodeSearchSettings_ParallelPackageSize(), theXMLTypePackage.getInt(),
+        "parallelPackageSize", null, 0, 1, ICodeSearchSettings.class, !IS_TRANSIENT, !IS_VOLATILE,
+        IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getCodeSearchSettings_PcreExtendedDisabled(), theXMLTypePackage.getBoolean(),
         "pcreExtendedDisabled", null, 0, 1, ICodeSearchSettings.class, !IS_TRANSIENT, !IS_VOLATILE,
         IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -727,6 +742,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
         "attribute", "name", "parallelEnabled", "namespace", "##targetNamespace" });
     addAnnotation(getCodeSearchSettings_ParallelServerGroup(), source, new String[] { "kind",
         "attribute", "name", "parallelServerGroup", "namespace", "##targetNamespace" });
+    addAnnotation(getCodeSearchSettings_ParallelPackageSize(), source, new String[] { "kind",
+        "attribute", "name", "parallelPackageSize", "namespace", "##targetNamespace" });
     addAnnotation(getCodeSearchSettings_PcreExtendedDisabled(), source, new String[] { "kind",
         "attribute", "name", "pcreExtendedDisabled", "namespace", "##targetNamespace" });
     addAnnotation(getCodeSearchSettings_PcreSingleLineEnabled(), source, new String[] { "kind",

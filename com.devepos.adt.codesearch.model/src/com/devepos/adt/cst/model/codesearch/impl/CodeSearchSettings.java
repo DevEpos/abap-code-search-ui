@@ -22,6 +22,8 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
  * <em>Parallel Enabled</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchSettings#getParallelServerGroup
  * <em>Parallel Server Group</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchSettings#getParallelPackageSize
+ * <em>Parallel Package Size</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchSettings#isPcreExtendedDisabled
  * <em>Pcre Extended Disabled</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchSettings#isPcreSingleLineEnabled
@@ -77,6 +79,30 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
    * @ordered
    */
   protected String parallelServerGroup = PARALLEL_SERVER_GROUP_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getParallelPackageSize() <em>Parallel Package Size</em>}'
+   * attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @see #getParallelPackageSize()
+   * @generated
+   * @ordered
+   */
+  protected static final int PARALLEL_PACKAGE_SIZE_EDEFAULT = 0;
+
+  /**
+   * The cached value of the '{@link #getParallelPackageSize() <em>Parallel Package Size</em>}'
+   * attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @see #getParallelPackageSize()
+   * @generated
+   * @ordered
+   */
+  protected int parallelPackageSize = PARALLEL_PACKAGE_SIZE_EDEFAULT;
 
   /**
    * The default value of the '{@link #isPcreExtendedDisabled() <em>Pcre Extended Disabled</em>}'
@@ -210,6 +236,34 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
    * @generated
    */
   @Override
+  public int getParallelPackageSize() {
+    return parallelPackageSize;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public void setParallelPackageSize(final int newParallelPackageSize) {
+    int oldParallelPackageSize = parallelPackageSize;
+    parallelPackageSize = newParallelPackageSize;
+    if (eNotificationRequired()) {
+      eNotify(new ENotificationImpl(this, Notification.SET,
+          ICodeSearchPackage.CODE_SEARCH_SETTINGS__PARALLEL_PACKAGE_SIZE, oldParallelPackageSize,
+          parallelPackageSize));
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
   public boolean isPcreExtendedDisabled() {
     return pcreExtendedDisabled;
   }
@@ -272,6 +326,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
       return isParallelEnabled();
     case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PARALLEL_SERVER_GROUP:
       return getParallelServerGroup();
+    case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PARALLEL_PACKAGE_SIZE:
+      return getParallelPackageSize();
     case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PCRE_EXTENDED_DISABLED:
       return isPcreExtendedDisabled();
     case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PCRE_SINGLE_LINE_ENABLED:
@@ -294,6 +350,9 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
       return;
     case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PARALLEL_SERVER_GROUP:
       setParallelServerGroup((String) newValue);
+      return;
+    case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PARALLEL_PACKAGE_SIZE:
+      setParallelPackageSize((Integer) newValue);
       return;
     case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PCRE_EXTENDED_DISABLED:
       setPcreExtendedDisabled((Boolean) newValue);
@@ -320,6 +379,9 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
     case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PARALLEL_SERVER_GROUP:
       setParallelServerGroup(PARALLEL_SERVER_GROUP_EDEFAULT);
       return;
+    case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PARALLEL_PACKAGE_SIZE:
+      setParallelPackageSize(PARALLEL_PACKAGE_SIZE_EDEFAULT);
+      return;
     case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PCRE_EXTENDED_DISABLED:
       setPcreExtendedDisabled(PCRE_EXTENDED_DISABLED_EDEFAULT);
       return;
@@ -344,6 +406,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
     case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PARALLEL_SERVER_GROUP:
       return PARALLEL_SERVER_GROUP_EDEFAULT == null ? parallelServerGroup != null
           : !PARALLEL_SERVER_GROUP_EDEFAULT.equals(parallelServerGroup);
+    case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PARALLEL_PACKAGE_SIZE:
+      return parallelPackageSize != PARALLEL_PACKAGE_SIZE_EDEFAULT;
     case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PCRE_EXTENDED_DISABLED:
       return pcreExtendedDisabled != PCRE_EXTENDED_DISABLED_EDEFAULT;
     case ICodeSearchPackage.CODE_SEARCH_SETTINGS__PCRE_SINGLE_LINE_ENABLED:
@@ -369,6 +433,8 @@ public class CodeSearchSettings extends MinimalEObjectImpl.Container implements
     result.append(parallelEnabled);
     result.append(", parallelServerGroup: ");
     result.append(parallelServerGroup);
+    result.append(", parallelPackageSize: ");
+    result.append(parallelPackageSize);
     result.append(", pcreExtendedDisabled: ");
     result.append(pcreExtendedDisabled);
     result.append(", pcreSingleLineEnabled: ");
