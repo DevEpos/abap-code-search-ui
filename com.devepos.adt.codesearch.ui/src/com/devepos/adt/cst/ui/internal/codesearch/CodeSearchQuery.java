@@ -31,6 +31,9 @@ import com.devepos.adt.cst.ui.internal.messages.Messages;
  */
 public class CodeSearchQuery implements ISearchQuery {
 
+  private static final int FALLBACK_PACKAGE_SIZE = 100;
+  private static final float WORK_UNITS_PACKAGE = 10.0f;
+
   private IAbapProjectProvider projectProvider;
   private CodeSearchResult searchResult;
   private CodeSearchQuerySpecification querySpecs;
@@ -119,10 +122,10 @@ public class CodeSearchQuery implements ISearchQuery {
 
     Map<String, Object> uriParams = querySpecs.buildSearchUriParameters();
     uriParams.put(SearchParameter.SCOPE_ID.getUriName(), scope.getId());
-    int packageSize = (int) uriParams.get(SearchParameter.MAX_OBJECTS.getUriName());
+    uriParams.put(SearchParameter.MAX_OBJECTS.getUriName(), FALLBACK_PACKAGE_SIZE);
 
     int currentOffset = 0;
-    int workUnits = (int) Math.ceil(scope.getObjectCount() / (float) packageSize);
+    int workUnits = (int) Math.ceil(scope.getObjectCount() / WORK_UNITS_PACKAGE);
     if (workUnits <= 0) {
       workUnits = 1;
     }
@@ -132,8 +135,9 @@ public class CodeSearchQuery implements ISearchQuery {
 
       ICodeSearchResult serviceSearchResult = service.search(destinationId, uriParams, monitor);
       searchResult.addResult(serviceSearchResult);
-      monitor.worked(1);
-      currentOffset += packageSize;
+      monitor.worked((int) Math.ceil(serviceSearchResult.getNumberOfSearchedObjects()
+          / WORK_UNITS_PACKAGE));
+      currentOffset += serviceSearchResult.getNumberOfSearchedObjects();
     }
     monitor.done();
   }
