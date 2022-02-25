@@ -60,6 +60,37 @@
             </visibleWhen>
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.search.ui.views.SearchView?endof=additions">
+         <command
+               commandId="com.devepos.adt.codesearch.ui.callCodeSearch"
+               icon="icons/codesearch.png"
+               label="%menus.searchCode.label"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate>
+                     <and>
+                        <test
+                              property="com.sap.adt.tools.core.objectTypes.hasGlobalWorkbenchType"
+                              value="CLAS/OC, INTF/OI, PROG/P, PROG/I, FUGR/F, BDEF/BDO, DDLS/DF, DDLX/EX, DCLS/DL, TYPE/DG, XSLT/VT, DEVC/K">
+                        </test>
+                        <adapt
+                              type="com.devepos.adt.base.ui.adtobject.IAdtObject">
+                           <test
+                                 forcePluginActivation="true"
+                                 property="com.devepos.adt.codesearch.ui.isCodeSearchAvailable">
+                           </test>
+                        </adapt>
+                     </and>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
