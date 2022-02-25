@@ -22,6 +22,7 @@ import org.eclipse.search.ui.ISearchPage;
 import org.eclipse.search.ui.ISearchPageContainer;
 import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -394,7 +395,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private void createProjectInput(final Composite parent) {
     projectInput = new ProjectInput(projectProvider, true);
 
-    projectInput.createControl(parent);
+    projectInput.createControl(parent, new Point(0, 5));
     projectInput.addProjectValidator(project -> CodeSearchFactory.getCodeSearchService()
         .testCodeSearchFeatureAvailability(project));
     projectInput.addStatusChangeListener(status -> {
