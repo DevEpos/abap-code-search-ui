@@ -1,4 +1,3 @@
-![](https://img.shields.io/badge/version-ALPHA-orange)
 # abap-code-search-ui
 
 ABAP Code Search Tools eclipse plugin
@@ -9,8 +8,7 @@ ABAP Code Search Tools eclipse plugin
 
 ADT Plugin for searching ABAP code sources like Classes, Interfaces, Data Definitions, etc.
 
-![code search screen shot](https://user-images.githubusercontent.com/35834861/148775347-1898e84e-3951-45e0-8598-4336abbf0b89.png)
-
+![search-dialog](https://user-images.githubusercontent.com/35834861/155808866-0feab2cd-6acf-49d1-9a4e-9ffc6028a81c.png)
 
 ## Update Sites
 
