@@ -68,6 +68,7 @@ public class Messages extends NLS {
   public static String CodeSearchResultLabelProvider_singleMatchSuffix_xmsg;
   public static String CodeSearchResultPage_groupByPackageAction_xtol;
   public static String CodeSearchResultPage_openSearchPreferencesAction_xlbl;
+  public static String CodeSearchResultPage_showRuntimInfoDialogAction_xlbl;
   public static String CodeSearchRuntimeInfoDialog_averageRequestRuntimeLabel_xlbl;
   public static String CodeSearchRuntimeInfoDialog_dialogTitle_xtit;
   public static String CodeSearchRuntimeInfoDialog_foundMatchesLabel_xlbl;
