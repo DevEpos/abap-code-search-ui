@@ -4,6 +4,7 @@
       <topic href="html/code_search.html" label="ABAP Code Search"/>
    </context>
    <context id="code_search_dialog">
+      <description>ABAP Code Search can be used to search in ABAP sources in an ABAP system</description>
       <topic href="html/code_search/search_dialog.html" label="ABAP Code Search - Dialog"/>
    </context>
    <context id="code_search_result">
