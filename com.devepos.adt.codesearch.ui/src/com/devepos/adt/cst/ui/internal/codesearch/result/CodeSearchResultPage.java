@@ -217,7 +217,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
         () -> {
           CodeSearchRuntimeInfoDialog dialog = new CodeSearchRuntimeInfoDialog(getViewPart()
               .getViewSite()
-              .getShell(), (CodeSearchResult) getInput());
+              .getShell(), ((CodeSearchResult) getInput()).getRuntimeInfo());
           dialog.open();
         });
   }

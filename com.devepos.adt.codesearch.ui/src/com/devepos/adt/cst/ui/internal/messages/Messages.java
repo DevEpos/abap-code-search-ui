@@ -68,15 +68,23 @@ public class Messages extends NLS {
   public static String CodeSearchResultLabelProvider_singleMatchSuffix_xmsg;
   public static String CodeSearchResultPage_groupByPackageAction_xtol;
   public static String CodeSearchResultPage_openSearchPreferencesAction_xlbl;
+  public static String CodeSearchRuntimeInfoDialog_averageRequestRuntimeLabel_xlbl;
   public static String CodeSearchRuntimeInfoDialog_dialogTitle_xtit;
+  public static String CodeSearchRuntimeInfoDialog_foundMatchesLabel_xlbl;
   public static String CodeSearchRuntimeInfoDialog_queryRuntimeInMs_xlbl;
   public static String CodeSearchRuntimeInfoDialog_queryRuntimeInMs_xtxt;
+  public static String CodeSearchRuntimeInfoDialog_queryStatusCancelled_xlbl;
+  public static String CodeSearchRuntimeInfoDialog_queryStatusFinished_xlbl;
+  public static String CodeSearchRuntimeInfoDialog_queryStatusLabel_xlbl;
+  public static String CodeSearchRuntimeInfoDialog_queryStatusRunning_xlbl;
   public static String CodeSearchRuntimeInfoDialog_refreshButton_xbtn;
   public static String CodeSearchRuntimeInfoDialog_runtimeInformationGroup_xtit;
   public static String CodeSearchRuntimeInfoDialog_searchedObjectCountPattern_xtxt;
   public static String CodeSearchRuntimeInfoDialog_searchedObjects_xlbl;
   public static String CodeSearchRuntimeInfoDialog_searchedSources_xlbl;
   public static String CodeSearchRuntimeInfoDialog_searchProgressGroup_xtit;
+  public static String CodeSearchRuntimeInfoDialog_startUpdatesAction_xbtn;
+  public static String CodeSearchRuntimeInfoDialog_stopUpdatesAction_xbtn;
   public static String FunctionGroupInclude_functionsIncludes_xchk;
   public static String FunctionGroupInclude_otherIncludes_xchk;
 

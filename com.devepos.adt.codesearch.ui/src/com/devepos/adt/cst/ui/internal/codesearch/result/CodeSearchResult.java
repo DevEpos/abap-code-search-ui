@@ -34,19 +34,16 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   private IEditorMatchAdapter editorMatchAdapter;
   private List<ITreeNode> flatResult = new ArrayList<>();
   private FileMatchesCache fileMatchesCache = new FileMatchesCache();
+  private CodeSearchRuntimeInformation runtimeInfo;
   private ResultTreeBuilder resultTree;
   private CodeSearchQuery searchQuery;
   private ICollectionTreeNode searchResultRootNode;
   private int resultCount;
   private boolean noObjectsInScope;
-  private int objectScopeCount;
-  private int searchedSourcesCount;
-  private int searchedObjectsCount;
-
-  private int overallServerTimeInMs;
 
   public CodeSearchResult(final CodeSearchQuery searchQuery) {
     this.searchQuery = searchQuery;
+    runtimeInfo = new CodeSearchRuntimeInformation(searchQuery);
   }
 
   /**
@@ -58,10 +55,8 @@ public class CodeSearchResult extends AbstractTextSearchResult {
       return;
     }
     logMessages(result);
-    overallServerTimeInMs += result.getQueryTimeInMs();
     resultCount += result.getNumberOfResults();
-    searchedObjectsCount += result.getNumberOfSearchedObjects();
-    searchedSourcesCount += result.getNumberOfSearchedSources();
+    runtimeInfo.updateWithNewResult(result);
 
     if (result.getNumberOfResults() <= 0) {
       return;
@@ -134,24 +129,6 @@ public class CodeSearchResult extends AbstractTextSearchResult {
     return fileMatchesCache.getNodes(fileUri);
   }
 
-  /**
-   * Returns the count of the objects in scope
-   *
-   * @return
-   */
-  public int getObjectScopeCount() {
-    return objectScopeCount;
-  }
-
-  /**
-   * Returns the overall server time of the query
-   *
-   * @return
-   */
-  public int getOverallServerTimeInMs() {
-    return overallServerTimeInMs;
-  }
-
   @Override
   public ISearchQuery getQuery() {
     return searchQuery;
@@ -166,22 +143,8 @@ public class CodeSearchResult extends AbstractTextSearchResult {
     return searchResultRootNode;
   }
 
-  /**
-   * Returns the count of searched objects
-   *
-   * @return
-   */
-  public int getSearchedObjectsCount() {
-    return searchedObjectsCount;
-  }
-
-  /**
-   * Returns the count of searched sources
-   *
-   * @return
-   */
-  public int getSearchedSourcesCount() {
-    return searchedSourcesCount;
+  public CodeSearchRuntimeInformation getRuntimeInfo() {
+    return runtimeInfo;
   }
 
   @Override
@@ -240,10 +203,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   public void reset() {
     removeAll();
     noObjectsInScope = false;
-    objectScopeCount = 0;
-    searchedObjectsCount = 0;
-    searchedSourcesCount = 0;
-    overallServerTimeInMs = 0;
+    runtimeInfo.reset();
   }
 
   /**
@@ -254,7 +214,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   }
 
   public void setObjectScopeCount(final int objectCount) {
-    objectScopeCount = objectCount;
+    runtimeInfo.setObjectCount(objectCount);
   }
 
   private void logMessages(final ICodeSearchResult result) {
