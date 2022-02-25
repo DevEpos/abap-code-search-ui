@@ -278,9 +278,9 @@ public class CodeSearchPropertyPage extends PropertyPage implements IWorkbenchPr
     if (searchSettings == null) {
       return false;
     }
-    if ((searchSettings.isParallelEnabled() != parallelEnabled.getSelection()) || (searchSettings
-        .isPcreExtendedDisabled() != pcreExtendedDisabled.getSelection()) || (pcreSingleLineEnabled
-            .getSelection() != searchSettings.isPcreSingleLineEnabled()) || !serverGroupText
+    if (searchSettings.isParallelEnabled() != parallelEnabled.getSelection() || searchSettings
+        .isPcreExtendedDisabled() != pcreExtendedDisabled.getSelection() || pcreSingleLineEnabled
+            .getSelection() != searchSettings.isPcreSingleLineEnabled() || !serverGroupText
                 .getText()
                 .equals(searchSettings.getParallelServerGroup())) {
       return true;
