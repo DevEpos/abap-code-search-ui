@@ -177,7 +177,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   }
 
   @Override
-  protected void fillContextMenu(IMenuManager mgr) {
+  protected void fillContextMenu(final IMenuManager mgr) {
     super.fillContextMenu(mgr);
 
     StructuredViewer currentViewer = getViewer();

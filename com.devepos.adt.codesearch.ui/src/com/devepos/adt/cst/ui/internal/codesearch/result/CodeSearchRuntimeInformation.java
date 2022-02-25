@@ -12,7 +12,7 @@ import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchQuery;
 
 /**
  * Holds runtime information of a code search query
- * 
+ *
  * @author Ludwig Stockbauer-Muhr
  *
  */

@@ -21,7 +21,7 @@ import com.devepos.adt.cst.ui.internal.messages.Messages;
 
 /**
  * Dialog to display runtime information a code search query
- * 
+ *
  * @author Ludwig Stockbauer-Muhr
  *
  */
