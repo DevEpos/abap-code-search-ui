@@ -34,7 +34,6 @@ public class CodeSearchQuery implements ISearchQuery {
   private static final int FALLBACK_PACKAGE_SIZE = 100;
   private static final float WORK_UNITS_PACKAGE = 10.0f;
 
-  private IAbapProjectProvider projectProvider;
   private CodeSearchResult searchResult;
   private CodeSearchQuerySpecification querySpecs;
 
@@ -59,7 +58,7 @@ public class CodeSearchQuery implements ISearchQuery {
   }
 
   public IAbapProjectProvider getProjectProvider() {
-    return projectProvider;
+    return querySpecs.getProjectProvider();
   }
 
   public CodeSearchQuerySpecification getQuerySpecs() {
@@ -106,11 +105,6 @@ public class CodeSearchQuery implements ISearchQuery {
     }
 
     return Status.OK_STATUS;
-  }
-
-  public void setProjectProvider(final IAbapProjectProvider projectProvider) {
-    this.projectProvider = projectProvider;
-
   }
 
   public void setQuerySpecs(final CodeSearchQuerySpecification querySpecs) {

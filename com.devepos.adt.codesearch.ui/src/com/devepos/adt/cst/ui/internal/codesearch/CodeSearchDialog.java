@@ -153,7 +153,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   public boolean performAction() {
     collectQuerySpecs();
     CodeSearchQuery query = new CodeSearchQuery(querySpecs);
-    query.setProjectProvider(projectProvider);
 
     writeDialogSettings();
 
