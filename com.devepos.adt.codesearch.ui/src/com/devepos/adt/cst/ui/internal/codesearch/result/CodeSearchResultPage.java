@@ -19,6 +19,7 @@ import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.search.ui.IContextMenuConstants;
 import org.eclipse.search.ui.text.AbstractTextSearchViewPage;
 import org.eclipse.search.ui.text.Match;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PartInitException;
@@ -27,14 +28,18 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 import com.devepos.adt.base.ui.AdtBaseUIResources;
 import com.devepos.adt.base.ui.ContextHelper;
 import com.devepos.adt.base.ui.IAdtBaseImages;
+import com.devepos.adt.base.ui.IAdtBaseStrings;
 import com.devepos.adt.base.ui.IGeneralCommandConstants;
 import com.devepos.adt.base.ui.IGeneralContextConstants;
 import com.devepos.adt.base.ui.action.ActionFactory;
+import com.devepos.adt.base.ui.action.CollapseTreeNodesAction;
 import com.devepos.adt.base.ui.action.CommandFactory;
 import com.devepos.adt.base.ui.action.PreferenceToggleAction;
 import com.devepos.adt.base.ui.search.ISearchResultPageExtension;
 import com.devepos.adt.base.ui.tree.IAdtObjectReferenceNode;
+import com.devepos.adt.base.ui.tree.ICollectionTreeNode;
 import com.devepos.adt.base.ui.tree.ITreeNode;
+import com.devepos.adt.base.ui.tree.PackageNode;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchDialog;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchQuery;
@@ -55,11 +60,16 @@ import com.sap.adt.tools.core.ui.navigation.AdtNavigationServiceFactory;
 public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     ISearchResultPageExtension<CodeSearchQuery> {
 
-  private static final String GROUP_BY_PACKAGE_PREF = "codeSearch.result.groupByPackageEnabled";
-  private static final String GROUP_GROUPING = "com.devepos.adt.cst.searchResult.grouping";
+  private static final String GROUP_BY_PACKAGE_PREF = "codeSearch.result.groupByPackageEnabled"; //$NON-NLS-1$
+  private static final String GROUP_GROUPING = "com.devepos.adt.cst.searchResult.grouping"; //$NON-NLS-1$
+
   private IStructuredContentProvider contentProvider;
+
   private IAction openPreferencesAction;
   private IAction openRuntimeInformation;
+  private IAction expandPackageNodeAction;
+  private IAction collapseNodeAction;
+
   private ContextHelper contextHelper;
   private PreferenceToggleAction groupByPackageAction;
   private IPropertyChangeListener prefChangeListener;
@@ -133,6 +143,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
 
   @Override
   protected void configureTableViewer(final TableViewer viewer) {
+    collapseNodeAction = null;
     contentProvider = new CodeSearchTableContentProvider(this);
     viewer.setContentProvider(contentProvider);
     viewer.setLabelProvider(new DelegatingStyledCellLabelProvider(
@@ -141,6 +152,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
 
   @Override
   protected void configureTreeViewer(final TreeViewer viewer) {
+    collapseNodeAction = new CollapseTreeNodesAction(viewer);
     contentProvider = new CodeSearchTreeContentProvider(this);
     viewer.setContentProvider(contentProvider);
     viewer.setLabelProvider(new DelegatingStyledCellLabelProvider(
@@ -162,6 +174,42 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   protected void elementsChanged(final Object[] updatedElements) {
     new MatchViewerUpdater(updatedElements, (CodeSearchResult) getInput(), getViewer(), this)
         .update();
+  }
+
+  @Override
+  protected void fillContextMenu(IMenuManager mgr) {
+    super.fillContextMenu(mgr);
+
+    StructuredViewer currentViewer = getViewer();
+    if (!(currentViewer instanceof TreeViewer)) {
+      return;
+    }
+    TreeViewer treeViewer = (TreeViewer) currentViewer;
+
+    IStructuredSelection selection = currentViewer.getStructuredSelection();
+    boolean hasCollapsedPackages = false;
+    boolean hasExpandedNodes = false;
+
+    for (Object selObj : selection) {
+      if (hasCollapsedPackages && hasExpandedNodes) {
+        break;
+      }
+      if (selObj instanceof ICollectionTreeNode) {
+        boolean isExpanded = treeViewer.getExpandedState(selObj);
+        if (!hasExpandedNodes && isExpanded) {
+          hasExpandedNodes = true;
+        } else if (!hasCollapsedPackages && selObj instanceof PackageNode && !isExpanded) {
+          hasCollapsedPackages = true;
+        }
+      }
+    }
+
+    if (hasCollapsedPackages) {
+      mgr.appendToGroup(IContextMenuConstants.GROUP_REORGANIZE, expandPackageNodeAction);
+    }
+    if (hasExpandedNodes) {
+      mgr.appendToGroup(IContextMenuConstants.GROUP_REORGANIZE, collapseNodeAction);
+    }
   }
 
   @Override
@@ -213,13 +261,35 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
         Messages.CodeSearchResultPage_groupByPackageAction_xtol, AdtBaseUIResources
             .getImageDescriptor(IAdtBaseImages.PACKAGE), GROUP_BY_PACKAGE_PREF, true,
         CodeSearchUIPlugin.getDefault().getPreferenceStore());
-    openRuntimeInformation = ActionFactory.createAction("Show Query Runtime Information", null,
-        () -> {
+    openRuntimeInformation = ActionFactory.createAction(
+        Messages.CodeSearchResultPage_showRuntimInfoDialogAction_xlbl, null, () -> {
           CodeSearchRuntimeInfoDialog dialog = new CodeSearchRuntimeInfoDialog(getViewPart()
               .getViewSite()
               .getShell(), ((CodeSearchResult) getInput()).getRuntimeInfo());
           dialog.open();
         });
+
+    expandPackageNodeAction = ActionFactory.createAction(AdtBaseUIResources.getString(
+        IAdtBaseStrings.ExpandTree_xlbl), AdtBaseUIResources.getImageDescriptor(
+            IAdtBaseImages.EXPAND_ALL), () -> {
+              TreeViewer viewer = (TreeViewer) getViewer();
+              IStructuredSelection selection = viewer.getStructuredSelection();
+
+              BusyIndicator.showWhile(getSite().getShell().getDisplay(), () -> {
+                viewer.getControl().setRedraw(false);
+                try {
+                  for (final Object selectedObject : selection.toList()) {
+                    final PackageNode node = (PackageNode) selectedObject;
+                    viewer.setExpandedState(node, true);
+                    for (final PackageNode subNode : node.getSubPackages()) {
+                      viewer.setExpandedState(subNode, true);
+                    }
+                  }
+                } finally {
+                  viewer.getControl().setRedraw(true);
+                }
+              });
+            });
   }
 
   private boolean navigateToElement(final Object element, final boolean activate) {
