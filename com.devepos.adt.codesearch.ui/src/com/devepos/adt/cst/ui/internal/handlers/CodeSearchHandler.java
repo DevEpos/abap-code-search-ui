@@ -128,10 +128,10 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
     String mainAdtType = adtObjRef.getType().substring(0, 4);
     objectTypes.add(mainAdtType.toLowerCase());
 
-    String parentUri = adtObjRef.getParentUri();
-    if (parentUri != null) {
-      if (IAdtObjectTypeConstants.FUNCTION_INCLUDE.equals(adtObjRef.getType())
-          || IAdtObjectTypeConstants.FUNCTION_MODULE.equals(adtObjRef.getType())) {
+    if (IAdtObjectTypeConstants.FUNCTION_INCLUDE.equals(adtObjRef.getType())
+        || IAdtObjectTypeConstants.FUNCTION_MODULE.equals(adtObjRef.getType())) {
+      String parentUri = adtObjRef.getParentUri();
+      if (parentUri != null) {
         String parentName = URLDecoder.decode(parentUri.substring(parentUri.lastIndexOf("/") + 1),
             Charset.defaultCharset());
         objectNames.add(parentName + EXACT_NAME_MODIFIER);
