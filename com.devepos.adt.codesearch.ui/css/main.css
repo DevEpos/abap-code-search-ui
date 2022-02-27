@@ -12,6 +12,10 @@ body {
 	padding: 0 20px 20px 50px;
 }
 
+.p-b-m {
+	padding-bottom: 20px !important;
+}
+
 #doc-body,
 body,
 p,
@@ -36,6 +40,7 @@ li {
 	font-size: 13px;
 	padding: 2px 0;
 }
+
 
 figure {
 	text-align: center;

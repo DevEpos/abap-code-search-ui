@@ -44,18 +44,84 @@
 			one or multiple object names to restrict the scope. Wildcards are
 			supported. The end of each object name is automatically expanded by a
 			<code class="code">*</code> if it does not end with <code
-				class="code">&lt;</code>. Multiple object names are split by a space</li>
-		<li><em>Filters</em> <br> A text control for entering the
+				class="code">&lt;</code>. Multiple object names are split by a space<br>
+			You can also exclude name patterns with <code class="code">!</code>.</li>
+		<li><em>Filters</em><br> A text control for entering the
 			filters which will restrict the scope. This field provides assistance
-			for the following criteria:
-			<ul>
-				<li>type</li>
-				<li>owner</li>
-				<li>package</li>
-				<li>application component</li>
-				<li>date of creation</li>
-			</ul> All filters also provide further content assistance to see which
-			options are available (see the following image)</li>
+			for the following criteria:<br> <br>
+			<table>
+				<tr>
+					<th>Filter</th>
+					<th>Description</th>
+					<th>Notes about input</th>
+				</tr>
+				<tr>
+					<td>type</td>
+					<td>Object Type</td>
+					<td>Fixed values only</td>
+				</tr>
+				<tr>
+					<td>owner</td>
+					<td>Author of an object</td>
+					<td>
+						<ul class="list">
+							<li>Fixed values</li>
+							<li><code class="code">me</code> as abbreviation for the
+								currently logged on user</li>
+							<li>Supports <code class="code">*</code></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>package</td>
+					<td>Development Package</td>
+					<td>
+						<ul class="list">
+							<li>Fixed values</li>
+							<li>Supports <code class="code">*</code></li>
+							<li>Sub packages are considered automatically</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>appl</td>
+					<td>Application Component</td>
+					<td>
+						<ul class="list">
+							<li>Fixed values</li>
+							<li>Supports <code class="code">*</code></li>
+							<li>Application hierarchies are resolved as well</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>created</td>
+					<td>Date of Creation</td>
+					<td>
+						<ul class="list">
+							<li>Relative dates: <em>today</em>, <em>yesterday</em>, <em>last-week</em>,
+								<em>last-month</em>, <em>last-year</em></li>
+							<li>Numeric Relative dates<br>e.g. <em>2-week-ago</em>,
+								<em>15-days-ago</em></li>
+							<li>Date pattern <code class="code">dd.mm.yyyy</code><br>e.g.
+								<em>16.4.2021</em>, <em>1.1.1999</em></li>
+							<li>Date pattern <code class="code">dd.mm</code><br>e.g.
+								<em>1.2</em>, <em>10.11</em></li>
+							<li>Date pattern <code class="code">mm.yyyy</code><br>e.g.
+								<em>4.2020</em>, <em>10.2021</em></li>
+							<li>Date range pattern <code class="code">pattern1...pattern2</code>
+								<br>e.g. 1.1...yesterday, 15.12...3-weeks-ago
+							</li>
+						</ul> <br> Additionally the modifiers <code class="code">&lt;</code>,
+						<code class="code">&lt;=</code>, <code class="code">&gt;</code>
+						and <code class="code">&gt;=</code> can be used to prefix the date
+						patterns (this excludes range patterns)<br> e.g. &lt;=today,
+						&gt;11.1
+					</td>
+				</tr>
+			</table>
+			<p>All filters also provide further content assistance to see
+				which options are available (see the following image)</p></li>
 	</ul>
 	<figure>
 		<img src="../../images/FiltersContentAssistSample.png">
@@ -70,6 +136,34 @@
 		<code class="code">type: !clas</code>
 	</div>
 
+	<h4>Examples for Object Selection</h4>
+	<ul class="list">
+		<li class="p-b-m">Object Name: <code class="code">!/ z</code><br>All
+			objects <em>not</em> starting with "/" and all objects starting with
+			"Z"
+		</li>
+		<li class="p-b-m">Object Name: <code class="code">zadt&lt;</code>
+			<br>Objects with the exact name "ZADT"
+		</li>
+		<li class="p-b-m">Object Name: <code class="code">*dbbr*</code><br>Objects
+			containing "DBBR"
+		</li>
+		<li class="p-b-m">Search Filters: <code class="code">package:
+				z_abap, $*</code><br>Objects in packages "Z_ABAP" and all its sub
+			packages or objects in packages that start with "$"
+		</li>
+		<li class="p-b-m">Search Filters: <code class="code">created:
+				>last-week type:!clas,!intf</code><br>All objects that were created a
+			week ago and whose type is not equal to "CLAS" and "INTF"
+		</li>
+		<li class="p-b-m">Search Filters: <code class="code">owner:me,
+				ext*</code><br>All objects that were created by currently logged on
+			user or by users whose name starts with "EXT"
+		</li>
+	</ul>
+
+	<h4 class="heading">Restricting Scope for Classes and Function
+		Groups</h4>
 	<p>
 		A more detailed configuration of the scope objects is possible for
 		classes and function groups because these objects contain different
