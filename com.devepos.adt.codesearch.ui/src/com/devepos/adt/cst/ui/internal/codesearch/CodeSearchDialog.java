@@ -74,6 +74,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private Button matchAllPatterns;
   private Button ignoreCommentLinesCheck;
   private Button sequentialMatchingCheck;
+  private Button sequenceBoundsOption;
   private IncludeFlagsRadioButtonGroup classIncludeConfigGroup;
   private IncludeFlagsRadioButtonGroup fugrIncludeConfigGroup;
 
@@ -186,6 +187,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     ignoreCommentLinesCheck.setSelection(querySpecs.isIgnoreCommentLines());
     ignoreCaseCheck.setSelection(querySpecs.isIgnoreCaseCheck());
     sequentialMatchingCheck.setSelection(querySpecs.isSequentialMatching());
+    sequenceBoundsOption.setSelection(querySpecs.isCheckSequenceBounds());
 
     updateOptionEnabledment();
 
@@ -215,6 +217,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     querySpecs.setObjectScopeFilters(filterHandler.getSearchFiltersAsStringMap(
         objectScopeFilterText, FilterName.getContentAssistToUriParamNameMap(), ","),
         objectScopeFilterText);
+    querySpecs.setCheckSequenceBounds(sequenceBoundsOption.getSelection());
     querySpecs.setIgnoreCaseCheck(ignoreCaseCheck.getSelection());
     querySpecs.setIgnoreCommentLines(ignoreCommentLinesCheck.getSelection());
     querySpecs.setObjectNames(objectNameInput.getText());
@@ -255,6 +258,16 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     sequentialMatchingCheck.setToolTipText(
         Messages.CodeSearchDialog_seqeuentialMatchingOption_xtol);
     sequentialMatchingCheck.addSelectionListener(widgetSelectedAdapter(e -> {
+      updateOptionSelection();
+      updateOptionEnabledment();
+    }));
+
+    sequenceBoundsOption = new Button(group, SWT.CHECK);
+    sequenceBoundsOption.setEnabled(false);
+    sequenceBoundsOption.setText(Messages.CodeSearchDialog_checkSequenceBoundsOption_xchk);
+    sequenceBoundsOption.setToolTipText(
+        Messages.CodeSearchDialog_checkSequenceBoundsOption_xtol);
+    sequenceBoundsOption.addSelectionListener(widgetSelectedAdapter(e -> {
       updateOptionSelection();
       updateOptionEnabledment();
     }));
@@ -529,6 +542,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     boolean isSequentialMatching = sequentialMatchingCheck.getSelection();
 
     singlePattern.setEnabled(!isSequentialMatching);
+    sequenceBoundsOption.setEnabled(isSequentialMatching);
     sequentialMatchingCheck.setEnabled(!isSinglePattern);
 
     if (!isSinglePattern && !isSequentialMatching) {

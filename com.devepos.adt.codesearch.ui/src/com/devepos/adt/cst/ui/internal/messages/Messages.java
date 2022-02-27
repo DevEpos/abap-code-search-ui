@@ -12,6 +12,8 @@ public class Messages extends NLS {
   public static String ClassInclude_publicSectionInclude_xlbl;
   public static String ClassInclude_testClassesInclude_xlbl;
   public static String CodeSearchDialog_additionalSettingsGroup_xlbl;
+  public static String CodeSearchDialog_checkSequenceBoundsOption_xchk;
+  public static String CodeSearchDialog_checkSequenceBoundsOption_xtol;
   public static String CodeSearchDialog_classIncludesRadioGroup_xlbl;
   public static String CodeSearchDialog_functionGroupIncludesRadioGroup_xlbl;
   public static String CodeSearchDialog_globalClassIncludesSection_xlbl;
@@ -56,9 +58,11 @@ public class Messages extends NLS {
   public static String CodeSearchPropertyPage_serverGroupPref_xlbl;
   public static String CodeSearchPropertyPage_serverGroupPref_xtol;
   public static String CodeSearchQuery_queryName_xlbl;
+  public static String CodeSearchQuerySpecification_inObjNamesPart_xlbl;
   public static String CodeSearchQuerySpecification_objectNameQueryPart_xtol;
   public static String CodeSearchQuerySpecification_patternQueryPart_xtol;
-  public static String CodeSearchQuerySpecification_scopeQueyPart_xtol;
+  public static String CodeSearchQuerySpecification_scopeQueryPart_xtol;
+  public static String CodeSearchQuerySpecification_withFiltersQueryPart_xlbl;
   public static String CodeSearchResult_codeResultsLabelPrefix_xlbl;
   public static String CodeSearchResult_codeSearchProblemsLogTitle_xmsg;
   public static String CodeSearchResult_noObjectsInScope_xmsg;

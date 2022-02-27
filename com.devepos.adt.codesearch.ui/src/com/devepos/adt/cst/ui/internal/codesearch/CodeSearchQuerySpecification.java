@@ -26,6 +26,8 @@ import com.sap.adt.destinations.model.IDestinationData;
  */
 public class CodeSearchQuerySpecification {
 
+  private static final String ESCAPED_LINE_BREAK_STR = "\\\\n";
+  private static final String ABBREVIATED_STRING_STR = "...";
   private String destinationId;
   private IAbapProjectProvider projectProvider;
 
@@ -34,18 +36,23 @@ public class CodeSearchQuerySpecification {
   private boolean matchAllPatterns;
   private boolean sequentialMatching;
   private boolean multilineSearchOption;
+  private boolean checkSequenceBounds;
 
   private boolean readPackageHierarchy;
 
   private boolean singlePattern;
+
   private boolean useRegExp;
+
   private String patterns = "";
   private String objectNames = "";
-
   private IncludeFlagsParameter classIncludesParam;
   private IncludeFlagsParameter fugrIncludesParam;
+
   private Map<String, Object> objectScopeFilters;
   private String objectScopeFiltersString = "";
+  private String queryStringShort;
+  private String queryStringLong;
 
   public CodeSearchQuerySpecification() {
     destinationId = null;
@@ -77,6 +84,9 @@ public class CodeSearchQuerySpecification {
     }
     if (sequentialMatching) {
       uriParameters.put(SearchParameter.SEQUENTIAL_MATCHING.getUriName(), true);
+      if (checkSequenceBounds) {
+        uriParameters.put(SearchParameter.CHECK_SEQUENCE_BOUNDS.getUriName(), true);
+      }
     }
     uriParameters.put(SearchParameter.CLASS_INCLUDES.getUriName(), getClassIncludesParam()
         .getUriParamValue());
@@ -158,38 +168,11 @@ public class CodeSearchQuerySpecification {
   }
 
   public String getQuery(final boolean restrictString) {
-    if (restrictString) {
-      String query = singlePattern ? patterns.replaceAll(Text.DELIMITER, "\\\\n")
-          : patterns.replaceAll(Text.DELIMITER, ",");
-      if (query.length() > 60) {
-        query = query.substring(0, 60) + "...";
-      }
-      return String.format("'%s'", query);
-    }
-    StringBuffer query = new StringBuffer();
-    if (!StringUtil.isEmpty(objectNames) || !StringUtil.isEmpty(objectNames) || !StringUtil.isEmpty(
-        objectScopeFiltersString)) {
-      query.append(Messages.CodeSearchQuerySpecification_patternQueryPart_xtol);
-    }
-    query.append("'");
-    query.append(singlePattern ? patterns.replaceAll(Text.DELIMITER, "\\\\n")
-        : patterns.replaceAll(Text.DELIMITER, ","));
-    query.append("'");
-    if (!StringUtil.isBlank(objectNames)) {
-      query.append("\n");
-      query.append(Messages.CodeSearchQuerySpecification_objectNameQueryPart_xtol);
-      query.append(": '");
-      query.append(objectNames);
-      query.append("'");
-    }
-    if (!StringUtil.isBlank(objectScopeFiltersString)) {
-      query.append("\n");
-      query.append(Messages.CodeSearchQuerySpecification_scopeQueyPart_xtol);
-      query.append(": '");
-      query.append(objectScopeFiltersString);
-      query.append("'");
-    }
-    return query.toString();
+    return restrictString ? getShortQueryString() : getLongQueryString();
+  }
+
+  public boolean isCheckSequenceBounds() {
+    return checkSequenceBounds;
   }
 
   public boolean isIgnoreCaseCheck() {
@@ -225,6 +208,10 @@ public class CodeSearchQuerySpecification {
 
   public boolean isUseRegExp() {
     return useRegExp;
+  }
+
+  public void setCheckSequenceBounds(boolean checkSequenceBounds) {
+    this.checkSequenceBounds = checkSequenceBounds;
   }
 
   public void setClassIncludesParam(final IncludeFlagsParameter classIncludesParam) {
@@ -329,5 +316,66 @@ public class CodeSearchQuerySpecification {
     final IDestinationData destData = projectProvider.getDestinationData();
     return String.format("%s-%s", destData.getSystemConfiguration().getSystemId(), destData
         .getClient());
+  }
+
+  private String getLongQueryString() {
+    if (queryStringLong == null) {
+      StringBuffer query = new StringBuffer();
+      query.append(Messages.CodeSearchQuerySpecification_patternQueryPart_xtol);
+      query.append("\n   ");
+      query.append(singlePattern ? patterns.replaceAll(Text.DELIMITER, ESCAPED_LINE_BREAK_STR)
+          : patterns.replaceAll(Text.DELIMITER, ","));
+      if (!StringUtil.isBlank(objectNames)) {
+        query.append("\n");
+        query.append(Messages.CodeSearchQuerySpecification_objectNameQueryPart_xtol);
+        query.append(":\n   ");
+        query.append(objectNames);
+      }
+      if (!StringUtil.isBlank(objectScopeFiltersString)) {
+        query.append("\n");
+        query.append(Messages.CodeSearchQuerySpecification_scopeQueryPart_xtol);
+        query.append(":\n   ");
+        query.append(objectScopeFiltersString);
+        query.append("'");
+      }
+      queryStringLong = query.toString();
+    }
+    return queryStringLong;
+  }
+
+  private String getShortQueryString() {
+    if (queryStringShort == null) {
+      StringBuffer buffer = new StringBuffer();
+      buffer.append("'");
+      buffer.append(singlePattern ? patterns.replaceAll(Text.DELIMITER, ESCAPED_LINE_BREAK_STR)
+          : patterns.replaceAll(Text.DELIMITER, ","));
+      if (buffer.length() > 30) {
+        buffer.replace(29, buffer.length(), ABBREVIATED_STRING_STR);
+      }
+      buffer.append("'");
+
+      if (!StringUtil.isBlank(objectNames)) {
+        buffer.append(Messages.CodeSearchQuerySpecification_inObjNamesPart_xlbl);
+        buffer.append("'");
+        if (objectNames.length() > 30) {
+          buffer.append(objectNames.substring(0, 29) + ABBREVIATED_STRING_STR);
+        } else {
+          buffer.append(objectNames);
+        }
+        buffer.append("'");
+      }
+      if (!StringUtil.isBlank(objectScopeFiltersString)) {
+        buffer.append(Messages.CodeSearchQuerySpecification_withFiltersQueryPart_xlbl);
+        buffer.append("'");
+        if (objectScopeFiltersString.length() > 50) {
+          buffer.append(objectScopeFiltersString.substring(0, 49) + ABBREVIATED_STRING_STR);
+        } else {
+          buffer.append(objectScopeFiltersString);
+        }
+        buffer.append("'");
+      }
+      queryStringShort = buffer.toString();
+    }
+    return queryStringShort;
   }
 }
