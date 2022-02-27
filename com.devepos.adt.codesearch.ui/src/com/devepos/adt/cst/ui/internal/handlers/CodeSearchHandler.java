@@ -41,6 +41,7 @@ import com.sap.adt.tools.core.model.adtcore.IAdtObjectReference;
  */
 public class CodeSearchHandler extends AbstractHandler implements ISearchPageListener {
 
+  private static final String EXACT_NAME_MODIFIER = "<";
   private static final String FILTER_VALUE_DELIMITER = ",";
   private static final String FILTER_VALUES_PATTERN = "%s:%s";
   private CodeSearchQuery searchQuery;
@@ -133,10 +134,10 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
           || IAdtObjectTypeConstants.FUNCTION_MODULE.equals(adtObjRef.getType())) {
         String parentName = URLDecoder.decode(parentUri.substring(parentUri.lastIndexOf("/") + 1),
             Charset.defaultCharset());
-        objectNames.add(parentName);
+        objectNames.add(parentName + EXACT_NAME_MODIFIER);
       }
     } else {
-      objectNames.add(adtObjRef.getName().toLowerCase());
+      objectNames.add(adtObjRef.getName().toLowerCase() + EXACT_NAME_MODIFIER);
     }
   }
 }
