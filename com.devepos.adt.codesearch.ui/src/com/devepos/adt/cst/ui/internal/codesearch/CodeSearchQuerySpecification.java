@@ -36,7 +36,6 @@ public class CodeSearchQuerySpecification {
   private boolean matchAllPatterns;
   private boolean sequentialMatching;
   private boolean multilineSearchOption;
-  private boolean checkSequenceBounds;
 
   private boolean readPackageHierarchy;
 
@@ -84,9 +83,6 @@ public class CodeSearchQuerySpecification {
     }
     if (sequentialMatching) {
       uriParameters.put(SearchParameter.SEQUENTIAL_MATCHING.getUriName(), true);
-      if (checkSequenceBounds) {
-        uriParameters.put(SearchParameter.CHECK_SEQUENCE_BOUNDS.getUriName(), true);
-      }
     }
     uriParameters.put(SearchParameter.CLASS_INCLUDES.getUriName(), getClassIncludesParam()
         .getUriParamValue());
@@ -171,10 +167,6 @@ public class CodeSearchQuerySpecification {
     return restrictString ? getShortQueryString() : getLongQueryString();
   }
 
-  public boolean isCheckSequenceBounds() {
-    return checkSequenceBounds;
-  }
-
   public boolean isIgnoreCaseCheck() {
     return ignoreCaseCheck;
   }
@@ -208,10 +200,6 @@ public class CodeSearchQuerySpecification {
 
   public boolean isUseRegExp() {
     return useRegExp;
-  }
-
-  public void setCheckSequenceBounds(boolean checkSequenceBounds) {
-    this.checkSequenceBounds = checkSequenceBounds;
   }
 
   public void setClassIncludesParam(final IncludeFlagsParameter classIncludesParam) {
@@ -324,7 +312,7 @@ public class CodeSearchQuerySpecification {
       query.append(Messages.CodeSearchQuerySpecification_patternQueryPart_xtol);
       query.append("\n   ");
       query.append(singlePattern ? patterns.replaceAll(Text.DELIMITER, ESCAPED_LINE_BREAK_STR)
-          : patterns.replaceAll(Text.DELIMITER, ","));
+          : patterns.replaceAll(Text.DELIMITER, ",\n   "));
       if (!StringUtil.isBlank(objectNames)) {
         query.append("\n");
         query.append(Messages.CodeSearchQuerySpecification_objectNameQueryPart_xtol);
