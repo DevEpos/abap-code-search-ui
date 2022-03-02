@@ -1,6 +1,6 @@
 package com.devepos.adt.cst.search;
 
-import com.devepos.adt.cst.internal.search.CodeSearchSearchService;
+import com.devepos.adt.cst.internal.search.CodeSearchService;
 
 /**
  * Factory for creating instances of {@link ICodeSearchService}
@@ -19,7 +19,7 @@ public class CodeSearchFactory {
    */
   public static ICodeSearchService getCodeSearchService() {
     if (INSTANCE == null) {
-      INSTANCE = new CodeSearchSearchService();
+      INSTANCE = new CodeSearchService();
     }
     return INSTANCE;
   }

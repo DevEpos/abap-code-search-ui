@@ -18,10 +18,11 @@ public class CodeSearchUriDiscovery extends CodeSearchToolsUriDiscoveryBase {
   private static final String DISCOVERY_RELATION_CODE_SEARCH = DISCOVERY_RELATION_ROOT
       + "/codesearch"; //$NON-NLS-1$
 
-  private static final String DISCOVERY_TERM_CODE_SEARCH = "codesearch"; //$NON-NLS-1$
-  private static final String DISCOVERY_TERM_CODE_SEARCH_SCOPE = "codesearchScope"; //$NON-NLS-1$
-  private static final String DISCOVERY_TERM_CODE_SEARCH_SETTINGS = "codesearchSettings"; //$NON-NLS-1$
-  private static final String NAMED_ITEM_TEMPLATE = "{?maxItemCount,name,description,data}"; //$NON-NLS-1$
+  private static final String DISCOVERY_TERM_CODE_SEARCH = "codesearch";
+  private static final String DISCOVERY_TERM_CODE_SEARCH_SCOPE = "codesearchScope";
+  private static final String DISCOVERY_TERM_CODE_SEARCH_SETTINGS = "codesearchSettings";
+  private static final String DISCOVERY_TERM_PATTERN_VALIDATOR = "patternValidator";
+  private static final String NAMED_ITEM_TEMPLATE = "{?maxItemCount,name,description,data}";
 
   public CodeSearchUriDiscovery(final String destinationId) {
     super(destinationId, DISCOVERY_SCHEME);
@@ -38,17 +39,19 @@ public class CodeSearchUriDiscovery extends CodeSearchToolsUriDiscoveryBase {
     final IAdtUriTemplate template = getCodeSearchTemplate();
     URI uri = null;
     if (template != null) {
-      for (final String paramKey : parameterMap.keySet()) {
-        if (template.containsVariable(paramKey)) {
-          final Object paramValue = parameterMap.get(paramKey);
-          if (paramValue != null) {
-            template.set(paramKey, paramValue);
-          }
-        }
-      }
+      fillTemplateWithParams(template, parameterMap);
       uri = URI.create(template.expand());
     }
     return uri;
+  }
+
+  /**
+   * Retrieves the resource URI for the code search scope
+   *
+   * @return the resource URI for the code search scope
+   */
+  public URI getCodeSearchScopeUri() {
+    return getUriFromCollectionMember(DISCOVERY_TERM_CODE_SEARCH_SCOPE);
   }
 
   /**
@@ -78,18 +81,18 @@ public class CodeSearchUriDiscovery extends CodeSearchToolsUriDiscoveryBase {
     return getUriFromCollectionMember(DISCOVERY_TERM_CODE_SEARCH);
   }
 
-  /**
-   * Retrieves the resource URI for the code search scope
-   *
-   * @return the resource URI for the code search scope
-   */
-  public URI getCodeSearchScopeUri() {
-    return getUriFromCollectionMember(DISCOVERY_TERM_CODE_SEARCH_SCOPE);
-  }
-
   public IAdtUriTemplate getNamedItemTemplate(final String discoveryTerm) {
     final URI uri = getUriFromCollectionMember(discoveryTerm);
     return uri != null ? getNamedItemTemplateForUri(uri) : null;
+  }
+
+  /**
+   * Retrieves URI for Pattern Validation
+   *
+   * @return URI for Pattern Validation
+   */
+  public URI getPatternValidationUri() {
+    return getUriFromCollectionMember(DISCOVERY_TERM_PATTERN_VALIDATOR);
   }
 
   private IAdtUriTemplate getNamedItemTemplateForUri(final URI uri) {

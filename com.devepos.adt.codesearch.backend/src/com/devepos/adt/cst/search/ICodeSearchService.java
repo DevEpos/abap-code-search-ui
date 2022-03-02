@@ -22,6 +22,17 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
 public interface ICodeSearchService {
 
   /**
+   * Creates the passed search scope in the ABAP project of the given destination id
+   *
+   * @param destinationId   the destination Id for the target ABAP project
+   * @param scopeParameters the parameters of the search scope
+   * @param monitor         progress monitor of the background job
+   * @return the persisted search scope
+   */
+  ICodeSearchScope createScope(String destinationId, ICodeSearchScopeParameters scopeParameters,
+      IProgressMonitor monitor);
+
+  /**
    * Retrieves an URI template provider for named items in the code search context
    *
    * @param projectProvider provides ABAP project
@@ -76,13 +87,13 @@ public interface ICodeSearchService {
   IStatus updateSettings(String destinationId, ICodeSearchSettings settings);
 
   /**
-   * Creates the passed search scope in the ABAP project of the given destination id
+   * Validates the given search patterns
    *
-   * @param destinationId   the destination Id for the target ABAP project
-   * @param scopeParameters the parameters of the search scope
-   * @param monitor         progress monitor of the background job
-   * @return the persisted search scope
+   * @param destinationId Id of the destination for an ABAP project
+   * @param patterns      the pattern string to be validated
+   * @param uriParameters map of URI parameters for the request
+   * @return the status of the validation call
    */
-  ICodeSearchScope createScope(String destinationId, ICodeSearchScopeParameters scopeParameters,
-      IProgressMonitor monitor);
+  IStatus validatePatterns(String destinationId, String patterns,
+      Map<String, String> uriParameters);
 }

@@ -16,6 +16,7 @@ import com.devepos.adt.base.model.adtbase.IAdtPluginFeatureList;
 import com.devepos.adt.base.plugin.features.AdtPluginFeaturesServiceFactory;
 import com.devepos.adt.base.plugin.features.IAdtPluginFeatures;
 import com.devepos.adt.base.ui.project.IAbapProjectProvider;
+import com.devepos.adt.base.util.StringUtil;
 import com.devepos.adt.cst.internal.CodeSearchPlugin;
 import com.devepos.adt.cst.internal.messages.Messages;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
@@ -24,7 +25,9 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
 import com.devepos.adt.cst.search.ICodeSearchService;
 import com.sap.adt.communication.resources.AdtRestResourceFactory;
+import com.sap.adt.communication.resources.IQueryParameter;
 import com.sap.adt.communication.resources.IRestResource;
+import com.sap.adt.communication.resources.QueryParameter;
 import com.sap.adt.communication.resources.ResourceException;
 import com.sap.adt.communication.session.AdtSystemSessionFactory;
 import com.sap.adt.communication.session.ISystemSession;
@@ -35,7 +38,26 @@ import com.sap.adt.communication.session.ISystemSession;
  * @author Ludwig Stockbauer-Muhr
  *
  */
-public class CodeSearchSearchService implements ICodeSearchService {
+public class CodeSearchService implements ICodeSearchService {
+
+  @Override
+  public ICodeSearchScope createScope(final String destinationId,
+      final ICodeSearchScopeParameters scopeParameters, final IProgressMonitor monitor) {
+
+    CodeSearchUriDiscovery discovery = new CodeSearchUriDiscovery(destinationId);
+    URI resourceUri = discovery.getCodeSearchScopeUri();
+    if (resourceUri != null) {
+      final ISystemSession session = AdtSystemSessionFactory.createSystemSessionFactory()
+          .createStatelessSession(destinationId);
+
+      final IRestResource restResource = AdtRestResourceFactory.createRestResourceFactory()
+          .createRestResource(resourceUri, session);
+      restResource.addContentHandler(new CodeSearchScopeParametersContentHandler());
+      restResource.addContentHandler(new CodeSearchScopeContentHandler());
+      return restResource.post(monitor, ICodeSearchScope.class, scopeParameters);
+    }
+    return null;
+  }
 
   @Override
   public IAdtUriTemplateProvider getNamedItemUriTemplateProvider(
@@ -81,25 +103,6 @@ public class CodeSearchSearchService implements ICodeSearchService {
       return restResource.get(new NullProgressMonitor(), ICodeSearchSettings.class);
     } catch (final ResourceException exc) {
       exc.printStackTrace();
-    }
-    return null;
-  }
-
-  @Override
-  public ICodeSearchScope createScope(final String destinationId,
-      final ICodeSearchScopeParameters scopeParameters, final IProgressMonitor monitor) {
-
-    CodeSearchUriDiscovery discovery = new CodeSearchUriDiscovery(destinationId);
-    URI resourceUri = discovery.getCodeSearchScopeUri();
-    if (resourceUri != null) {
-      final ISystemSession session = AdtSystemSessionFactory.createSystemSessionFactory()
-          .createStatelessSession(destinationId);
-
-      final IRestResource restResource = AdtRestResourceFactory.createRestResourceFactory()
-          .createRestResource(resourceUri, session);
-      restResource.addContentHandler(new CodeSearchScopeParametersContentHandler());
-      restResource.addContentHandler(new CodeSearchScopeContentHandler());
-      return restResource.post(monitor, ICodeSearchScope.class, scopeParameters);
     }
     return null;
   }
@@ -152,6 +155,34 @@ public class CodeSearchSearchService implements ICodeSearchService {
     restResource.addContentHandler(new CodeSearchSettingsContentHandler());
     try {
       restResource.put(new NullProgressMonitor(), ICodeSearchSettings.class, settings);
+      return Status.OK_STATUS;
+    } catch (final ResourceException exc) {
+      exc.printStackTrace();
+      return new Status(IStatus.ERROR, CodeSearchPlugin.PLUGIN_ID, exc.getMessage());
+    }
+  }
+
+  @Override
+  public IStatus validatePatterns(final String destinationId, final String patterns,
+      final Map<String, String> uriParameters) {
+    if (patterns == null || StringUtil.isBlank(patterns)) {
+      throw new IllegalArgumentException("Parameter 'patterns' must not be empty or null");
+    }
+    CodeSearchUriDiscovery uriDiscovery = new CodeSearchUriDiscovery(destinationId);
+    URI settingsUri = uriDiscovery.getPatternValidationUri();
+    if (settingsUri == null) {
+      return null;
+    }
+    final ISystemSession session = AdtSystemSessionFactory.createSystemSessionFactory()
+        .createStatelessSession(destinationId);
+
+    final IRestResource restResource = AdtRestResourceFactory.createRestResourceFactory()
+        .createRestResource(settingsUri, session);
+    try {
+      restResource.post(new NullProgressMonitor(), String.class, patterns, uriParameters.keySet()
+          .stream()
+          .map(k -> new QueryParameter(k, uriParameters.get(k)))
+          .toArray(IQueryParameter[]::new));
       return Status.OK_STATUS;
     } catch (final ResourceException exc) {
       exc.printStackTrace();
