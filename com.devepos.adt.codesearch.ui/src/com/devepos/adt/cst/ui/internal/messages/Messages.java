@@ -19,6 +19,7 @@ public class Messages extends NLS {
   public static String CodeSearchDialog_globalClassIncludesSection_xlbl;
   public static String CodeSearchDialog_ignoreCaseOption_xchk;
   public static String CodeSearchDialog_ignoreCommentLines_xchk;
+  public static String CodeSearchDialog_invalidPatternCountForSeqMatching_xmsg;
   public static String CodeSearchDialog_invalidRegexPattern_xmsg;
   public static String CodeSearchDialog_invalidRegexPatternInLine_xmsg;
   public static String CodeSearchDialog_matchAllOption_xchk;

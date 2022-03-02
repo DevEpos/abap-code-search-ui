@@ -155,6 +155,18 @@ public class CodeSearchQuerySpecification {
     return objectScopeFiltersString != null ? objectScopeFiltersString : "";
   }
 
+  /**
+   * Retrieves the search pattern for a back end validation
+   *
+   * @return
+   */
+  public String getPatternForValidationCall() {
+    if (singlePattern) {
+      return getSinglePatternModePattern();
+    }
+    return patterns;
+  }
+
   public String getPatterns() {
     return patterns != null ? patterns : "";
   }
@@ -278,19 +290,7 @@ public class CodeSearchQuerySpecification {
 
   private Object getAdjustedPatterns() {
     if (singlePattern) {
-      String lineBreakReplacement = null;
-      if (useRegExp) {
-        if (CodeSearchUIPlugin.getDefault()
-            .getPreferenceStore()
-            .getBoolean(ICodeSearchPrefs.SINGLE_PATTERN_REGEX_CONCAT_WITH_LF)) {
-          lineBreakReplacement = "\\\n";
-        } else {
-          lineBreakReplacement = "";
-        }
-      } else {
-        lineBreakReplacement = System.lineSeparator();
-      }
-      return patterns.replaceAll(Text.DELIMITER, lineBreakReplacement);
+      return getSinglePatternModePattern();
     }
     return Stream.of(patterns.split(Text.DELIMITER))
         .filter(pattern -> !pattern.isBlank())
@@ -365,5 +365,21 @@ public class CodeSearchQuerySpecification {
       queryStringShort = buffer.toString();
     }
     return queryStringShort;
+  }
+
+  private String getSinglePatternModePattern() {
+    String lineBreakReplacement = null;
+    if (useRegExp) {
+      if (CodeSearchUIPlugin.getDefault()
+          .getPreferenceStore()
+          .getBoolean(ICodeSearchPrefs.SINGLE_PATTERN_REGEX_CONCAT_WITH_LF)) {
+        lineBreakReplacement = "\\\n";
+      } else {
+        lineBreakReplacement = "";
+      }
+    } else {
+      lineBreakReplacement = System.lineSeparator();
+    }
+    return patterns.replaceAll(Text.DELIMITER, lineBreakReplacement);
   }
 }

@@ -2,12 +2,12 @@ package com.devepos.adt.cst.ui.internal.codesearch;
 
 import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -17,7 +17,6 @@ import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.search.ui.ISearchPage;
 import org.eclipse.search.ui.ISearchPageContainer;
 import org.eclipse.search.ui.NewSearchUI;
@@ -29,6 +28,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 import com.devepos.adt.base.ui.project.AbapProjectProxy;
 import com.devepos.adt.base.ui.project.IAbapProjectProvider;
@@ -101,7 +101,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private enum ValidationSource {
     FILTERS,
     PROJECT,
-    SEARCH_PATTERN;
+    SEARCH_PATTERN,
+    SEARCH_PATTERN_BACKEND;
   }
 
   @Override
@@ -153,11 +154,15 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   @Override
   public boolean performAction() {
     collectQuerySpecs();
-    CodeSearchQuery query = new CodeSearchQuery(querySpecs);
 
+    IStatus patternValidationStatus = runPatternValidationRequest();
+    if (!patternValidationStatus.isOK()) {
+      validateAndSetStatus(patternValidationStatus, ValidationSource.SEARCH_PATTERN_BACKEND);
+      return false;
+    }
     writeDialogSettings();
 
-    NewSearchUI.runQueryInBackground(query);
+    NewSearchUI.runQueryInBackground(new CodeSearchQuery(querySpecs));
     return true;
   }
 
@@ -257,6 +262,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     sequentialMatchingCheck.addSelectionListener(widgetSelectedAdapter(e -> {
       updateOptionSelection();
       updateOptionEnabledment();
+      validateSearchPatterns();
     }));
   }
 
@@ -370,6 +376,9 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
         .applyTo(patternsText);
 
     patternsText.addModifyListener(e -> {
+      // reset status of back end pattern validation if pattern was changed
+      allValidationStatuses.put(ValidationSource.SEARCH_PATTERN_BACKEND, Status.OK_STATUS);
+
       validateSearchPatterns();
       updateOKStatus();
     });
@@ -385,6 +394,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     useRegExpCheck = new Button(patternOptions, SWT.CHECK);
     useRegExpCheck.setText(Messages.CodeSearchDialog_regularExpressionsOption_xchk);
     useRegExpCheck.addSelectionListener(widgetSelectedAdapter(e -> {
+      allValidationStatuses.put(ValidationSource.SEARCH_PATTERN_BACKEND, Status.OK_STATUS);
       updateOptionSelection();
       updateOptionEnabledment();
       validateSearchPatterns();
@@ -467,6 +477,36 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     ISearchFilterProvider filterProvider = new CodeSearchScopeFilters(projectProvider);
     filterHandler = new SearchFilterHandler(filterProvider);
     filterHandler.addContentAssist(filterInput);
+  }
+
+  private IStatus runPatternValidationRequest() {
+    /**
+     * Pattern validation is only necessary for regular expressions or sequential matching
+     */
+    if (!querySpecs.isUseRegExp() && !querySpecs.isSequentialMatching()) {
+      return Status.OK_STATUS;
+    }
+    Map<String, String> uriParams = new HashMap<>();
+    if (querySpecs.isUseRegExp()) {
+      uriParams.put(SearchParameter.USE_REGEX.getUriName(), String.valueOf(true));
+    }
+    if (querySpecs.isSequentialMatching()) {
+      uriParams.put(SearchParameter.SEQUENTIAL_MATCHING.getUriName(), String.valueOf(true));
+    }
+    AtomicReference<IStatus> validationStatusAtom = new AtomicReference<>(Status.OK_STATUS);
+
+    try {
+      PlatformUI.getWorkbench().getProgressService().busyCursorWhile(monitor -> {
+        validationStatusAtom.set(CodeSearchFactory.getCodeSearchService()
+            .validatePatterns(projectProvider.getDestinationId(), querySpecs
+                .getPatternForValidationCall(), uriParams));
+      });
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+      return new Status(IStatus.ERROR, CodeSearchUIPlugin.PLUGIN_ID, e.getMessage(), e);
+    } catch (InterruptedException e) {
+    }
+    return validationStatusAtom.get();
   }
 
   /*
@@ -589,45 +629,14 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     }
   }
 
-  private IStatus validateRegularExpression(final String regex) {
-    return validateRegularExpression(regex, 0);
-  }
-
-  private IStatus validateRegularExpression(final String regex, final int line) {
-    try {
-      Pattern.compile(regex);
-    } catch (PatternSyntaxException regexError) {
-      if (line <= 0) {
-        return new Status(IStatus.ERROR, CodeSearchUIPlugin.PLUGIN_ID, NLS.bind(
-            Messages.CodeSearchDialog_invalidRegexPattern_xmsg, regex));
-      }
-      return new Status(IStatus.ERROR, CodeSearchUIPlugin.PLUGIN_ID, NLS.bind(
-          Messages.CodeSearchDialog_invalidRegexPatternInLine_xmsg, new Object[] { regex, line }));
-
-    }
-    return Status.OK_STATUS;
-  }
-
   private void validateSearchPatterns() {
     if (isSearchPatternProvided()) {
-      String patterns = patternsText.getText();
-      if (useRegExpCheck.getSelection()) {
-
-        if (singlePattern.getSelection()) {
-          if (!validateAndSetStatus(validateRegularExpression(patterns),
-              ValidationSource.SEARCH_PATTERN)) {
-            return;
-          }
-        } else {
-          String[] tokens = patterns.split(System.lineSeparator());
-          for (int i = 0; i < tokens.length; i++) {
-            String pattern = tokens[i];
-            if (!validateAndSetStatus(validateRegularExpression(pattern, i + 1),
-                ValidationSource.SEARCH_PATTERN)) {
-              return;
-            }
-          }
-        }
+      if (sequentialMatchingCheck.getSelection() && (patternsText.getText()
+          .split(Text.DELIMITER).length < 2)) {
+        validateAndSetStatus(new Status(IStatus.ERROR, CodeSearchUIPlugin.PLUGIN_ID,
+            Messages.CodeSearchDialog_invalidPatternCountForSeqMatching_xmsg),
+            ValidationSource.SEARCH_PATTERN);
+        return;
       }
       // everything checked out
       validateAndSetStatus(new Status(IStatus.OK, CodeSearchUIPlugin.PLUGIN_ID, null, null),
