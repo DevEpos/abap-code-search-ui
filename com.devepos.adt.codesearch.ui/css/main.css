@@ -182,3 +182,13 @@ a.link:hover {
 	background: #fefeee;
 	border: 0;
 }
+
+.code-match {
+	background-color: #b0b0ff;
+}
+
+.code-block {
+	background: #dddddd;
+	padding: 5px;
+	border: 1px solid #959595; 
+}

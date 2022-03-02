@@ -8,11 +8,29 @@
 <body id="doc-body">
 	<h2 class="heading">Special Search Modes</h2>
 	<h3 class="heading">Sequential Matching</h3>
+
 	<p>
-		To allow even more refined searches you can enable the setting <em>Sequential
-			Matching</em> in the <em>Search
-			Dialog</em><br><br> TODO
+		To enable even more precise search queries, there is the option to
+		activate the <em>Sequential Matching</em> setting in the <em>Search
+			dialog</em>. <br>This causes first of all that the source code is
+		searched line by line.
 	</p>
+	<p>The search starts at the beginning of the file and tries to find
+		a match for the first pattern. But only the very first one. After that
+		the search continues from the hit with the next pattern in the
+		sequence. When all patterns in the sequence have been processed, the
+		search starts again with the first pattern. Provided that the end of
+		the file has not yet been reached.</p>
+
+	<p>If any pattern of the sequence is not found at some point, the
+		processing of the current file will be aborted.</p>
+
+
+	<pre class="code-block">
+1    <span class="code-match">LOOP</span> AT table ASSIGNING FIELD-SYMBOL(&lt;row&gt;).
+2     
+3    ENDLOOP.</pre>
+
 
 	<h3 class="heading">Related Information</h3>
 	<div>
