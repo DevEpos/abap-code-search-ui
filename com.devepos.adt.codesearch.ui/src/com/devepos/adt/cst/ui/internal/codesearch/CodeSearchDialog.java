@@ -372,8 +372,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     AdtSWTUtilFactory.getOrCreateSWTUtil().addTextEditMenu(patternsText);
     GridDataFactory.fillDefaults()
         .grab(true, false)
-        .hint(SWT.DEFAULT, 80)
-        .align(SWT.FILL, SWT.TOP)
+        .hint(SWT.DEFAULT, 100)
+        .align(SWT.FILL, SWT.FILL)
         .applyTo(patternsText);
 
     patternsText.addModifyListener(e -> {
@@ -663,5 +663,4 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     dialogSettings.put(FUGR_INCLUDES_BITS, querySpecs.getFugrIncludesParam().getIncludeFlags());
     dialogSettings.put(LAST_PROJECT_PREF, projectProvider.getProjectName());
   }
-
 }
