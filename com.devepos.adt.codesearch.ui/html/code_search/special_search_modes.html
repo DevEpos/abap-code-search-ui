@@ -25,12 +25,141 @@
 	<p>If any pattern of the sequence is not found at some point, the
 		processing of the current file will be aborted.</p>
 
+	<p>
+		Let's assume you want to look for <em>SELECT</em> statements that
+		reside in a <em>LOOP</em> which is also wrapped in a <em>LOOP</em>.
+	</p>
 
-	<pre class="code-block">
-1    <span class="code-match">LOOP</span> AT table ASSIGNING FIELD-SYMBOL(&lt;row&gt;).
-2     
-3    ENDLOOP.</pre>
+	<pre class="code-block dark">
+<span class="code-line"><span class="keyword">LOOP AT</span> entries <span
+			class="keyword">ASSIGNING</span> <span class="keyword">FIELD-SYMBOL</span>(&lt;entry&gt;).</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="keyword">LOOP AT</span> &lt;entry&gt;-sub_entries <span
+			class="keyword">ASSIGNING</span> <span class="keyword">FIELD-SYMBOL</span>(&lt;sub_entry&gt;).</span>
+<span class="code-line">    <span class="keyword">SELECT</span> <span
+			class="keyword">SINGLE</span> author</span>
+<span class="code-line">      <span class="keyword">FROM</span> tadir</span>
+<span class="code-line">      <span class="keyword">WHERE</span> obj_name = @&lt;sub_entry&gt;-obj_name</span>
+<span class="code-line">        <span class="keyword">AND</span> object   = @&lt;sub_entry&gt;-object</span>
+<span class="code-line">      <span class="keyword">INTO</span> @&lt;sub_entry&gt;-object_author.</span>
+<span class="code-line">  <span class="keyword">ENDLOOP</span>.</span>
+<span class="code-line">    </span>
+<span class="code-line"><span class="keyword">ENDLOOP</span>.</span></pre>
 
+	<p>
+		To find such <em>SELECT</em>s in your source code you would enter the
+		following pattern <em>sequence</em> in the pattern input of the Code
+		Search dialog:
+	</p>
+	<pre class="code-block light">
+<span class="code-line">&#183;loop&#183;</span>
+<span class="code-line">&#183;loop&#183;</span>
+<span class="code-line">&#183;select&#183;</span></pre>
+
+	<p>The sequential search would then find the following three
+		matches in the example above, which would qualify as a single match
+		for the given pattern sequence.</p>
+	<!--  Code block sample -->
+	<pre class="code-block dark">
+<span class="code-line"><span class="keyword code-match">LOOP</span> <span
+			class="keyword">AT</span> entries <span class="keyword">ASSIGNING</span> <span
+			class="keyword">FIELD-SYMBOL</span>(&lt;entry&gt;).</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="keyword code-match">LOOP</span> <span
+			class="keyword">AT</span> &lt;entry&gt;-sub_entries <span
+			class="keyword">ASSIGNING</span> <span class="keyword">FIELD-SYMBOL</span>(&lt;sub_entry&gt;).</span>
+<span class="code-line">    <span class="keyword code-match">SELECT</span> <span
+			class="keyword">SINGLE</span> author</span>
+<span class="code-line">      <span class="keyword">FROM</span> tadir</span>
+<span class="code-line">      <span class="keyword">WHERE</span> obj_name = @&lt;sub_entry&gt;-obj_name</span>
+<span class="code-line">        <span class="keyword">AND</span> object   = @&lt;sub_entry&gt;-object</span>
+<span class="code-line">      <span class="keyword">INTO</span> @&lt;sub_entry&gt;-object_author.</span>
+<span class="code-line">  <span class="keyword">ENDLOOP</span>.</span>
+<span class="code-line">  </span>
+<span class="code-line"><span class="keyword">ENDLOOP</span>.</span></pre>
+
+	<p>At times the sequential search may still find matches that are
+		not correct or rather matches you would not expect from your entered
+		pattern. Let's take the above code snippet and format the code a bit -
+		never mind if the code makes much sense - and run the search again.</p>
+
+	<pre class="code-block dark">
+<span class="code-line"><span class="code-match">LOOP</span> <span
+			class="keyword">AT</span> entries <span class="keyword">ASSIGNING</span> <span
+			class="keyword">FIELD-SYMBOL</span>(&lt;entry&gt;).</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="code-match">LOOP</span> <span
+			class="keyword">AT</span> &lt;entry&gt;-sub_entries <span
+			class="keyword">ASSIGNING</span> <span class="keyword">FIELD-SYMBOL</span>(&lt;sub_entry&gt;) <span
+			class="keyword">WHERE</span> obj_name <span class="keyword">CP</span> <span
+			class="abap-string">'Z*'</span>.</span>
+<span class="code-line">    <span class="keyword">EXIT</span>.</span>
+<span class="code-line">  <span class="keyword">ENDLOOP</span>.</span>
+<span class="code-line">  </span>
+<span class="code-line">  <span class="keyword">IF</span> sy-subrc &lt;&gt; 0.</span>
+<span class="code-line">    <span class="keyword">EXIT</span>.</span>
+<span class="code-line">  <span class="keyword">ENDIF</span>.</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="code-match">SELECT</span> <span
+			class="keyword">SINGLE</span> author</span>
+<span class="code-line">    <span class="keyword">FROM</span> tadir</span>
+<span class="code-line">    <span class="keyword">WHERE</span> obj_name = @&lt;entry&gt;-obj_name</span>
+<span class="code-line">      <span class="keyword">AND</span> object   = @&lt;sub_entry&gt;-object</span>
+<span class="code-line">    <span class="keyword">INTO</span> @&lt;sub_entry&gt;-object_author.</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">ENDLOOP</span>.</span></pre>
+
+	<p>
+		As you can see search still found a match but almost certainly a match
+		you are not looking for. Of course you can discard the results easily
+		from the search result but you still have to jump into the source code
+		to do that. To discard such unwanted patterns right from start you can
+		use <em>control sequences</em> in your pattern.
+	</p>
+
+
+	<h4 class="heading">Pattern Control Sequences</h4>
+	<p>
+		Control sequences are special character sequences that must be written
+		right at the start of a pattern. They will only be evaluated if <em>Sequential
+			Matching</em> is active, otherwise they will be considered part of the
+		pattern and you will not get any matches, at least it is very
+		unlikely.
+	<p>
+	<p>Currently the following Control Sequences can be used:</p>
+	<table>
+		<tr>
+			<th>Sequence</th>
+			<th>Description</th>
+		</tr>
+		<tr>
+			<td>(#match)</td>
+			<td>Normally a sequential match will span from the match of the
+				first to the last pattern of the sequence. By writing this control
+				sequence at a pattern you signal that only the match of that pattern
+				will be marked</td>
+		</tr>
+		<tr>
+			<td>(#m-start)</td>
+			<td>TODO</td>
+		</tr>
+		<tr>
+			<td>(#m-end)</td>
+			<td>TODO</td>
+		</tr>
+		<tr>
+			<td>(#b-start)</td>
+			<td>TODO</td>
+		</tr>
+		<tr>
+			<td>(#b-end)</td>
+			<td>TODO</td>
+		</tr>
+		<tr>
+			<td>(#exclude)</td>
+			<td>TODO</td>
+		</tr>
+	</table>
 
 	<h3 class="heading">Related Information</h3>
 	<div>
