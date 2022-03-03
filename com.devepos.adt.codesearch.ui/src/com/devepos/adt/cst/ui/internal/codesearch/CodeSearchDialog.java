@@ -263,6 +263,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
       updateOptionSelection();
       updateOptionEnabledment();
       validateSearchPatterns();
+      updateOKStatus();
     }));
   }
 
