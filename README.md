@@ -2,8 +2,6 @@
 
 ABAP Code Search Tools eclipse plugin
 
-> ATTENTION: The feature is not yet available on the Update Sites or the eclipse Marketplace
-
 ## Description
 
 ADT Plugin for searching ABAP code sources like Classes, Interfaces, Data Definitions, etc.
