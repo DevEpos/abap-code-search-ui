@@ -25,9 +25,17 @@
 	<p>If any pattern of the sequence is not found at some point, the
 		processing of the current file will be aborted.</p>
 
+	<div class="alert info">
+		<div class="alert-tip__text"></div>
+		<em>Sequential Matching</em> can be used together with <a class="link"
+			href="regular_expressions.html">Regular Expressions</a>
+	</div>
 	<p>
-		Let's assume you want to look for <em>SELECT</em> statements that
-		reside in a <em>LOOP</em> which is also wrapped in a <em>LOOP</em>.
+		Let's assume you want to look for
+		<code class="code">SELECT</code>
+		statements that reside in a nested
+		<code class="code">LOOP</code>
+		.
 	</p>
 
 	<pre class="code-block dark">
@@ -44,22 +52,30 @@
 <span class="code-line">      <span class="keyword">INTO</span> @&lt;sub_entry&gt;-object_author.</span>
 <span class="code-line">  <span class="keyword">ENDLOOP</span>.</span>
 <span class="code-line">    </span>
-<span class="code-line"><span class="keyword">ENDLOOP</span>.</span></pre>
+<span class="code-line"><span class="keyword">ENDLOOP</span>.</span>
+</pre>
+	<div class="code-block-description">
+		<strong>Snippet 1</strong>: Nested Loop
+	</div>
 
 	<p>
-		To find such <em>SELECT</em>s in your source code you would enter the
-		following pattern <em>sequence</em> in the pattern input of the Code
-		Search dialog:
+		To find such
+		<code class="code">SELECT</code>
+		s in your source code you would enter the following pattern <em>sequence</em>
+		in the pattern input of the Code Search dialog:
 	</p>
 	<pre class="code-block light">
 <span class="code-line">&#183;loop&#183;</span>
 <span class="code-line">&#183;loop&#183;</span>
-<span class="code-line">&#183;select&#183;</span></pre>
+<span class="code-line">&#183;select&#183;</span>
+</pre>
+	<div class="code-block-description">
+		<strong>Snippet 2</strong>: Sequence without control sequences
+	</div>
 
 	<p>The sequential search would then find the following three
 		matches in the example above, which would qualify as a single match
 		for the given pattern sequence.</p>
-	<!--  Code block sample -->
 	<pre class="code-block dark">
 <span class="code-line"><span class="keyword code-match">LOOP</span> <span
 			class="keyword">AT</span> entries <span class="keyword">ASSIGNING</span> <span
@@ -76,14 +92,18 @@
 <span class="code-line">      <span class="keyword">INTO</span> @&lt;sub_entry&gt;-object_author.</span>
 <span class="code-line">  <span class="keyword">ENDLOOP</span>.</span>
 <span class="code-line">  </span>
-<span class="code-line"><span class="keyword">ENDLOOP</span>.</span></pre>
+<span class="code-line"><span class="keyword">ENDLOOP</span>.</span>
+</pre>
+	<div class="code-block-description">
+		<strong>Snippet 3</strong>: Nested Loops with marked matches
+	</div>
 
 	<p>At times the sequential search may still find matches that are
 		not correct or rather matches you would not expect from your entered
 		pattern. Let's take the above code snippet and format the code a bit -
 		never mind if the code makes much sense - and run the search again.</p>
 
-	<pre class="code-block dark">
+	<pre id="snippet4" class="code-block dark">
 <span class="code-line"><span class="code-match">LOOP</span> <span
 			class="keyword">AT</span> entries <span class="keyword">ASSIGNING</span> <span
 			class="keyword">FIELD-SYMBOL</span>(&lt;entry&gt;).</span>
@@ -107,7 +127,11 @@
 <span class="code-line">      <span class="keyword">AND</span> object   = @&lt;sub_entry&gt;-object</span>
 <span class="code-line">    <span class="keyword">INTO</span> @&lt;sub_entry&gt;-object_author.</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="keyword">ENDLOOP</span>.</span></pre>
+<span class="code-line"><span class="keyword">ENDLOOP</span>.</span>
+</pre>
+	<div class="code-block-description">
+		<strong>Snippet 4</strong>: Wrong match example
+	</div>
 
 	<p>
 		As you can see search still found a match but almost certainly a match
@@ -141,29 +165,97 @@
 		</tr>
 		<tr>
 			<td>(#m-start)</td>
-			<td>TODO</td>
+			<td>Marks a pattern as the beginning of the match. Can only
+				occur one time in a pattern sequence. <br>Also,
+				(#m-start)/(#m-end) and (#match) are exclusive to each other and
+				cannot be used together in one sequence
+			</td>
 		</tr>
 		<tr>
 			<td>(#m-end)</td>
-			<td>TODO</td>
+			<td>Marks a pattern as the end of a match</td>
 		</tr>
 		<tr>
 			<td>(#b-start)</td>
-			<td>TODO</td>
+			<td>To allow only a certain search range for the following
+				patterns in a sequence a boundary can be set via (#b-start).<br>If
+				detected the search immediately looks for the nearest pattern marked
+				with (#b-end).<br>All other patterns that are written between
+				the start and end of the boundary must occur inside it otherwise no
+				match will be found.<br> Boundaries can occur multiple times in
+				a sequence but they must not overlap.
+			</td>
 		</tr>
 		<tr>
 			<td>(#b-end)</td>
-			<td>TODO</td>
+			<td>Marks the end of a boundary that was started with (#b-start)</td>
 		</tr>
 		<tr>
 			<td>(#exclude)</td>
-			<td>TODO</td>
+			<td>The pattern that follows an exclude pattern must not occur,
+				otherwise the search will return no match.<br>The range where
+				to look for these <em>exlusion</em>s is marked by the previous
+				pattern that was not marked with (#exclude) and the first pattern
+				after one that was not marked with (#exclude). <br>
+			</td>
 		</tr>
 	</table>
+
+	<h4 class="heading">Examples with control sequences</h4>
+
+	<ul class="list">
+		<li>The following pattern can be used to exclude matches like in
+			<a href="#snippet4" class="link">Snippet 4</a>.<br>In this
+			example (#exclude) is used to make sure the <code class="code">SELECT</code>
+			really occurs inside a nested <code class="code">LOOP</code>.<pre
+				class="code-block light">
+<span class="code-line">&#183;loop&#183;</span>
+<span class="code-line"><strong>(#exclude)</strong>&#183;endloop</span>
+<span class="code-line">&#183;loop&#183;</span>
+<span class="code-line"><strong>(#exclude)</strong>&#183;endloop</span>
+<span class="code-line">&#183;select&#183;</span>		
+</pre> Write now the match spans from the first <code class="code">LOOP</code>
+			to the <code class="code">SELECT</code> statement. If you want only
+			the <code class="code">SELECT</code> statement to marked, the
+			sequence can be modified in the following way<pre
+				class="code-block light">
+<span class="code-line">&#183;loop&#183;</span>
+<span class="code-line">(#exclude)&#183;endloop</span>
+<span class="code-line">&#183;loop&#183;</span>
+<span class="code-line">(#exclude)&#183;endloop</span>
+<span class="code-line"><strong>(#m-start)</strong>&#183;select&#183;</span>		
+<span class="code-line"><strong>(#m-end)</strong>.</span>		
+</pre>
+
+		</li>
+		<li>Let's assume you want to look for <code class="code">SELECT</code>
+			statements with certain keywords inside.<br>Some keywords like <code
+				class="code">GROUP</code> or <code class="code">WHERE</code> can
+			also occur in other statements like e.g. <code class="code">LOOP</code>.
+			To prevent the sequence to skip outside the bounds of the <code
+				class="code">SELECT</code> statement into the <code class="code">LOOP</code>
+			you can use boundaries.<pre class="code-block light">
+<span class="code-line"><strong>(#b-start)</strong>&#183;select&#183;</span>        
+<span class="code-line">&#183;where&#183;</span>       
+<span class="code-line">&#183;group&#183;</span>       
+<span class="code-line"><strong>(#b-end)</strong>.</span>       
+</pre> In this example the search will look first for a <code class="code">SELECT</code>
+			statement. After that it will will look for the first <code
+				class="code">.</code> to mark the end of the boundary.<br>Then
+			the search continues with the patterns that follow the (#b-start)
+			patterns. Only if the matches for these patterns occur before the
+			found <code class="code">.</code> at (#b-end) will the match be
+			considered a <em>full</em> match.
+		</li>
+	</ul>
 
 	<h3 class="heading">Related Information</h3>
 	<div>
 		<a class="link" href="search_dialog.html">Search Dialog</a>
+	</div>
+	<div>
+		<a class="link" href="regular_expressions.html">Regular
+			Expressions</a>
 	</div>
 </body>
 </html>

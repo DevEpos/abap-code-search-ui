@@ -67,6 +67,26 @@ figure {
 	background: rgba(255, 177, 0, 0.12);
 }
 
+.alert-tip__text::after {
+	content: 'TIP';
+	font-weight: bold;
+}
+
+.alert-warning__text::after {
+	content: 'WARNING';
+	font-weight: bold;
+}
+
+.alert-info__text::after {
+	content: 'INFO';
+	font-weight: bold;
+}
+
+.alert-attention__text::after {
+	content: 'ATTENTION';
+	font-weight: bold;
+}
+
 figure figcaption {
 	font-size: 85%;
 	font-style: italic;
@@ -181,23 +201,22 @@ a.link:hover {
 	color: white !important;
 }
 
-
 .code-block {
 	padding: 0.2em 0.5em;
 	border-radius: 2px;
-	border-top: 4px solid #c94c78; 
+	border-top: 4px solid #c94c78;
 }
 
 .code-block.dark {
 	box-shadow: inset 0 0 10px #000;
 	background: #303030;
-    color: #f1f1f1;
+	color: #f1f1f1;
 }
 
 .code-block.light {
 	background: white;
-    color: #303030;
-    box-shadow: 0 0 10px #000;
+	color: #303030;
+	box-shadow: 0 0 10px #000;
 }
 
 .code-block.dark .keyword {
@@ -205,12 +224,12 @@ a.link:hover {
 }
 
 .code-block.dark .abap-string {
-    color: #81d54c;
+	color: #81d54c;
 }
 
 .code-block.light .keyword {
 	color: #2f3e72;
-    font-weight: 600;
+	font-weight: 600;
 }
 
 .code-block .code-line {
@@ -226,4 +245,11 @@ a.link:hover {
 	margin-right: .5em;
 	color: #888;
 	width: 0.8em;
+}
+
+.code-block-description {
+	margin: 0 auto;
+	font-size: 85%; text-align : center;
+	font-style: italic;
+	text-align: center;
 }
