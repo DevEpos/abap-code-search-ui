@@ -1,3 +1,5 @@
+![](https://img.shields.io/badge/Java-SE11+-green) ![](https://img.shields.io/badge/eclipse-2020--09+-green)
+
 # abap-code-search-ui
 
 ABAP Code Search Tools eclipse plugin
