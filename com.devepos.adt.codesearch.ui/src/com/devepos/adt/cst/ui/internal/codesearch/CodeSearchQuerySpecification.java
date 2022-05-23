@@ -2,6 +2,7 @@ package com.devepos.adt.cst.ui.internal.codesearch;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,7 +50,9 @@ public class CodeSearchQuerySpecification {
   private IncludeFlagsParameter fugrIncludesParam;
 
   private Map<String, Object> objectScopeFilters;
+  private Map<String, Object> extensionObjectScopeFilters = new HashMap<>();
   private String objectScopeFiltersString = "";
+
   private String queryStringShort;
   private String queryStringLong;
 
@@ -103,13 +106,18 @@ public class CodeSearchQuerySpecification {
       parameter.setValue(objectNames);
       scopeParameters.getParameters().add(parameter);
     }
-    getObjectScopeFilters().forEach((paramName, paramValue) -> {
+
+    BiConsumer<String, Object> filterToScopeParamConsumer = (paramName, paramValue) -> {
       ICodeSearchScopeParameter parameter = ICodeSearchFactory.eINSTANCE
           .createCodeSearchScopeParameter();
       parameter.setName(paramName);
       parameter.setValue((String) paramValue);
       scopeParameters.getParameters().add(parameter);
-    });
+    };
+
+    getObjectScopeFilters().forEach(filterToScopeParamConsumer);
+    extensionObjectScopeFilters.forEach(filterToScopeParamConsumer);
+
     return scopeParameters;
   }
 
@@ -134,6 +142,15 @@ public class CodeSearchQuerySpecification {
   public String getDestinationId() {
     return projectProvider != null ? projectProvider.getDestinationId()
         : destinationId != null ? destinationId : "";
+  }
+
+  /**
+   * Returns map of scope filters that were added by search page extensions
+   *
+   * @return map of scope filters
+   */
+  public Map<String, Object> getExtensionObjectScopeFilters() {
+    return extensionObjectScopeFilters;
   }
 
   public IncludeFlagsParameter getFugrIncludesParam() {

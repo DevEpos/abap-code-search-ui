@@ -3,11 +3,14 @@ package com.devepos.adt.cst.ui.internal.codesearch;
 import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -15,6 +18,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.search.ui.ISearchPage;
@@ -30,6 +34,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import com.devepos.adt.base.plugin.features.IAdtPluginFeatures;
 import com.devepos.adt.base.ui.project.AbapProjectProxy;
 import com.devepos.adt.base.ui.project.IAbapProjectProvider;
 import com.devepos.adt.base.ui.project.ProjectInput;
@@ -38,6 +43,8 @@ import com.devepos.adt.base.ui.search.IChangeableSearchPage;
 import com.devepos.adt.base.ui.search.ISearchFilterProvider;
 import com.devepos.adt.base.ui.search.SearchFilterHandler;
 import com.devepos.adt.base.ui.search.SearchPageUtil;
+import com.devepos.adt.base.ui.search.ext.ISearchPageParameterSection;
+import com.devepos.adt.base.ui.search.ext.SearchPageExtensionsRegistry;
 import com.devepos.adt.base.ui.util.StatusUtil;
 import com.devepos.adt.base.ui.util.TextControlUtil;
 import com.devepos.adt.base.util.StringUtil;
@@ -66,6 +73,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private Composite statusArea;
   private Label searchStatusImageLabel;
   private Label searchStatusTextLabel;
+  private List<ISearchPageParameterSection> extensionParamSections;
 
   private Button ignoreCaseCheck;
   private Button multilineSearchOption;
@@ -206,12 +214,23 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
     classIncludeConfigGroup.updateControlsFromModel();
     fugrIncludeConfigGroup.updateControlsFromModel();
+
+    updateExtensionSectionsFromQuery(query);
   }
 
   @Override
   public void setVisible(final boolean visible) {
     super.setVisible(visible);
     updateOKStatus();
+  }
+
+  private void collectExtensionSectionParameters() {
+    for (ISearchPageParameterSection section : extensionParamSections) {
+      querySpecs.getExtensionObjectScopeFilters()
+          .put(section.getParameterId(), section.getParameterValues()
+              .stream()
+              .collect(Collectors.joining(",")));
+    }
   }
 
   private void collectQuerySpecs() {
@@ -228,6 +247,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     querySpecs.setMultilineSearchOption(multilineSearchOption.getSelection());
     querySpecs.setMatchAllPatterns(matchAllPatterns.getSelection());
     querySpecs.setUseRegExp(useRegExpCheck.getSelection());
+
+    collectExtensionSectionParameters();
   }
 
   private void createAdditionalSettingsGroup(final Composite parent) {
@@ -265,6 +286,20 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
       validateSearchPatterns();
       updateOKStatus();
     }));
+  }
+
+  private void createExtensionParamSections(final Composite parent) {
+    try {
+      extensionParamSections = SearchPageExtensionsRegistry.getParameterSections(PAGE_ID);
+
+      for (ISearchPageParameterSection paramSection : extensionParamSections) {
+        paramSection.createControl(parent);
+        paramSection.addLayoutChangeListener(() -> mainComposite.layout(true));
+      }
+    } catch (CoreException e) {
+      MessageDialog.openError(getShell(), Messages.CodeSearchDialog_extensionInitError_xtit, e
+          .getMessage());
+    }
   }
 
   private void createIncludeConfigOptions(final Composite parent) {
@@ -360,6 +395,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
       validateFilterPattern();
       updateOKStatus();
     });
+
+    createExtensionParamSections(objectScopeGroup);
   }
 
   private void createPatternsGroup(final Composite parent) {
@@ -414,6 +451,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
         validateFilterPattern();
         validateSearchPatterns();
       }
+      setProjectInExtensionSections();
       updateOKStatus();
     });
   }
@@ -533,6 +571,31 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     }
   }
 
+  private void setProjectInExtensionSections() {
+    IProject project = projectProvider.getProject();
+    IAdtPluginFeatures searchScopeFeatures = project != null ? CodeSearchFactory
+        .getCodeSearchService()
+        .getSearchScopeFeatures(projectProvider.getDestinationId()) : null;
+
+    for (ISearchPageParameterSection section : extensionParamSections) {
+      if (project != null) {
+        // check feature availability
+        if (searchScopeFeatures != null && searchScopeFeatures.isFeatureEnabled("parameters."
+            + section.getParameterId())) {
+          section.setProject(project);
+          section.setEnabledStatus(Status.OK_STATUS);
+        } else {
+          section.setProject(null);
+          section.setEnabledStatus(new Status(IStatus.INFO, CodeSearchUIPlugin.PLUGIN_ID,
+              Messages.CodeSearchDialog_extensionNotAvailableError_xmsg));
+        }
+      } else {
+        section.setProject(null);
+        section.setEnabledStatus(Status.OK_STATUS);
+      }
+    }
+  }
+
   private void setStatus(final IStatus status) {
     Display.getDefault().asyncExec(() -> {
       if (mainComposite.isDisposed() || searchStatusImageLabel == null
@@ -551,6 +614,17 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
         getShell().pack(true);
       }
     });
+  }
+
+  private void updateExtensionSectionsFromQuery(final CodeSearchQuery query) {
+    Map<String, Object> scopeFilters = query.getQuerySpecs().getExtensionObjectScopeFilters();
+
+    for (ISearchPageParameterSection section : extensionParamSections) {
+      Object scopeFilterValue = scopeFilters.get(section.getParameterId());
+      if (scopeFilterValue instanceof String) {
+        section.setParameterValues(Arrays.asList(((String) scopeFilterValue).split(",")));
+      }
+    }
   }
 
   private void updateOKStatus() {
@@ -632,8 +706,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
   private void validateSearchPatterns() {
     if (isSearchPatternProvided()) {
-      if (sequentialMatchingCheck.getSelection() && (patternsText.getText()
-          .split(Text.DELIMITER).length < 2)) {
+      if (sequentialMatchingCheck.getSelection() && patternsText.getText()
+          .split(Text.DELIMITER).length < 2) {
         validateAndSetStatus(new Status(IStatus.ERROR, CodeSearchUIPlugin.PLUGIN_ID,
             Messages.CodeSearchDialog_invalidPatternCountForSeqMatching_xmsg),
             ValidationSource.SEARCH_PATTERN);
