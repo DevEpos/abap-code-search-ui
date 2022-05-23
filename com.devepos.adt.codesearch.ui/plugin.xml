@@ -15,21 +15,37 @@
                   checkEnabled="false">
                <with
                      variable="selection">
-                  <iterate>
-                     <and>
-                        <test
-                              property="com.sap.adt.tools.core.objectTypes.hasGlobalWorkbenchType"
-                              value="CLAS/OC, INTF/OI, PROG/P, PROG/I, FUGR/F, BDEF/BDO, DDLS/DF, DDLX/EX, DCLS/DL, TYPE/DG, XSLT/VT, DEVC/K">
-                        </test>
-                        <adapt
-                              type="com.devepos.adt.base.ui.adtobject.IAdtObject">
+                  <or>
+                     <iterate>
+                        <and>
                            <test
-                                 forcePluginActivation="true"
-                                 property="com.devepos.adt.codesearch.ui.isCodeSearchAvailable">
+                                 property="com.sap.adt.tools.core.objectTypes.hasGlobalWorkbenchType"
+                                 value="CLAS/OC, INTF/OI, PROG/P, PROG/I, FUGR/F, BDEF/BDO, DDLS/DF, DDLX/EX, DCLS/DL, TYPE/DG, XSLT/VT, DEVC/K">
                            </test>
-                        </adapt>
+                           <adapt
+                                 type="com.devepos.adt.base.ui.adtobject.IAdtObject">
+                              <test
+                                    forcePluginActivation="true"
+                                    property="com.devepos.adt.codesearch.ui.isCodeSearchAvailable">
+                              </test>
+                           </adapt>
+                        </and>
+                     </iterate>
+                     <and>
+                        <count
+                              value="1">
+                        </count>
+                        <iterate>
+                           <adapt
+                                 type="com.devepos.adt.base.ui.virtualfolders.IVirtualFolderNode">
+                              <test
+                                    forcePluginActivation="true"
+                                    property="com.devepos.adt.codesearch.ui.virtualfolder.isCodeSearchAvailable">
+                              </test>
+                           </adapt>
+                        </iterate>
                      </and>
-                  </iterate>
+                  </or>
                </with>
             </visibleWhen>
          </command>
@@ -163,6 +179,13 @@
             namespace="com.devepos.adt.codesearch.ui"
             properties="isCodeSearchAvailable, isObjectSearchable"
             type="com.devepos.adt.base.ui.adtobject.IAdtObject">
+      </propertyTester>
+      <propertyTester
+            class="com.devepos.adt.cst.ui.internal.CodeSearchPropertyTester"
+            id="com.devepos.adt.codesearch.ui.CodeSearchVirtualFolder"
+            namespace="com.devepos.adt.codesearch.ui.virtualfolder"
+            properties="isCodeSearchAvailable"
+            type="com.devepos.adt.base.ui.virtualfolders.IVirtualFolderNode">
       </propertyTester>
    </extension>
   <extension
