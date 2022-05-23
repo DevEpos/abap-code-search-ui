@@ -41,6 +41,14 @@ public interface ICodeSearchService {
   IAdtUriTemplateProvider getNamedItemUriTemplateProvider(IAbapProjectProvider projectProvider);
 
   /**
+   * Retrieves the list of available features for the code search scope
+   *
+   * @param destinationId Id of the destination of an ABAP project
+   * @return list of available features in the context of the code search scope
+   */
+  IAdtPluginFeatures getSearchScopeFeatures(String destinationId);
+
+  /**
    * Retrieves the list of available features to configure the code search
    *
    * @param destinationId Id of the destination of an ABAP project

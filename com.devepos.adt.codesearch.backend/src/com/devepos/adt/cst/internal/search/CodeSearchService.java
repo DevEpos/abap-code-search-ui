@@ -69,6 +69,24 @@ public class CodeSearchService implements ICodeSearchService {
   }
 
   @Override
+  public IAdtPluginFeatures getSearchScopeFeatures(final String destinationId) {
+    CodeSearchUriDiscovery uriDiscovery = new CodeSearchUriDiscovery(destinationId);
+    URI pluginFeaturesUri = uriDiscovery.getPluginFeaturesUri();
+    if (pluginFeaturesUri == null) {
+      return null;
+    }
+    URI settingsUri = uriDiscovery.getCodeSearchScopeUri();
+    if (settingsUri == null) {
+      return null;
+    }
+
+    IAdtPluginFeatureList featureList = AdtPluginFeaturesServiceFactory.createService()
+        .getFeatures(destinationId, pluginFeaturesUri.toString());
+
+    return featureList != null ? featureList.getFeaturesByEndpoint(settingsUri.toString()) : null;
+  }
+
+  @Override
   public IAdtPluginFeatures getSearchSettingsFeatures(final String destinationId) {
     CodeSearchUriDiscovery uriDiscovery = new CodeSearchUriDiscovery(destinationId);
     URI pluginFeaturesUri = uriDiscovery.getPluginFeaturesUri();
