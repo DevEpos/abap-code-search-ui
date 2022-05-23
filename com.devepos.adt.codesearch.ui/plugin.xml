@@ -125,6 +125,7 @@
          point="org.eclipse.search.searchResultViewPages">
       <viewPage
             class="com.devepos.adt.cst.ui.internal.codesearch.result.CodeSearchResultPage"
+            helpContextId="com.devepos.adt.codesearch.ui.code_search_result"
             icon="icons/codesearch.png"
             id="com.devepos.adt.cst.ui.internal.codesearch.CodeSearchResultPage"
             searchResultClass="com.devepos.adt.cst.ui.internal.codesearch.result.CodeSearchResult">
