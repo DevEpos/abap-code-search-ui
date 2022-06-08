@@ -169,6 +169,15 @@
             class="com.devepos.adt.cst.ui.internal.pages.CodeSearchPropertyPage"
             id="com.devepos.adt.codesearch.ui.pages.CodeSearchPropertyPage"
             name="%codeSearch.displayName">
+         <filter
+               name="projectNature"
+               value="com.sap.adt.abapnature">
+         </filter>
+         <enabledWhen>
+            <adapt
+                  type="org.eclipse.core.resources.IProject">
+            </adapt>
+         </enabledWhen>
       </page>
    </extension>
    <extension
