@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.swt.widgets.Text;
 
-import com.devepos.adt.base.ui.project.IAbapProjectProvider;
+import com.devepos.adt.base.project.IAbapProjectProvider;
 import com.devepos.adt.base.util.StringUtil;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchFactory;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameter;

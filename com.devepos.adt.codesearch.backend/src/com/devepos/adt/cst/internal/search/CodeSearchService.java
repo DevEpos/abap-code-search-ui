@@ -15,7 +15,7 @@ import com.devepos.adt.base.destinations.DestinationUtil;
 import com.devepos.adt.base.model.adtbase.IAdtPluginFeatureList;
 import com.devepos.adt.base.plugin.features.AdtPluginFeaturesServiceFactory;
 import com.devepos.adt.base.plugin.features.IAdtPluginFeatures;
-import com.devepos.adt.base.ui.project.IAbapProjectProvider;
+import com.devepos.adt.base.project.IAbapProjectProvider;
 import com.devepos.adt.base.util.StringUtil;
 import com.devepos.adt.cst.internal.CodeSearchPlugin;
 import com.devepos.adt.cst.internal.messages.Messages;

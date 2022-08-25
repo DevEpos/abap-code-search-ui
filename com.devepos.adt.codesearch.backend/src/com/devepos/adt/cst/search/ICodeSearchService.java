@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.IStatus;
 
 import com.devepos.adt.base.IAdtUriTemplateProvider;
 import com.devepos.adt.base.plugin.features.IAdtPluginFeatures;
-import com.devepos.adt.base.ui.project.IAbapProjectProvider;
+import com.devepos.adt.base.project.IAbapProjectProvider;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchScope;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;

@@ -1,7 +1,7 @@
 package com.devepos.adt.cst.internal.search;
 
 import com.devepos.adt.base.IAdtUriTemplateProvider;
-import com.devepos.adt.base.ui.project.IAbapProjectProvider;
+import com.devepos.adt.base.project.IAbapProjectProvider;
 import com.devepos.adt.base.util.IPropertyChangeListener;
 import com.devepos.adt.base.util.PropertyChangeEvent;
 import com.sap.adt.compatibility.uritemplate.IAdtUriTemplate;
