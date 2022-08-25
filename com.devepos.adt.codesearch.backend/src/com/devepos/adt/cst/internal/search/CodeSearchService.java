@@ -13,6 +13,7 @@ import org.eclipse.osgi.util.NLS;
 import com.devepos.adt.base.IAdtUriTemplateProvider;
 import com.devepos.adt.base.destinations.DestinationUtil;
 import com.devepos.adt.base.model.adtbase.IAdtPluginFeatureList;
+import com.devepos.adt.base.nameditem.NamedItemServiceFactory;
 import com.devepos.adt.base.plugin.features.AdtPluginFeaturesServiceFactory;
 import com.devepos.adt.base.plugin.features.IAdtPluginFeatures;
 import com.devepos.adt.base.project.IAbapProjectProvider;
@@ -65,7 +66,8 @@ public class CodeSearchService implements ICodeSearchService {
     if (projectProvider == null) {
       throw new IllegalArgumentException("Parameter 'projectProvider' must be filled!");
     }
-    return new NamedItemUriTemplateProvider(projectProvider);
+    return NamedItemServiceFactory.createNamedItemUriTemplateProvider(projectProvider,
+        CodeSearchUriDiscovery::new);
   }
 
   @Override
