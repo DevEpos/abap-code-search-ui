@@ -7,13 +7,13 @@ Bundle-Activator: com.devepos.adt.cst.internal.CodeSearchPlugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Require-Bundle: 
- com.devepos.adt.base;bundle-version="[1.4.0,2.0.0)",
+ com.devepos.adt.base,
  com.devepos.adt.codesearch.model,
  com.sap.adt.compatibility,
  com.sap.adt.communication,
  org.eclipse.core.resources,
  org.eclipse.core.runtime,
- com.devepos.adt.base.ui;bundle-version="[1.4.0,2.0.0)"
+ com.devepos.adt.base.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: com.devepos.adt.codesearch.backend
 Bundle-ActivationPolicy: lazy
