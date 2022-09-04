@@ -5,22 +5,22 @@ import java.util.Set;
 
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.search.ui.text.AbstractTextSearchViewPage;
 
 import com.devepos.adt.base.ui.tree.ICollectionTreeNode;
 import com.devepos.adt.base.ui.tree.ITreeNode;
+import com.devepos.adt.base.ui.tree.PackageNode;
 
 class MatchViewerUpdater {
-  private Object[] updatedMatchNodes;
-  private CodeSearchResult result;
-  private Set<ICollectionTreeNode> parentNodesWithoutMatches;
-  private Set<ICollectionTreeNode> nodesToRefresh;
+  private final Object[] updatedMatchNodes;
+  private final CodeSearchResult result;
+  private final Set<ICollectionTreeNode> parentNodesWithoutMatches;
+  private final Set<ICollectionTreeNode> nodesToRefresh;
   private boolean isRootNodeAdjusted;
-  private AbstractTextSearchViewPage resultPage;
-  private StructuredViewer viewer;
+  private final CodeSearchResultPage resultPage;
+  private final StructuredViewer viewer;
 
   public MatchViewerUpdater(final Object[] updatedMatchNodes, final CodeSearchResult result,
-      final StructuredViewer viewer, final AbstractTextSearchViewPage resultPage) {
+      final StructuredViewer viewer, final CodeSearchResultPage resultPage) {
     this.updatedMatchNodes = updatedMatchNodes;
     this.result = result;
     this.viewer = viewer;
@@ -73,9 +73,13 @@ class MatchViewerUpdater {
     for (ICollectionTreeNode parent : parentNodesWithoutMatches) {
 
       while (parent != null) {
-        // check if we removed a node from the root node, then we have to refresh the
-        // whole viewer as the root node is not visible
-        if (!isRootNodeAdjusted && parent == result.getResultTree()) {
+        /*
+         * The whole viewer needs to be refreshed under the following conditions
+         * - node was removed from the root node
+         * - node was removed from a package node but the package grouping is turned off
+         */
+        if (!isRootNodeAdjusted && parent == result.getResultTree() || parent instanceof PackageNode
+            && !resultPage.isPackageGroupingEnabled()) {
           isRootNodeAdjusted = true;
         }
 
