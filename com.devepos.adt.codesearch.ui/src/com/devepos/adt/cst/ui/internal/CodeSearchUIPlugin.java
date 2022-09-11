@@ -3,7 +3,7 @@ package com.devepos.adt.cst.ui.internal;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.osgi.framework.BundleContext;
 
-import com.devepos.adt.base.plugin.AbstractAdtUIPlugin;
+import com.devepos.adt.base.ui.plugin.AbstractAdtUIPlugin;
 
 /**
  * The activator class controls the plug-in life cycle
