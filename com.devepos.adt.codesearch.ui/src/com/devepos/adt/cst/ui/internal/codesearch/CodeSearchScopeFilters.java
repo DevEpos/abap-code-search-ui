@@ -3,7 +3,7 @@ package com.devepos.adt.cst.ui.internal.codesearch;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.devepos.adt.base.ui.project.IAbapProjectProvider;
+import com.devepos.adt.base.project.IAbapProjectProvider;
 import com.devepos.adt.base.ui.search.ISearchFilter;
 import com.devepos.adt.base.ui.search.ISearchFilterProvider;
 import com.devepos.adt.base.ui.search.contentassist.ApplicationComponentSearchFilter;

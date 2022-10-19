@@ -31,10 +31,10 @@ import org.eclipse.ui.progress.IProgressService;
 
 import com.devepos.adt.base.destinations.DestinationUtil;
 import com.devepos.adt.base.plugin.features.IAdtPluginFeatures;
+import com.devepos.adt.base.project.IAbapProjectProvider;
 import com.devepos.adt.base.ui.MessageLine;
 import com.devepos.adt.base.ui.contentassist.ContentAssistSupport;
 import com.devepos.adt.base.ui.project.AbapProjectProviderAccessor;
-import com.devepos.adt.base.ui.project.IAbapProjectProvider;
 import com.devepos.adt.base.ui.project.ProjectUtil;
 import com.devepos.adt.base.ui.util.TextControlUtil;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;

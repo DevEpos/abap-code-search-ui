@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Map;
 
 import com.devepos.adt.cst.internal.util.CodeSearchToolsUriDiscoveryBase;
-import com.sap.adt.compatibility.uritemplate.AdtUriTemplateFactory;
 import com.sap.adt.compatibility.uritemplate.IAdtUriTemplate;
 
 /**
@@ -22,7 +21,6 @@ public class CodeSearchUriDiscovery extends CodeSearchToolsUriDiscoveryBase {
   private static final String DISCOVERY_TERM_CODE_SEARCH_SCOPE = "codesearchScope";
   private static final String DISCOVERY_TERM_CODE_SEARCH_SETTINGS = "codesearchSettings";
   private static final String DISCOVERY_TERM_PATTERN_VALIDATOR = "patternValidator";
-  private static final String NAMED_ITEM_TEMPLATE = "{?maxItemCount,name,description,data}";
 
   public CodeSearchUriDiscovery(final String destinationId) {
     super(destinationId, DISCOVERY_SCHEME);
@@ -81,11 +79,6 @@ public class CodeSearchUriDiscovery extends CodeSearchToolsUriDiscoveryBase {
     return getUriFromCollectionMember(DISCOVERY_TERM_CODE_SEARCH);
   }
 
-  public IAdtUriTemplate getNamedItemTemplate(final String discoveryTerm) {
-    final URI uri = getUriFromCollectionMember(discoveryTerm);
-    return uri != null ? getNamedItemTemplateForUri(uri) : null;
-  }
-
   /**
    * Retrieves URI for Pattern Validation
    *
@@ -93,14 +86,6 @@ public class CodeSearchUriDiscovery extends CodeSearchToolsUriDiscoveryBase {
    */
   public URI getPatternValidationUri() {
     return getUriFromCollectionMember(DISCOVERY_TERM_PATTERN_VALIDATOR);
-  }
-
-  private IAdtUriTemplate getNamedItemTemplateForUri(final URI uri) {
-    IAdtUriTemplate uriTemplate = null;
-    if (uri != null) {
-      uriTemplate = AdtUriTemplateFactory.createUriTemplate(uri.toString() + NAMED_ITEM_TEMPLATE);
-    }
-    return uriTemplate;
   }
 
 }

@@ -2,12 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: com.devepos.adt.codesearch.ui;singleton:=true
-Bundle-Version: 1.1.1.qualifier
+Bundle-Version: 1.1.3.qualifier
 Bundle-Activator: com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin
 Bundle-Vendor: %providerName
 Require-Bundle: 
- com.devepos.adt.base;bundle-version="[1.3.0,2.0.0)",
- com.devepos.adt.base.ui;bundle-version="[1.3.0,2.0.0)",
+ com.devepos.adt.base,
+ com.devepos.adt.base.ui,
  com.devepos.adt.codesearch.backend,
  com.devepos.adt.codesearch.model,
  com.sap.adt.communication,
