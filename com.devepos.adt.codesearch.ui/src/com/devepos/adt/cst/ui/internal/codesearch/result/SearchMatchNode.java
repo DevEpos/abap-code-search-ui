@@ -12,6 +12,7 @@ import com.devepos.adt.base.ui.tree.ICollectionTreeNode;
 import com.devepos.adt.base.ui.tree.IStyledTreeNode;
 import com.devepos.adt.base.ui.tree.TreeNodeBase;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchMatch;
+import com.devepos.adt.cst.ui.internal.messages.Messages;
 
 /**
  * Tree node for a match from the code search
@@ -20,12 +21,12 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchMatch;
  */
 public class SearchMatchNode extends TreeNodeBase implements IStyledTreeNode {
   private static final StyledString.Styler HIGHLIGHT_STYLER = StyledString
-      .createColorRegistryStyler(null, "org.eclipse.search.ui.match.highlight");
+      .createColorRegistryStyler(null, "org.eclipse.search.ui.match.highlight"); //$NON-NLS-1$
 
   private ICodeSearchMatch match;
 
   public SearchMatchNode(final ICodeSearchMatch match, final ICollectionTreeNode parent) {
-    super(match.getSnippet(), match.getSnippet(), "", parent);
+    super(match.getSnippet(), match.getSnippet(), "", parent); //$NON-NLS-1$
     this.match = match;
   }
 
@@ -39,11 +40,11 @@ public class SearchMatchNode extends TreeNodeBase implements IStyledTreeNode {
     String uri = match.getUri();
     String content = match.getSnippet();
     StyledString styledSnippet = new StyledString();
-    String fragment = uri.substring(uri.indexOf("#"));
+    String fragment = uri.substring(uri.indexOf("#")); //$NON-NLS-1$
     if (fragment == null) {
       styledSnippet.append(content);
     } else {
-      Pattern fragmentPattern = Pattern.compile("start=(\\d+),(\\d+);end=(\\d+),(\\d+)");
+      Pattern fragmentPattern = Pattern.compile("start=(\\d+),(\\d+);end=(\\d+),(\\d+)"); //$NON-NLS-1$
       Matcher fragmentMatcher = fragmentPattern.matcher(uri);
       if (fragmentMatcher.find()) {
         int startLine = Integer.parseInt(fragmentMatcher.group(1));
@@ -64,6 +65,14 @@ public class SearchMatchNode extends TreeNodeBase implements IStyledTreeNode {
       }
     }
     return styledSnippet;
+  }
+
+  public String getTooltip() {
+    String longSnippet = match.getLongSnippet();
+    if (longSnippet == null) {
+      return null;
+    }
+    return Messages.SearchMatchNode_MatchTooltipIntro_xtol + "\n\n" + match.getLongSnippet(); // $NON-NLS-2$
   }
 
   public String getUri() {

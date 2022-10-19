@@ -16,6 +16,8 @@ import org.eclipse.emf.ecore.EObject;
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchMatch#getUri <em>Uri</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchMatch#getSnippet
  * <em>Snippet</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchMatch#getLongSnippet <em>Long
+ * Snippet</em>}</li>
  * </ul>
  *
  * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchMatch()
@@ -48,5 +50,18 @@ public interface ICodeSearchMatch extends EObject {
    * @generated
    */
   String getSnippet();
+
+  /**
+   * Returns the value of the '<em><b>Long Snippet</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @return the value of the '<em>Long Snippet</em>' attribute.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchMatch_LongSnippet()
+   * @model suppressedSetVisibility="true"
+   *        extendedMetaData="kind='element' name='longSnippet' namespace='##targetNamespace'"
+   * @generated
+   */
+  String getLongSnippet();
 
 } // ICodeSearchMatch

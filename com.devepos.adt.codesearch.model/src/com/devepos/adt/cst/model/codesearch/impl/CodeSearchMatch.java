@@ -21,6 +21,8 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchMatch#getUri <em>Uri</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchMatch#getSnippet
  * <em>Snippet</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchMatch#getLongSnippet <em>Long
+ * Snippet</em>}</li>
  * </ul>
  *
  * @generated
@@ -69,6 +71,28 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
    * @ordered
    */
   protected String snippet = SNIPPET_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getLongSnippet() <em>Long Snippet</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @see #getLongSnippet()
+   * @generated
+   * @ordered
+   */
+  protected static final String LONG_SNIPPET_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getLongSnippet() <em>Long Snippet</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @see #getLongSnippet()
+   * @generated
+   * @ordered
+   */
+  protected String longSnippet = LONG_SNIPPET_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -150,12 +174,40 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
    * @generated
    */
   @Override
+  public String getLongSnippet() {
+    return longSnippet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  public void setLongSnippet(final String newLongSnippet) {
+    String oldLongSnippet = longSnippet;
+    longSnippet = newLongSnippet;
+    if (eNotificationRequired()) {
+      eNotify(new ENotificationImpl(this, Notification.SET,
+          ICodeSearchPackage.CODE_SEARCH_MATCH__LONG_SNIPPET, oldLongSnippet, longSnippet));
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
   public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
     switch (featureID) {
     case ICodeSearchPackage.CODE_SEARCH_MATCH__URI:
       return getUri();
     case ICodeSearchPackage.CODE_SEARCH_MATCH__SNIPPET:
       return getSnippet();
+    case ICodeSearchPackage.CODE_SEARCH_MATCH__LONG_SNIPPET:
+      return getLongSnippet();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -174,6 +226,9 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
       return;
     case ICodeSearchPackage.CODE_SEARCH_MATCH__SNIPPET:
       setSnippet((String) newValue);
+      return;
+    case ICodeSearchPackage.CODE_SEARCH_MATCH__LONG_SNIPPET:
+      setLongSnippet((String) newValue);
       return;
     }
     super.eSet(featureID, newValue);
@@ -194,6 +249,9 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
     case ICodeSearchPackage.CODE_SEARCH_MATCH__SNIPPET:
       setSnippet(SNIPPET_EDEFAULT);
       return;
+    case ICodeSearchPackage.CODE_SEARCH_MATCH__LONG_SNIPPET:
+      setLongSnippet(LONG_SNIPPET_EDEFAULT);
+      return;
     }
     super.eUnset(featureID);
   }
@@ -211,6 +269,9 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
       return URI_EDEFAULT == null ? uri != null : !URI_EDEFAULT.equals(uri);
     case ICodeSearchPackage.CODE_SEARCH_MATCH__SNIPPET:
       return SNIPPET_EDEFAULT == null ? snippet != null : !SNIPPET_EDEFAULT.equals(snippet);
+    case ICodeSearchPackage.CODE_SEARCH_MATCH__LONG_SNIPPET:
+      return LONG_SNIPPET_EDEFAULT == null ? longSnippet != null
+          : !LONG_SNIPPET_EDEFAULT.equals(longSnippet);
     }
     return super.eIsSet(featureID);
   }
@@ -232,6 +293,8 @@ public class CodeSearchMatch extends MinimalEObjectImpl.Container implements ICo
     result.append(uri);
     result.append(", snippet: ");
     result.append(snippet);
+    result.append(", longSnippet: ");
+    result.append(longSnippet);
     result.append(')');
     return result.toString();
   }

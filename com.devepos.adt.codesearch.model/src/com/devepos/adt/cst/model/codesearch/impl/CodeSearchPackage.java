@@ -261,6 +261,17 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
    * @generated
    */
   @Override
+  public EAttribute getCodeSearchMatch_LongSnippet() {
+    return (EAttribute) codeSearchMatchEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
   public EClass getCodeSearchResult() {
     return codeSearchResultEClass;
   }
@@ -528,6 +539,7 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     codeSearchMatchEClass = createEClass(CODE_SEARCH_MATCH);
     createEAttribute(codeSearchMatchEClass, CODE_SEARCH_MATCH__URI);
     createEAttribute(codeSearchMatchEClass, CODE_SEARCH_MATCH__SNIPPET);
+    createEAttribute(codeSearchMatchEClass, CODE_SEARCH_MATCH__LONG_SNIPPET);
 
     codeSearchResultEClass = createEClass(CODE_SEARCH_RESULT);
     createEReference(codeSearchResultEClass, CODE_SEARCH_RESULT__SEARCH_OBJECTS);
@@ -622,6 +634,9 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     initEAttribute(getCodeSearchMatch_Snippet(), ecorePackage.getEString(), "snippet", null, 0, 1,
         ICodeSearchMatch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
         IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCodeSearchMatch_LongSnippet(), ecorePackage.getEString(), "longSnippet", null,
+        0, 1, ICodeSearchMatch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+        !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(codeSearchResultEClass, ICodeSearchResult.class, "CodeSearchResult", !IS_ABSTRACT,
         !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -722,6 +737,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
         "uri", "namespace", "##targetNamespace" });
     addAnnotation(getCodeSearchMatch_Snippet(), source, new String[] { "kind", "element", "name",
         "snippet", "namespace", "##targetNamespace" });
+    addAnnotation(getCodeSearchMatch_LongSnippet(), source, new String[] { "kind", "element",
+        "name", "longSnippet", "namespace", "##targetNamespace" });
     addAnnotation(codeSearchResultEClass, source, new String[] { "kind", "elementOnly", "name",
         "result" });
     addAnnotation(getCodeSearchResult_SearchObjects(), source, new String[] { "kind", "element",

@@ -100,6 +100,7 @@ public class Messages extends NLS {
   public static String IncludeFlagsDialog_dialogPurpose_xmsg;
   public static String IncludeFlagsDialog_selectAll_xchk;
   public static String SearchFilters_objectTypeFilterDescription_xmsg;
+  public static String SearchMatchNode_MatchTooltipIntro_xtol;
 
   private Messages() {
   }

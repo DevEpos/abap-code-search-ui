@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.IToolTipProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
@@ -24,7 +25,7 @@ import com.devepos.adt.cst.ui.internal.messages.Messages;
  * @author Ludwig Stockbauer-Muhr
  */
 class CodeSearchResultLabelProvider extends LabelProvider implements ILabelProvider,
-    IStyledLabelProvider {
+    IStyledLabelProvider, IToolTipProvider {
 
   private NumberFormat matchCountFormat = new DecimalFormat("###,###");
 
@@ -85,5 +86,14 @@ class CodeSearchResultLabelProvider extends LabelProvider implements ILabelProvi
     final ITreeNode searchResult = (ITreeNode) element;
 
     return searchResult.getName();
+  }
+
+  @Override
+  public String getToolTipText(final Object element) {
+    if (element instanceof SearchMatchNode) {
+      final SearchMatchNode matchNode = (SearchMatchNode) element;
+      return matchNode.getTooltip();
+    }
+    return null;
   }
 }

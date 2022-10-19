@@ -166,6 +166,16 @@ public interface ICodeSearchPackage extends EPackage {
   int CODE_SEARCH_MATCH__SNIPPET = 1;
 
   /**
+   * The feature id for the '<em><b>Long Snippet</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   * @ordered
+   */
+  int CODE_SEARCH_MATCH__LONG_SNIPPET = 2;
+
+  /**
    * The number of structural features of the '<em>Match</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -173,7 +183,7 @@ public interface ICodeSearchPackage extends EPackage {
    * @generated
    * @ordered
    */
-  int CODE_SEARCH_MATCH_FEATURE_COUNT = 2;
+  int CODE_SEARCH_MATCH_FEATURE_COUNT = 3;
 
   /**
    * The number of operations of the '<em>Match</em>' class.
@@ -612,6 +622,20 @@ public interface ICodeSearchPackage extends EPackage {
   EAttribute getCodeSearchMatch_Snippet();
 
   /**
+   * Returns the meta object for the attribute
+   * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchMatch#getLongSnippet <em>Long
+   * Snippet</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @return the meta object for the attribute '<em>Long Snippet</em>'.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchMatch#getLongSnippet()
+   * @see #getCodeSearchMatch()
+   * @generated
+   */
+  EAttribute getCodeSearchMatch_LongSnippet();
+
+  /**
    * Returns the meta object for class
    * '{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult <em>Result</em>}'.
    * <!-- begin-user-doc -->
@@ -998,6 +1022,15 @@ public interface ICodeSearchPackage extends EPackage {
      * @generated
      */
     EAttribute CODE_SEARCH_MATCH__SNIPPET = eINSTANCE.getCodeSearchMatch_Snippet();
+
+    /**
+     * The meta object literal for the '<em><b>Long Snippet</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    EAttribute CODE_SEARCH_MATCH__LONG_SNIPPET = eINSTANCE.getCodeSearchMatch_LongSnippet();
 
     /**
      * The meta object literal for the

@@ -7,6 +7,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.OpenStrategy;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -142,6 +143,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     collapseNodeAction = null;
     contentProvider = new CodeSearchTableContentProvider(this);
     viewer.setContentProvider(contentProvider);
+    ColumnViewerToolTipSupport.enableFor(viewer);
     viewer.setLabelProvider(new DelegatingStyledCellLabelProvider(
         new CodeSearchResultLabelProvider()));
   }
@@ -151,6 +153,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     collapseNodeAction = new CollapseTreeNodesAction(viewer);
     contentProvider = new CodeSearchTreeContentProvider(this);
     viewer.setContentProvider(contentProvider);
+    ColumnViewerToolTipSupport.enableFor(viewer);
     viewer.setLabelProvider(new DelegatingStyledCellLabelProvider(
         new CodeSearchResultLabelProvider()));
     viewer.setComparator(new ViewerComparator() {

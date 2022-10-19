@@ -18,6 +18,7 @@
     <genClasses ecoreClass="codesearch.ecore#//CodeSearchMatch">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchMatch/uri"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchMatch/snippet"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchMatch/longSnippet"/>
     </genClasses>
     <genClasses ecoreClass="codesearch.ecore#//CodeSearchResult">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference codesearch.ecore#//CodeSearchResult/searchObjects"/>
