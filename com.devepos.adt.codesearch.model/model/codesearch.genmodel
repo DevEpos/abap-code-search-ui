@@ -26,6 +26,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchResult/numberOfResults"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchResult/numberOfSearchedObjects"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchResult/numberOfSearchedSources"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchResult/linesOfSearchedCode"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute codesearch.ecore#//CodeSearchResult/queryTimeInMs"/>
     </genClasses>
     <genClasses ecoreClass="codesearch.ecore#//CodeSearchSettings">

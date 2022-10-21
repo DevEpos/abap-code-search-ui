@@ -28,11 +28,12 @@ import com.devepos.adt.cst.ui.internal.messages.Messages;
 public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntimeInfoListener {
 
   private static final int UPDATE_BUTTON_ID = 50;
-  private CodeSearchRuntimeInformation runtimeInfo;
-  private NumberFormat numberFormat;
+  private final CodeSearchRuntimeInformation runtimeInfo;
+  private final NumberFormat numberFormat;
 
   private Label searchedObjects;
   private Label searchedSources;
+  private Label searchedLoC;
   private Label foundMatches;
   private Label queryDuration;
   private Label averageRequestDuration;
@@ -44,9 +45,9 @@ public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntim
       final CodeSearchRuntimeInformation runtimeInfo) {
     super(shell);
     this.runtimeInfo = runtimeInfo;
-    setTitle(Messages.CodeSearchRuntimeInfoDialog_dialogTitle_xtit + " [" + runtimeInfo
-        .getSystemId() + "]");
-    numberFormat = new DecimalFormat("###,###");
+    setTitle(Messages.CodeSearchRuntimeInfoDialog_dialogTitle_xtit + " [" + runtimeInfo //$NON-NLS-1$
+        .getSystemId() + "]"); //$NON-NLS-1$
+    numberFormat = new DecimalFormat("###,###"); //$NON-NLS-1$
 
     if (runtimeInfo.isSearchRunning()) {
       runtimeInfo.addRuntimeInfoListener(this);
@@ -153,14 +154,22 @@ public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntim
     Label searchedObjectsLabel = new Label(group, SWT.NONE);
     searchedObjectsLabel.setText(Messages.CodeSearchRuntimeInfoDialog_searchedObjects_xlbl);
     searchedObjects = new Label(group, SWT.NONE);
+    GridDataFactory.fillDefaults().align(SWT.END, SWT.FILL).applyTo(searchedObjects);
 
     Label searchedSourcesLabel = new Label(group, SWT.NONE);
     searchedSourcesLabel.setText(Messages.CodeSearchRuntimeInfoDialog_searchedSources_xlbl);
     searchedSources = new Label(group, SWT.NONE);
+    GridDataFactory.fillDefaults().align(SWT.END, SWT.FILL).applyTo(searchedSources);
+
+    Label searchedSourceLoCLabel = new Label(group, SWT.NONE);
+    searchedSourceLoCLabel.setText(Messages.CodeSearchRuntimeInfoDialog_linesOfCode_xlbl);
+    searchedLoC = new Label(group, SWT.NONE);
+    GridDataFactory.fillDefaults().align(SWT.END, SWT.FILL).applyTo(searchedLoC);
 
     Label foundMatchesLabel = new Label(group, SWT.NONE);
     foundMatchesLabel.setText(Messages.CodeSearchRuntimeInfoDialog_foundMatchesLabel_xlbl);
     foundMatches = new Label(group, SWT.NONE);
+    GridDataFactory.fillDefaults().align(SWT.END, SWT.FILL).applyTo(foundMatches);
   }
 
   private void createRuntimeInfoGroup(final Composite parent) {
@@ -172,6 +181,7 @@ public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntim
     Label queryRuntimeLabel = new Label(group, SWT.NONE);
     queryRuntimeLabel.setText(Messages.CodeSearchRuntimeInfoDialog_queryRuntimeInMs_xlbl);
     queryDuration = new Label(group, SWT.NONE);
+    GridDataFactory.fillDefaults().align(SWT.END, SWT.FILL).applyTo(queryDuration);
 
     Label averageRuntimLabel = new Label(group, SWT.NONE);
     averageRuntimLabel.setText(
@@ -188,11 +198,13 @@ public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntim
         Messages.CodeSearchRuntimeInfoDialog_searchedObjectCountPattern_xtxt, numberFormat.format(
             runtimeInfo.getSearchedObjectsCount()), numberFormat.format(runtimeInfo
                 .getObjectScopeCount()), (int) percentage));
+
     searchedSources.setText(numberFormat.format(runtimeInfo.getSearchedSourcesCount()));
+    searchedLoC.setText(numberFormat.format(runtimeInfo.getSearchedLinesOfCode()));
     foundMatches.setText(numberFormat.format(runtimeInfo.getResultCount()));
+
     queryDuration.setText(String.format(Messages.CodeSearchRuntimeInfoDialog_queryRuntimeInMs_xtxt,
         numberFormat.format(runtimeInfo.getOverallServerTimeInMs())));
-
     averageRequestDuration.setText(String.format(
         Messages.CodeSearchRuntimeInfoDialog_queryRuntimeInMs_xtxt, numberFormat.format(runtimeInfo
             .getAverageDuration())));

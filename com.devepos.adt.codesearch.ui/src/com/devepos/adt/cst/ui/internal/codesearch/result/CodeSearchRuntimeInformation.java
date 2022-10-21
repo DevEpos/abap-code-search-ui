@@ -17,18 +17,19 @@ import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchQuery;
  *
  */
 public class CodeSearchRuntimeInformation implements IQueryListener {
-  private Set<IRuntimeInfoListener> runtimeListeners = new HashSet<>();
+  private final Set<IRuntimeInfoListener> runtimeListeners = new HashSet<>();
   private int averageDuration;
   private int requestCount;
   private int resultCount;
   private int objectScopeCount;
   private int searchedSourcesCount;
+  private float searchedLinesOfCode;
 
   private int searchedObjectsCount;
+
   private String systemId;
   private int overallServerTimeInMs;
-
-  private CodeSearchQuery searchQuery;
+  private final CodeSearchQuery searchQuery;
 
   public CodeSearchRuntimeInformation(final CodeSearchQuery searchQuery) {
     this.searchQuery = searchQuery;
@@ -64,6 +65,15 @@ public class CodeSearchRuntimeInformation implements IQueryListener {
 
   public int getResultCount() {
     return resultCount;
+  }
+
+  /**
+   * Returns the number of lines of code that were searched
+   *
+   * @return
+   */
+  public float getSearchedLinesOfCode() {
+    return searchedLinesOfCode;
   }
 
   /**
@@ -126,6 +136,7 @@ public class CodeSearchRuntimeInformation implements IQueryListener {
     overallServerTimeInMs = 0;
     resultCount = 0;
     requestCount = 0;
+    searchedLinesOfCode = 0;
     objectScopeCount = 0;
     searchedSourcesCount = 0;
     searchedObjectsCount = 0;
@@ -142,6 +153,7 @@ public class CodeSearchRuntimeInformation implements IQueryListener {
     resultCount += result.getNumberOfResults();
     searchedObjectsCount += result.getNumberOfSearchedObjects();
     searchedSourcesCount += result.getNumberOfSearchedSources();
+    searchedLinesOfCode += result.getLinesOfSearchedCode();
     averageDuration = overallServerTimeInMs / ++requestCount;
 
     fireUpdated();

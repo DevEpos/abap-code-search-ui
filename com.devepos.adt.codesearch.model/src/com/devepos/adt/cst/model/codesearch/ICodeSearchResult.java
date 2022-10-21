@@ -26,6 +26,8 @@ import com.devepos.adt.base.model.adtbase.IResponseMessageList;
  * <em>Number Of Searched Objects</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getNumberOfSearchedSources
  * <em>Number Of Searched Sources</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getLinesOfSearchedCode
+ * <em>Lines Of Searched Code</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.ICodeSearchResult#getQueryTimeInMs <em>Query Time
  * In Ms</em>}</li>
  * </ul>
@@ -103,6 +105,20 @@ public interface ICodeSearchResult extends EObject {
    * @generated
    */
   int getNumberOfSearchedSources();
+
+  /**
+   * Returns the value of the '<em><b>Lines Of Searched Code</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @return the value of the '<em>Lines Of Searched Code</em>' attribute.
+   * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchResult_LinesOfSearchedCode()
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Float" suppressedSetVisibility="true"
+   *        extendedMetaData="kind='attribute' name='linesOfSearchedCode'
+   *        namespace='##targetNamespace'"
+   * @generated
+   */
+  float getLinesOfSearchedCode();
 
   /**
    * Returns the value of the '<em><b>Query Time In Ms</b></em>' attribute.

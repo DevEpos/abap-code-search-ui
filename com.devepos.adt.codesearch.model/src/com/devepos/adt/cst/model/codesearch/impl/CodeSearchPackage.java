@@ -338,8 +338,19 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
    * @generated
    */
   @Override
-  public EAttribute getCodeSearchResult_QueryTimeInMs() {
+  public EAttribute getCodeSearchResult_LinesOfSearchedCode() {
     return (EAttribute) codeSearchResultEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
+  public EAttribute getCodeSearchResult_QueryTimeInMs() {
+    return (EAttribute) codeSearchResultEClass.getEStructuralFeatures().get(6);
   }
 
   /**
@@ -547,6 +558,7 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     createEAttribute(codeSearchResultEClass, CODE_SEARCH_RESULT__NUMBER_OF_RESULTS);
     createEAttribute(codeSearchResultEClass, CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_OBJECTS);
     createEAttribute(codeSearchResultEClass, CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_SOURCES);
+    createEAttribute(codeSearchResultEClass, CODE_SEARCH_RESULT__LINES_OF_SEARCHED_CODE);
     createEAttribute(codeSearchResultEClass, CODE_SEARCH_RESULT__QUERY_TIME_IN_MS);
 
     codeSearchSettingsEClass = createEClass(CODE_SEARCH_SETTINGS);
@@ -657,6 +669,9 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     initEAttribute(getCodeSearchResult_NumberOfSearchedSources(), theXMLTypePackage.getInt(),
         "numberOfSearchedSources", null, 0, 1, ICodeSearchResult.class, !IS_TRANSIENT, !IS_VOLATILE,
         IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCodeSearchResult_LinesOfSearchedCode(), theXMLTypePackage.getFloat(),
+        "linesOfSearchedCode", null, 0, 1, ICodeSearchResult.class, !IS_TRANSIENT, !IS_VOLATILE,
+        IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getCodeSearchResult_QueryTimeInMs(), theXMLTypePackage.getInt(), "queryTimeInMs",
         null, 0, 1, ICodeSearchResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
         !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -751,6 +766,8 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
         "attribute", "name", "numberOfSearchedObjects", "namespace", "##targetNamespace" });
     addAnnotation(getCodeSearchResult_NumberOfSearchedSources(), source, new String[] { "kind",
         "attribute", "name", "numberOfSearchedSources", "namespace", "##targetNamespace" });
+    addAnnotation(getCodeSearchResult_LinesOfSearchedCode(), source, new String[] { "kind",
+        "attribute", "name", "linesOfSearchedCode", "namespace", "##targetNamespace" });
     addAnnotation(getCodeSearchResult_QueryTimeInMs(), source, new String[] { "kind", "attribute",
         "name", "queryTimeInMs", "namespace", "##targetNamespace" });
     addAnnotation(codeSearchSettingsEClass, source, new String[] { "kind", "elementOnly", "name",

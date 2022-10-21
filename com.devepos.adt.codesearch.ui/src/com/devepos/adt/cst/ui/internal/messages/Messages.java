@@ -79,6 +79,7 @@ public class Messages extends NLS {
   public static String CodeSearchRuntimeInfoDialog_averageRequestRuntimeLabel_xlbl;
   public static String CodeSearchRuntimeInfoDialog_dialogTitle_xtit;
   public static String CodeSearchRuntimeInfoDialog_foundMatchesLabel_xlbl;
+  public static String CodeSearchRuntimeInfoDialog_linesOfCode_xlbl;
   public static String CodeSearchRuntimeInfoDialog_queryRuntimeInMs_xlbl;
   public static String CodeSearchRuntimeInfoDialog_queryRuntimeInMs_xtxt;
   public static String CodeSearchRuntimeInfoDialog_queryStatusCancelled_xlbl;

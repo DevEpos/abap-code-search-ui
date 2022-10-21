@@ -37,6 +37,8 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
  * <em>Number Of Searched Objects</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getNumberOfSearchedSources
  * <em>Number Of Searched Sources</em>}</li>
+ * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getLinesOfSearchedCode
+ * <em>Lines Of Searched Code</em>}</li>
  * <li>{@link com.devepos.adt.cst.model.codesearch.impl.CodeSearchResult#getQueryTimeInMs <em>Query
  * Time In Ms</em>}</li>
  * </ul>
@@ -137,6 +139,30 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
    * @ordered
    */
   protected int numberOfSearchedSources = NUMBER_OF_SEARCHED_SOURCES_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getLinesOfSearchedCode() <em>Lines Of Searched Code</em>}'
+   * attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @see #getLinesOfSearchedCode()
+   * @generated
+   * @ordered
+   */
+  protected static final float LINES_OF_SEARCHED_CODE_EDEFAULT = 0.0F;
+
+  /**
+   * The cached value of the '{@link #getLinesOfSearchedCode() <em>Lines Of Searched Code</em>}'
+   * attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @see #getLinesOfSearchedCode()
+   * @generated
+   * @ordered
+   */
+  protected float linesOfSearchedCode = LINES_OF_SEARCHED_CODE_EDEFAULT;
 
   /**
    * The default value of the '{@link #getQueryTimeInMs() <em>Query Time In Ms</em>}' attribute.
@@ -346,6 +372,33 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
    * @generated
    */
   @Override
+  public float getLinesOfSearchedCode() {
+    return linesOfSearchedCode;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  public void setLinesOfSearchedCode(final float newLinesOfSearchedCode) {
+    float oldLinesOfSearchedCode = linesOfSearchedCode;
+    linesOfSearchedCode = newLinesOfSearchedCode;
+    if (eNotificationRequired()) {
+      eNotify(new ENotificationImpl(this, Notification.SET,
+          ICodeSearchPackage.CODE_SEARCH_RESULT__LINES_OF_SEARCHED_CODE, oldLinesOfSearchedCode,
+          linesOfSearchedCode));
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   *
+   * @generated
+   */
+  @Override
   public int getQueryTimeInMs() {
     return queryTimeInMs;
   }
@@ -403,6 +456,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
       return getNumberOfSearchedObjects();
     case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_SOURCES:
       return getNumberOfSearchedSources();
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__LINES_OF_SEARCHED_CODE:
+      return getLinesOfSearchedCode();
     case ICodeSearchPackage.CODE_SEARCH_RESULT__QUERY_TIME_IN_MS:
       return getQueryTimeInMs();
     }
@@ -435,6 +490,9 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
     case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_SOURCES:
       setNumberOfSearchedSources((Integer) newValue);
       return;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__LINES_OF_SEARCHED_CODE:
+      setLinesOfSearchedCode((Float) newValue);
+      return;
     case ICodeSearchPackage.CODE_SEARCH_RESULT__QUERY_TIME_IN_MS:
       setQueryTimeInMs((Integer) newValue);
       return;
@@ -466,6 +524,9 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
     case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_SOURCES:
       setNumberOfSearchedSources(NUMBER_OF_SEARCHED_SOURCES_EDEFAULT);
       return;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__LINES_OF_SEARCHED_CODE:
+      setLinesOfSearchedCode(LINES_OF_SEARCHED_CODE_EDEFAULT);
+      return;
     case ICodeSearchPackage.CODE_SEARCH_RESULT__QUERY_TIME_IN_MS:
       setQueryTimeInMs(QUERY_TIME_IN_MS_EDEFAULT);
       return;
@@ -492,6 +553,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
       return numberOfSearchedObjects != NUMBER_OF_SEARCHED_OBJECTS_EDEFAULT;
     case ICodeSearchPackage.CODE_SEARCH_RESULT__NUMBER_OF_SEARCHED_SOURCES:
       return numberOfSearchedSources != NUMBER_OF_SEARCHED_SOURCES_EDEFAULT;
+    case ICodeSearchPackage.CODE_SEARCH_RESULT__LINES_OF_SEARCHED_CODE:
+      return linesOfSearchedCode != LINES_OF_SEARCHED_CODE_EDEFAULT;
     case ICodeSearchPackage.CODE_SEARCH_RESULT__QUERY_TIME_IN_MS:
       return queryTimeInMs != QUERY_TIME_IN_MS_EDEFAULT;
     }
@@ -517,6 +580,8 @@ public class CodeSearchResult extends MinimalEObjectImpl.Container implements IC
     result.append(numberOfSearchedObjects);
     result.append(", numberOfSearchedSources: ");
     result.append(numberOfSearchedSources);
+    result.append(", linesOfSearchedCode: ");
+    result.append(linesOfSearchedCode);
     result.append(", queryTimeInMs: ");
     result.append(queryTimeInMs);
     result.append(')');
