@@ -191,6 +191,9 @@ public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntim
   }
 
   private void updateControlsFromResult() {
+    if (searchedObjects == null || searchedObjects.isDisposed()) {
+      return;
+    }
     float percentage = (float) runtimeInfo.getSearchedObjectsCount() / runtimeInfo
         .getObjectScopeCount() * 100;
 
