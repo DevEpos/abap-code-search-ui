@@ -25,9 +25,12 @@ public class CodeSearchTableContentProvider implements IStructuredContentProvide
     if (result != null) {
       List<Object> matches = new ArrayList<>();
       // TODO: consider filters (not yet implemented)
-      for (ITreeNode obj : result.getFlatResult()) {
-        if (result.getMatchCount(obj) > 0) {
-          matches.add(obj);
+      List<ITreeNode> flatResult = result.getFlatResult();
+      synchronized (flatResult) {
+        for (ITreeNode obj : flatResult) {
+          if (result.getMatchCount(obj) > 0) {
+            matches.add(obj);
+          }
         }
       }
       return matches.toArray();

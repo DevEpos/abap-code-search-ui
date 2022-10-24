@@ -72,7 +72,9 @@ public class CodeSearchResult extends AbstractTextSearchResult {
     resultTree.addResultToTree(result);
     List<ITreeNode> currentFlatResult = resultTree.getFlatResult();
     if (currentFlatResult != null) {
-      flatResult.addAll(currentFlatResult);
+      synchronized (flatResult) {
+        flatResult.addAll(currentFlatResult);
+      }
       for (ITreeNode matchNode : currentFlatResult) {
         addMatch(new Match(matchNode, -1, -1));
       }
@@ -155,7 +157,9 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   @Override
   public void removeAll() {
     if (flatResult != null) {
-      flatResult.clear();
+      synchronized (flatResult) {
+        flatResult.clear();
+      }
     }
     resultCount = 0;
     fileMatchesCache.clear();
@@ -190,7 +194,9 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   public void removeSearchResult(final ITreeNode match) {
     resultCount--;
     if (flatResult != null) {
-      flatResult.remove(match);
+      synchronized (flatResult) {
+        flatResult.remove(match);
+      }
     }
     if (match instanceof SearchMatchNode) {
       fileMatchesCache.removeNode((SearchMatchNode) match);
