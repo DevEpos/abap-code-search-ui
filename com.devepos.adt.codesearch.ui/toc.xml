@@ -6,15 +6,17 @@
       <topic href="html/code_search.html" label="ABAP Code Search">
          <topic href="html/code_search/search_dialog.html" label="Search Dialog">
          </topic>
+         <topic href="html/code_search/searching_code.html" label="Searching Code">
+         </topic>
+         <topic href="html/code_search/special_search_modes.html" label="Special Search Modes">
+         </topic>
+         <topic href="html/code_search/regular_expressions.html" label="Regular Expressions">
+         </topic>
          <topic href="html/code_search/search_result.html" label="Search Result">
          </topic>
          <topic href="html/code_search/preferences.html" label="Preferences">
          </topic>
          <topic href="html/code_search/properties.html" label="Properties">
-         </topic>
-         <topic href="html/code_search/regular_expressions.html" label="Regular Expressions">
-         </topic>
-         <topic href="html/code_search/special_search_modes.html" label="Special Search Modes">
          </topic>
       </topic>
    </topic>

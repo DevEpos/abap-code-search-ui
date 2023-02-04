@@ -249,7 +249,8 @@ a.link:hover {
 
 .code-block-description {
 	margin: 0 auto;
-	font-size: 85%; text-align : center;
+	font-size: 85%;
+	text-align: center;
 	font-style: italic;
 	text-align: center;
 }

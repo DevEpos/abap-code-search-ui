@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html id="doc-page">
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Searching Source-Based ABAP Development Objects</title>
+</head>
+<body id="doc-body">
+	<h2 class="heading">Searching Source-Based ABAP Development
+		Objects</h2>
+
+	The Code Search currently supports the following Object types to be
+	searched:
+	<ul class="list">
+		<li>Classes</li>
+		<li>Interfaces</li>
+		<li>Programs</li>
+		<li>Type Groups</li>
+		<li>Function Groups</li>
+		<li>Data Definitions</li>
+		<li>Metadata Extensions</li>
+		<li>Access Controls</li>
+		<li>Behavior Definitions</li>
+		<li>Simple Transformations</li>
+	</ul>
+
+	<h3 class="heading">Starting a Blank Search</h3>
+	To start a Code Search, you first have to open the Eclipse Search
+	Dialog. This can be done in a view different ways
+
+	<ul class="list">
+		<li>via shortcut <code class="code">STRG</code> + <code
+				class="code">H</code></li>
+		<li>via the Eclipse main menu bar: <i>Search ➠ Search...</i>
+	</ul>
+
+	<p>
+		If the Code Search Page is not yet visible in the dialog you may have
+		to enable it via the button <em>Customize</em> in the lower left
+		corner of the dialog.
+	</p>
+
+	<figure>
+		<img src="../../images/CodeSearch-EnableTabInDialog.png">
+		<figcaption>
+			<strong>Figure 1:</strong> Enable Code Search Page in Search Dialog
+		</figcaption>
+	</figure>
+
+	<h3 class="heading">Starting a Search with prefilled Scope</h3>
+
+	<p>There is also the option to open the Code Search Dialog via the
+		Context Menu of several locations in Eclipse:</p>
+
+	<ul class="list">
+		<li>via selected object(s) in the Project Explorer</li>
+		<li>via selected <a
+			href="/help/topic/com.sap.adt.abapdev.guide.doc.user/html/6eb37c8ca4b8429eae39fee8e3c1318b.html"
+			class="link">Repository Tree</a> in the Project Explorer
+			<figure>
+				<img src="../../images/CodeSearch-Command-RepositoryTree.png">
+				<figcaption>
+					<strong>Figure 2:</strong> Code Search on Repository Tree
+				</figcaption>
+			</figure>
+		</li>
+		<li>via selected type folder in the Project Explorer
+			<figure>
+				<img src="../../images/CodeSearch-Command-VirtualFolders.png">
+				<figcaption>
+					<strong>Figure 3:</strong> Code Search on type folder in Project
+					Explorer
+				</figcaption>
+			</figure>
+		</li>
+		<li>via selected object from the Where-Used-List Result</li>
+		<li>via selected object from the ABAP Object Search Result</li>
+		<li>via selected object from the ABAP Object Search (DevEpos)
+			Result <a id="object-search-plugin-ref" class="link" href="#fn-1"><sup>1</sup></a>
+		</li>
+		<li>via selected object from the ABAP CDS Analyzer View <a
+			id="object-search-plugin-ref" class="link" href="#fn-1"><sup>1</sup></a></li>
+		<li>via selected object from the ABAP Tagged Object Search
+			(DevEpos) Result <a id="tags-plugin-ref" class="link" href="#fn-2"><sup>2</sup></a>
+		</li>
+	</ul>
+
+	<div class="alert info">
+		<div class="alert-info__text"></div>
+		<ol class="list">
+			<li id="fn-1">Plug-in <strong>ABAP Search and Analysis</strong>
+				necessary
+			</li>
+			<li id="fn-2">Plug-in <strong>ABAP Tags</strong> necessary
+			</li>
+		</ol>
+	</div>
+
+	<h3 class="heading">Related Information</h3>
+	<div>
+		<a class="link" href="search_dialog.html">Search Dialog</a>
+	</div>
+</body>
