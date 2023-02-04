@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.dialogs.SearchPattern;
 
 import com.devepos.adt.base.IAdtObjectTypeConstants;
+import com.devepos.adt.base.ITadirTypeConstants;
 import com.devepos.adt.base.ui.AdtBaseUIResources;
 import com.devepos.adt.base.ui.IAdtBaseImages;
 import com.devepos.adt.base.ui.contentassist.ITextQueryProposalProvider;
@@ -42,7 +43,7 @@ public class ObjectTypeSearchFilter implements ISearchFilter, ITextQueryProposal
   public String getDescription() {
     if (description == null) {
       description = NLS.bind(Messages.SearchFilters_objectTypeFilterDescription_xmsg, new Object[] {
-          FilterName.OBJECT_TYPE.getContentAssistName(), "clas" });
+          FilterName.OBJECT_TYPE.getContentAssistName(), ITadirTypeConstants.CLASS.toLowerCase() });
     }
     return description;
   }
@@ -121,15 +122,23 @@ public class ObjectTypeSearchFilter implements ISearchFilter, ITextQueryProposal
 
   private void initAdtTypes() {
     AdtTypeUtil typeUtil = AdtTypeUtil.getInstance();
-    adtTypeMap.put("CLAS", typeUtil.getType(IAdtObjectTypeConstants.CLASS));
-    adtTypeMap.put("INTF", typeUtil.getType(IAdtObjectTypeConstants.INTERFACE));
-    adtTypeMap.put("PROG", typeUtil.getType(IAdtObjectTypeConstants.PROGRAM));
-    adtTypeMap.put("TYPE", typeUtil.getType(IAdtObjectTypeConstants.TYPE_GROUP));
-    adtTypeMap.put("DDLS", typeUtil.getType(IAdtObjectTypeConstants.DATA_DEFINITION));
-    adtTypeMap.put("DDLX", typeUtil.getType(IAdtObjectTypeConstants.METADATA_EXTENSION));
-    adtTypeMap.put("DCLS", typeUtil.getType(IAdtObjectTypeConstants.ACCESS_CONTROL));
-    adtTypeMap.put("BDEF", typeUtil.getType(IAdtObjectTypeConstants.BEHAVIOR_DEFINITION));
-    adtTypeMap.put("XSLT", typeUtil.getType(IAdtObjectTypeConstants.SIMPLE_TRANSFORMATION));
-    adtTypeMap.put("FUGR", typeUtil.getType(IAdtObjectTypeConstants.FUNCTION_GROUP));
+    adtTypeMap.put(ITadirTypeConstants.CLASS, typeUtil.getType(IAdtObjectTypeConstants.CLASS));
+    adtTypeMap.put(ITadirTypeConstants.INTERFACE, typeUtil.getType(
+        IAdtObjectTypeConstants.INTERFACE));
+    adtTypeMap.put(ITadirTypeConstants.PROGRAM, typeUtil.getType(IAdtObjectTypeConstants.PROGRAM));
+    adtTypeMap.put(ITadirTypeConstants.TYPE_GROUP, typeUtil.getType(
+        IAdtObjectTypeConstants.TYPE_GROUP));
+    adtTypeMap.put(ITadirTypeConstants.DATA_DEFINITION, typeUtil.getType(
+        IAdtObjectTypeConstants.DATA_DEFINITION));
+    adtTypeMap.put(ITadirTypeConstants.METADATA_EXTENSION, typeUtil.getType(
+        IAdtObjectTypeConstants.METADATA_EXTENSION));
+    adtTypeMap.put(ITadirTypeConstants.ACCESS_CONTROL, typeUtil.getType(
+        IAdtObjectTypeConstants.ACCESS_CONTROL));
+    adtTypeMap.put(ITadirTypeConstants.BEHAVIOR_DEFINITION, typeUtil.getType(
+        IAdtObjectTypeConstants.BEHAVIOR_DEFINITION));
+    adtTypeMap.put(ITadirTypeConstants.SIMPLE_TRANSFORMATION, typeUtil.getType(
+        IAdtObjectTypeConstants.SIMPLE_TRANSFORMATION));
+    adtTypeMap.put(ITadirTypeConstants.FUNCTION_GROUP, typeUtil.getType(
+        IAdtObjectTypeConstants.FUNCTION_GROUP));
   }
 }
