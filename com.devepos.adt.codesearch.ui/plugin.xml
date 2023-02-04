@@ -87,7 +87,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="popup:org.eclipse.search.ui.views.SearchView?endof=additions">
+            locationURI="popup:org.eclipse.search.ui.views.SearchView?before=additions">
          <command
                commandId="com.devepos.adt.codesearch.ui.callCodeSearch"
                icon="icons/codesearch.png"
