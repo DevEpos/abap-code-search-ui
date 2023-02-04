@@ -296,35 +296,42 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
 
   @Override
   public Object execute(final ExecutionEvent event) throws ExecutionException {
-    IStructuredSelection selection = HandlerUtil.getCurrentStructuredSelection(event);
+    searchQuery = null;
+    ISelection selection = HandlerUtil.getCurrentSelection(event);
     if (selection == null) {
       return null;
     }
 
-    if (selection.size() > 1) {
-      // collect objects from selection
-      final List<IAdtObject> selectedObjects = AdtUIUtil.getAdtObjectsFromSelection(false,
-          selection);
-      if (selectedObjects == null || selectedObjects.isEmpty()) {
-        return null;
-      }
-      createQueryFromAdtObjects(selectedObjects, selection);
-    } else {
-      Object selectedObject = selection.getFirstElement();
-      IVirtualFolderNode virtualFolderNode = Adapters.adapt(selectedObject,
-          IVirtualFolderNode.class);
-      if (virtualFolderNode != null) {
-        searchQuery = new VirtualFolderToQueryConverter(virtualFolderNode).convert();
+    if (selection instanceof IStructuredSelection) {
+      IStructuredSelection structSelection = (IStructuredSelection) selection;
+      if (structSelection.size() > 1) {
+        // collect objects from selection
+        final List<IAdtObject> selectedObjects = AdtUIUtil.getAdtObjectsFromSelection(false,
+            selection);
+        if (selectedObjects == null || selectedObjects.isEmpty()) {
+          return null;
+        }
+        createQueryFromAdtObjects(selectedObjects, selection);
       } else {
-        IAbapRepositoryFolderNode repositoryFolder = Adapters.adapt(selectedObject,
-            IAbapRepositoryFolderNode.class);
-        if (repositoryFolder != null) {
-          searchQuery = new AbapRepositoryFolderToQueryConverter(repositoryFolder).convert();
+        Object selectedObject = structSelection.getFirstElement();
+        IVirtualFolderNode virtualFolderNode = Adapters.adapt(selectedObject,
+            IVirtualFolderNode.class);
+        if (virtualFolderNode != null) {
+          searchQuery = new VirtualFolderToQueryConverter(virtualFolderNode).convert();
         } else {
-          IAdtObject adtObject = Adapters.adapt(selectedObject, IAdtObject.class);
-          createQueryFromAdtObjects(Arrays.asList(adtObject), selection);
+          IAbapRepositoryFolderNode repositoryFolder = Adapters.adapt(selectedObject,
+              IAbapRepositoryFolderNode.class);
+          if (repositoryFolder != null) {
+            searchQuery = new AbapRepositoryFolderToQueryConverter(repositoryFolder).convert();
+          } else {
+            IAdtObject adtObject = Adapters.adapt(selectedObject, IAdtObject.class);
+            createQueryFromAdtObjects(adtObject == null ? null : Arrays.asList(adtObject),
+                selection);
+          }
         }
       }
+    } else {
+      createQueryFromAdtObjects(AdtUIUtil.getAdtObjectsFromSelection(false, selection), selection);
     }
 
     if (searchQuery == null) {
@@ -348,6 +355,9 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
   private void createQueryFromAdtObjects(final List<IAdtObject> selectedObjects,
       final ISelection selection) {
 
+    if (selectedObjects == null || selectedObjects.isEmpty()) {
+      return;
+    }
     searchQuery = new AdtObjectSelectionToQueryConverter(selectedObjects).convert();
     if (selection instanceof ITextSelection) {
       searchQuery.getQuerySpecs().setPatterns(((ITextSelection) selection).getText());
