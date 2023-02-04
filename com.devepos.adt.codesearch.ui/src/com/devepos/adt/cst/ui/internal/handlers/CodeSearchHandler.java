@@ -2,6 +2,7 @@ package com.devepos.adt.cst.ui.internal.handlers;
 
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -22,14 +23,17 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.devepos.adt.base.IAdtObjectTypeConstants;
+import com.devepos.adt.base.ITadirTypeConstants;
 import com.devepos.adt.base.destinations.DestinationUtil;
 import com.devepos.adt.base.ui.adtobject.IAdtObject;
 import com.devepos.adt.base.ui.project.AbapProjectProviderAccessor;
+import com.devepos.adt.base.ui.projectexplorer.node.IAbapRepositoryFolderNode;
+import com.devepos.adt.base.ui.projectexplorer.virtualfolders.IVirtualFolderNode;
 import com.devepos.adt.base.ui.search.IChangeableSearchPage;
 import com.devepos.adt.base.ui.search.ISearchPageListener;
 import com.devepos.adt.base.ui.search.SearchPageUtil;
 import com.devepos.adt.base.ui.util.AdtUIUtil;
-import com.devepos.adt.base.ui.virtualfolders.IVirtualFolderNode;
+import com.devepos.adt.base.util.StringUtil;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchDialog;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchQuery;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchQuerySpecification;
@@ -48,22 +52,92 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
   private static final String EXACT_NAME_MODIFIER = "<";
   private static final String FILTER_VALUE_DELIMITER = ",";
   private static final String FILTER_VALUES_PATTERN = "%s:%s";
-  private static List<String> POSSIBLE_TYPES_FILTER_VALUES;
-  static {
-    POSSIBLE_TYPES_FILTER_VALUES = Arrays.asList("CLAS", "INTF", "PROG", "TYPE", "DDLS", "DDLX",
-        "DCLS", "BDEF", "XSLT", "FUGR");
-  }
 
   private CodeSearchQuery searchQuery;
 
-  private class AdtObjectSelectionToQueryConverter {
-    private CodeSearchQuerySpecification querySpecs;
-    private List<IAdtObject> adtObjects;
+  private static class AbapRepositoryFolderToQueryConverter {
+    private final IAbapRepositoryFolderNode node;
+
+    private final StringBuffer filterBuffer;
+    private final CodeSearchQuerySpecification querySpecs;
+
+    public AbapRepositoryFolderToQueryConverter(final IAbapRepositoryFolderNode node) {
+      this.node = node;
+      filterBuffer = new StringBuffer();
+      querySpecs = new CodeSearchQuerySpecification();
+    }
+
+    public CodeSearchQuery convert() {
+      addFiltersToFilterString(node.getUser(), FilterName.OWNER.getContentAssistName());
+      addFiltersToFilterString(node.getPackages(), FilterName.PACKAGE.getContentAssistName());
+      addTypeFilters(FilterName.OBJECT_TYPE.getContentAssistName());
+
+      querySpecs.setIgnoreCaseCheck(true);
+      querySpecs.setObjectScopeFilters(null, filterBuffer.toString());
+
+      return new CodeSearchQuery(querySpecs);
+    }
+
+    private void addTypeFilters(String filterQualifier) {
+      String category = node.getCategory();
+      if (!StringUtil.isEmpty(category)) {
+        if (IAbapRepositoryFolderNode.CATEGORY_DICTIONARY.equals(category)) {
+          addFiltersToFilterString(ITadirTypeConstants.DATA_DEFINITION, filterQualifier);
+        } else if (IAbapRepositoryFolderNode.CATEGORY_SOURCE_LIB.equals(category)) {
+          addFiltersToFilterString(CodeSearchRelevantWbTypesUtil.getSourceCodeLibraryTypeFilters(),
+              FilterName.OBJECT_TYPE.getContentAssistName());
+        }
+        return;
+      }
+      String type = node.getType();
+      if (!StringUtil.isEmpty(type)) {
+        switch (type) {
+        case IAdtObjectTypeConstants.DATA_DEFINITION:
+          addFiltersToFilterString(ITadirTypeConstants.DATA_DEFINITION, filterQualifier);
+        case IAdtObjectTypeConstants.CLASS:
+          addFiltersToFilterString(ITadirTypeConstants.CLASS, filterQualifier);
+        case IAdtObjectTypeConstants.INTERFACE:
+          addFiltersToFilterString(ITadirTypeConstants.INTERFACE, filterQualifier);
+        case IAdtObjectTypeConstants.FUNCTION_GROUP:
+          addFiltersToFilterString(ITadirTypeConstants.FUNCTION_GROUP, filterQualifier);
+        case IAdtObjectTypeConstants.PROGRAM:
+          addFiltersToFilterString(ITadirTypeConstants.PROGRAM, filterQualifier);
+        case IAdtObjectTypeConstants.PROGRAM_INCLUDE:
+          addFiltersToFilterString(ITadirTypeConstants.PROGRAM, filterQualifier);
+        case IAdtObjectTypeConstants.SIMPLE_TRANSFORMATION:
+          addFiltersToFilterString(ITadirTypeConstants.SIMPLE_TRANSFORMATION, filterQualifier);
+        }
+      }
+    }
+
+    private void addFiltersToFilterString(final List<String> filters,
+        final String filterQualifier) {
+      if (filters == null || filters.isEmpty()) {
+        return;
+      }
+      addFiltersToFilterString(String.join(FILTER_VALUE_DELIMITER, filters), filterQualifier);
+    }
+
+    private void addFiltersToFilterString(final String filter, final String filterQualifier) {
+      if (StringUtil.isEmpty(filter)) {
+        return;
+      }
+      if (filterBuffer.length() > 0) {
+        filterBuffer.append(" ");
+      }
+      filterBuffer.append(String.format(FILTER_VALUES_PATTERN, filterQualifier, filter
+          .toLowerCase()));
+    }
+  }
+
+  private static class AdtObjectSelectionToQueryConverter {
+    private final CodeSearchQuerySpecification querySpecs;
+    private final List<IAdtObject> adtObjects;
     private List<String> packages;
     private List<String> objectNames;
     private Set<String> objectTypes;
 
-    public AdtObjectSelectionToQueryConverter(List<IAdtObject> adtObjects) {
+    public AdtObjectSelectionToQueryConverter(final List<IAdtObject> adtObjects) {
       this.adtObjects = adtObjects;
       querySpecs = new CodeSearchQuerySpecification();
     }
@@ -102,7 +176,7 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
       return new CodeSearchQuery(querySpecs);
     }
 
-    private void collectObjectInformation(IProject project) {
+    private void collectObjectInformation(final IProject project) {
       List<String> relevantWbTypes = CodeSearchRelevantWbTypesUtil.getRelevantTypesForHandler();
 
       for (IAdtObject adtObj : adtObjects) {
@@ -135,13 +209,17 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
     }
   }
 
-  private class VirtualFolderToQueryConverter {
-    private IVirtualFolderNode node;
-    private StringBuffer filterBuffer;
-    private CodeSearchQuerySpecification querySpecs;
-    private static final String YEAR_DATE_PATTERN = "1.%s...12.%s";
+  private static class VirtualFolderToQueryConverter {
+    private static final String YEAR_DATE_PATTERN = "1.%d...12.%d";
+    private static final String MONTH_YEAR_DATE_PATTERN = "%d.%d";
+    private static final String FULL_DATE_PATTERN = "%s.%d.%d";
 
-    public VirtualFolderToQueryConverter(IVirtualFolderNode node) {
+    private final IVirtualFolderNode node;
+
+    private final StringBuffer filterBuffer;
+    private final CodeSearchQuerySpecification querySpecs;
+
+    public VirtualFolderToQueryConverter(final IVirtualFolderNode node) {
       this.node = node;
       filterBuffer = new StringBuffer();
       querySpecs = new CodeSearchQuerySpecification();
@@ -163,21 +241,44 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
     }
 
     private void addCreatedFilters() {
-      List<String> createdFilters = node.getCreatedFilters();
-      if (createdFilters.isEmpty()) {
-        return;
-      }
-
       List<String> createdDatePatterns = new ArrayList<>();
-      for (String createdDate : createdFilters) {
-        createdDatePatterns.add(String.format(YEAR_DATE_PATTERN, createdDate, createdDate));
+
+      List<String> dateFilters = node.getCreatedDateFilters();
+      if (!dateFilters.isEmpty()) {
+        for (String date : dateFilters) {
+          createdDatePatterns.add(String.format(FULL_DATE_PATTERN, Integer.parseInt(date.substring(
+              6, 8)), Integer.parseInt(date.substring(4, 6)), Integer.parseInt(date.substring(0,
+                  4))));
+        }
+      } else {
+        List<Integer> createdYearFilters = node.getCreatedYearFilters();
+        List<Integer> createdMonthFilters = node.getCreatedMonthFilters();
+        if (createdYearFilters.isEmpty() && createdMonthFilters.isEmpty()) {
+          return;
+        }
+
+        if (createdMonthFilters.isEmpty()) {
+          for (int createdDate : createdYearFilters) {
+            createdDatePatterns.add(String.format(YEAR_DATE_PATTERN, createdDate, createdDate));
+          }
+        } else {
+          createdYearFilters = createdYearFilters.isEmpty() ? Arrays.asList(LocalDate.now()
+              .getYear()) : createdYearFilters;
+
+          for (int year : createdYearFilters) {
+            for (int month : createdMonthFilters) {
+              createdDatePatterns.add(String.format(MONTH_YEAR_DATE_PATTERN, month, year));
+            }
+          }
+        }
       }
 
       addFiltersToFilterString(createdDatePatterns, FilterName.CREATED_DATE.getContentAssistName());
     }
 
-    private void addFiltersToFilterString(List<String> filters, String filterQualifier) {
-      if (filters.isEmpty()) {
+    private void addFiltersToFilterString(final List<String> filters,
+        final String filterQualifier) {
+      if (filters == null || filters.isEmpty()) {
         return;
       }
       if (filterBuffer.length() > 0) {
@@ -188,35 +289,19 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
     }
 
     private void addTypeFilters() {
-      List<String> typeFilters = node.getTypeFilters();
-      if (typeFilters.isEmpty()) {
-        return;
-      }
-
-      List<String> validTypes = new ArrayList<>();
-
-      for (String filter : typeFilters) {
-        if (POSSIBLE_TYPES_FILTER_VALUES.stream().anyMatch(f -> f.equalsIgnoreCase(filter))) {
-          validTypes.add(filter);
-        }
-      }
-
-      addFiltersToFilterString(validTypes, FilterName.OBJECT_TYPE.getContentAssistName());
-    };
+      addFiltersToFilterString(CodeSearchRelevantWbTypesUtil.extractValidTypeFilters(node
+          .getTypeFilters()), FilterName.OBJECT_TYPE.getContentAssistName());
+    }
   }
 
   @Override
   public Object execute(final ExecutionEvent event) throws ExecutionException {
-    ISelection selection = HandlerUtil.getCurrentSelection(event);
+    IStructuredSelection selection = HandlerUtil.getCurrentStructuredSelection(event);
     if (selection == null) {
       return null;
     }
 
-    IVirtualFolderNode virtualFolderNode = getVirtualFolderFromSelection(selection);
-    if (virtualFolderNode != null) {
-      createQueryFromVirtualFolder(virtualFolderNode);
-    } else {
-
+    if (selection.size() > 1) {
       // collect objects from selection
       final List<IAdtObject> selectedObjects = AdtUIUtil.getAdtObjectsFromSelection(false,
           selection);
@@ -224,6 +309,22 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
         return null;
       }
       createQueryFromAdtObjects(selectedObjects, selection);
+    } else {
+      Object selectedObject = selection.getFirstElement();
+      IVirtualFolderNode virtualFolderNode = Adapters.adapt(selectedObject,
+          IVirtualFolderNode.class);
+      if (virtualFolderNode != null) {
+        searchQuery = new VirtualFolderToQueryConverter(virtualFolderNode).convert();
+      } else {
+        IAbapRepositoryFolderNode repositoryFolder = Adapters.adapt(selectedObject,
+            IAbapRepositoryFolderNode.class);
+        if (repositoryFolder != null) {
+          searchQuery = new AbapRepositoryFolderToQueryConverter(repositoryFolder).convert();
+        } else {
+          IAdtObject adtObject = Adapters.adapt(selectedObject, IAdtObject.class);
+          createQueryFromAdtObjects(Arrays.asList(adtObject), selection);
+        }
+      }
     }
 
     if (searchQuery == null) {
@@ -253,17 +354,4 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
     }
   }
 
-  private void createQueryFromVirtualFolder(IVirtualFolderNode virtualFolderNode) {
-    searchQuery = new VirtualFolderToQueryConverter(virtualFolderNode).convert();
-  }
-
-  private IVirtualFolderNode getVirtualFolderFromSelection(ISelection selection) {
-    if (selection instanceof IStructuredSelection) {
-      IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-      if (structuredSelection.size() == 1) {
-        return Adapters.adapt(structuredSelection.getFirstElement(), IVirtualFolderNode.class);
-      }
-    }
-    return null;
-  }
 }

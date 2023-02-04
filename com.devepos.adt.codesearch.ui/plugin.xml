@@ -16,6 +16,29 @@
                <with
                      variable="selection">
                   <or>
+                     <and>
+                        <count
+                              value="1">
+                        </count>
+                        <iterate>
+                           <or>
+                              <adapt
+                                    type="com.devepos.adt.base.ui.projectexplorer.virtualfolders.IVirtualFolderNode">
+                                 <test
+                                       forcePluginActivation="true"
+                                       property="com.devepos.adt.codesearch.ui.virtualfolder.isCodeSearchAvailable">
+                                 </test>
+                              </adapt>
+                              <adapt
+                                    type="com.devepos.adt.base.ui.projectexplorer.node.IAbapRepositoryFolderNode">
+                                 <test
+                                       forcePluginActivation="true"
+                                       property="com.devepos.adt.codesearch.ui.node.isCodeSearchAvailable">
+                                 </test>
+                              </adapt>
+                           </or>
+                        </iterate>
+                     </and>
                      <iterate>
                         <and>
                            <test
@@ -31,20 +54,6 @@
                            </adapt>
                         </and>
                      </iterate>
-                     <and>
-                        <count
-                              value="1">
-                        </count>
-                        <iterate>
-                           <adapt
-                                 type="com.devepos.adt.base.ui.virtualfolders.IVirtualFolderNode">
-                              <test
-                                    forcePluginActivation="true"
-                                    property="com.devepos.adt.codesearch.ui.virtualfolder.isCodeSearchAvailable">
-                              </test>
-                           </adapt>
-                        </iterate>
-                     </and>
                   </or>
                </with>
             </visibleWhen>
@@ -194,7 +203,14 @@
             id="com.devepos.adt.codesearch.ui.CodeSearchVirtualFolder"
             namespace="com.devepos.adt.codesearch.ui.virtualfolder"
             properties="isCodeSearchAvailable"
-            type="com.devepos.adt.base.ui.virtualfolders.IVirtualFolderNode">
+            type="com.devepos.adt.base.ui.projectexplorer.virtualfolders.IVirtualFolderNode">
+      </propertyTester>
+      <propertyTester
+            class="com.devepos.adt.cst.ui.internal.CodeSearchPropertyTester"
+            id="com.devepos.adt.codesearch.ui.CodeSearchAbapRepositoryNode"
+            namespace="com.devepos.adt.codesearch.ui.node"
+            properties="isCodeSearchAvailable"
+            type="com.devepos.adt.base.ui.projectexplorer.node.IAbapRepositoryFolderNode">
       </propertyTester>
    </extension>
   <extension
