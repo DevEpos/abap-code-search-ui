@@ -86,6 +86,9 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
         } else if (IAbapRepositoryFolderNode.CATEGORY_SOURCE_LIB.equals(category)) {
           addFiltersToFilterString(CodeSearchRelevantWbTypesUtil.getSourceCodeLibraryTypeFilters(),
               FilterName.OBJECT_TYPE.getContentAssistName());
+        } else if (IAbapRepositoryFolderNode.CATEGORY_CORE_DATA_SERVICES.equals(category)) {
+          addFiltersToFilterString(Arrays.asList(ITadirTypeConstants.DATA_DEFINITION,
+              ITadirTypeConstants.ACCESS_CONTROL), FilterName.OBJECT_TYPE.getContentAssistName());
         }
         return;
       }
@@ -93,19 +96,15 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
       if (!StringUtil.isEmpty(type)) {
         switch (type) {
         case IAdtObjectTypeConstants.DATA_DEFINITION:
-          addFiltersToFilterString(ITadirTypeConstants.DATA_DEFINITION, filterQualifier);
+        case IAdtObjectTypeConstants.ACCESS_CONTROL:
         case IAdtObjectTypeConstants.CLASS:
-          addFiltersToFilterString(ITadirTypeConstants.CLASS, filterQualifier);
         case IAdtObjectTypeConstants.INTERFACE:
-          addFiltersToFilterString(ITadirTypeConstants.INTERFACE, filterQualifier);
         case IAdtObjectTypeConstants.FUNCTION_GROUP:
-          addFiltersToFilterString(ITadirTypeConstants.FUNCTION_GROUP, filterQualifier);
         case IAdtObjectTypeConstants.PROGRAM:
-          addFiltersToFilterString(ITadirTypeConstants.PROGRAM, filterQualifier);
         case IAdtObjectTypeConstants.PROGRAM_INCLUDE:
-          addFiltersToFilterString(ITadirTypeConstants.PROGRAM, filterQualifier);
         case IAdtObjectTypeConstants.SIMPLE_TRANSFORMATION:
-          addFiltersToFilterString(ITadirTypeConstants.SIMPLE_TRANSFORMATION, filterQualifier);
+          addFiltersToFilterString(type.substring(0, 4), filterQualifier);
+          break;
         }
       }
     }

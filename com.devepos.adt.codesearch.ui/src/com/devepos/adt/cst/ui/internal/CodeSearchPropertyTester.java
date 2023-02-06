@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.core.resources.IProject;
 
 import com.devepos.adt.base.ui.adtobject.IAdtObject;
+import com.devepos.adt.base.ui.projectexplorer.node.IAbapRepositoryFolderNode;
 import com.devepos.adt.base.ui.projectexplorer.virtualfolders.IVirtualFolderNode;
 import com.devepos.adt.cst.search.CodeSearchFactory;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchRelevantWbTypesUtil;
@@ -27,15 +29,22 @@ public class CodeSearchPropertyTester extends PropertyTester {
       IVirtualFolderNode.FOLDER_TYPE_APPL_COMP, IVirtualFolderNode.FOLDER_TYPE_CREATED,
       IVirtualFolderNode.FOLDER_TYPE_DATE, IVirtualFolderNode.FOLDER_TYPE_MONTH,
       IVirtualFolderNode.FOLDER_TYPE_PACKAGE, IVirtualFolderNode.FOLDER_TYPE_TYPE,
-      IVirtualFolderNode.FOLDER_TYPE_OWNER);
+      IVirtualFolderNode.FOLDER_TYPE_GROUP, IVirtualFolderNode.FOLDER_TYPE_OWNER);
 
   private static final List<String> VALID_VIRT_FOLDER_TYPE_KEYS = new ArrayList<>();
+  private static final List<String> VALID_ABAP_REPO_FOLDER_TYPE_KEYS = Arrays.asList(
+      IAbapRepositoryFolderNode.CATEGORY_CORE_DATA_SERVICES,
+      IAbapRepositoryFolderNode.CATEGORY_DICTIONARY, IAbapRepositoryFolderNode.CATEGORY_SOURCE_LIB);
 
   static {
     VALID_VIRT_FOLDER_TYPE_KEYS.add(IVirtualFolderNode.FOLDER_KEY_CORE_DATA_SERVICES);
+    VALID_VIRT_FOLDER_TYPE_KEYS.add(IVirtualFolderNode.FOLDER_KEY_TRANSFORMATIONS);
     VALID_VIRT_FOLDER_TYPE_KEYS.add(IVirtualFolderNode.FOLDER_KEY_SOURCE_LIBRARY);
     VALID_VIRT_FOLDER_TYPE_KEYS.addAll(CodeSearchRelevantWbTypesUtil
-        .getPossibleValuesForTypeFilter());
+        .getPossibleValuesForTypeFilter()
+        .stream()
+        .map(t -> t.toLowerCase())
+        .collect(Collectors.toList()));
   }
 
   public CodeSearchPropertyTester() {
@@ -70,12 +79,34 @@ public class CodeSearchPropertyTester extends PropertyTester {
           return true;
         }
         if (VALID_VIRT_FOLDER_TYPES.contains(virtualFolder.getFolderType())) {
-          if (virtualFolder.getFolderType().equals(IVirtualFolderNode.FOLDER_TYPE_TYPE)) {
+          if (virtualFolder.getFolderType().equals(IVirtualFolderNode.FOLDER_TYPE_TYPE)
+              || virtualFolder.getFolderType().equals(IVirtualFolderNode.FOLDER_TYPE_GROUP)) {
             return VALID_VIRT_FOLDER_TYPE_KEYS.contains(virtualFolder.getFolderKey());
           }
           return true;
         }
         return false;
+      };
+    } else if (receiver instanceof IAbapRepositoryFolderNode) {
+      // should only be relevant for 7.40-7.50 as Repository Trees, and therefore Virtual Folders
+      // are
+      // available starting with 7.51
+      IAbapRepositoryFolderNode folder = (IAbapRepositoryFolderNode) receiver;
+      project = folder.getProject();
+      additionalCheck = () -> {
+        String category = folder.getCategory();
+        if (category != null) {
+          if (!VALID_ABAP_REPO_FOLDER_TYPE_KEYS.contains(category)) {
+            return false;
+          }
+
+          // TODO: verify that the category contains the type
+          // DICTIONARY (7.40) -> DDLS
+          // DICTIONARY (7.50) -> invalid
+          // CORE_DATA_SERVICES (7.50) -> DDLS,DCLS
+          // -> use class AdtRisObjectTypeRegistry
+        }
+        return true;
       };
     }
 
