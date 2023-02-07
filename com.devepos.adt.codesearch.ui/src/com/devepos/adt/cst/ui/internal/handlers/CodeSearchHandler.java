@@ -78,37 +78,6 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
       return new CodeSearchQuery(querySpecs);
     }
 
-    private void addTypeFilters(String filterQualifier) {
-      String category = node.getCategory();
-      if (!StringUtil.isEmpty(category)) {
-        if (IAbapRepositoryFolderNode.CATEGORY_DICTIONARY.equals(category)) {
-          addFiltersToFilterString(ITadirTypeConstants.DATA_DEFINITION, filterQualifier);
-        } else if (IAbapRepositoryFolderNode.CATEGORY_SOURCE_LIB.equals(category)) {
-          addFiltersToFilterString(CodeSearchRelevantWbTypesUtil.getSourceCodeLibraryTypeFilters(),
-              FilterName.OBJECT_TYPE.getContentAssistName());
-        } else if (IAbapRepositoryFolderNode.CATEGORY_CORE_DATA_SERVICES.equals(category)) {
-          addFiltersToFilterString(Arrays.asList(ITadirTypeConstants.DATA_DEFINITION,
-              ITadirTypeConstants.ACCESS_CONTROL), FilterName.OBJECT_TYPE.getContentAssistName());
-        }
-        return;
-      }
-      String type = node.getType();
-      if (!StringUtil.isEmpty(type)) {
-        switch (type) {
-        case IAdtObjectTypeConstants.DATA_DEFINITION:
-        case IAdtObjectTypeConstants.ACCESS_CONTROL:
-        case IAdtObjectTypeConstants.CLASS:
-        case IAdtObjectTypeConstants.INTERFACE:
-        case IAdtObjectTypeConstants.FUNCTION_GROUP:
-        case IAdtObjectTypeConstants.PROGRAM:
-        case IAdtObjectTypeConstants.PROGRAM_INCLUDE:
-        case IAdtObjectTypeConstants.SIMPLE_TRANSFORMATION:
-          addFiltersToFilterString(type.substring(0, 4), filterQualifier);
-          break;
-        }
-      }
-    }
-
     private void addFiltersToFilterString(final List<String> filters,
         final String filterQualifier) {
       if (filters == null || filters.isEmpty()) {
@@ -126,6 +95,52 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
       }
       filterBuffer.append(String.format(FILTER_VALUES_PATTERN, filterQualifier, filter
           .toLowerCase()));
+    }
+
+    private void addTypeFilterByCategory(String filterQualifier, String category) {
+      switch (category) {
+      case IAbapRepositoryFolderNode.CATEGORY_DICTIONARY:
+        addFiltersToFilterString(ITadirTypeConstants.DATA_DEFINITION, filterQualifier);
+        break;
+      case IAbapRepositoryFolderNode.CATEGORY_SOURCE_LIB:
+        addFiltersToFilterString(CodeSearchRelevantWbTypesUtil.getSourceCodeLibraryTypeFilters(),
+            filterQualifier);
+        break;
+      case IAbapRepositoryFolderNode.CATEGORY_ACCESS_CONTROL_MGMT:
+        addFiltersToFilterString(ITadirTypeConstants.ACCESS_CONTROL, filterQualifier);
+        break;
+      case IAbapRepositoryFolderNode.CATEGORY_CORE_DATA_SERVICES:
+        addFiltersToFilterString(Arrays.asList(ITadirTypeConstants.DATA_DEFINITION,
+            ITadirTypeConstants.ACCESS_CONTROL), filterQualifier);
+        break;
+      }
+    }
+
+    private void addTypeFilterByType(String filterQualifier, String type) {
+      switch (type) {
+      case IAdtObjectTypeConstants.DATA_DEFINITION:
+      case IAdtObjectTypeConstants.ACCESS_CONTROL:
+      case IAdtObjectTypeConstants.CLASS:
+      case IAdtObjectTypeConstants.INTERFACE:
+      case IAdtObjectTypeConstants.FUNCTION_GROUP:
+      case IAdtObjectTypeConstants.PROGRAM:
+      case IAdtObjectTypeConstants.PROGRAM_INCLUDE:
+      case IAdtObjectTypeConstants.SIMPLE_TRANSFORMATION:
+        addFiltersToFilterString(type.substring(0, 4), filterQualifier);
+        break;
+      }
+    }
+
+    private void addTypeFilters(String filterQualifier) {
+      String category = node.getCategory();
+      if (!StringUtil.isEmpty(category)) {
+        addTypeFilterByCategory(filterQualifier, category);
+        return;
+      }
+      String type = node.getType();
+      if (!StringUtil.isEmpty(type)) {
+        addTypeFilterByType(filterQualifier, type);
+      }
     }
   }
 
