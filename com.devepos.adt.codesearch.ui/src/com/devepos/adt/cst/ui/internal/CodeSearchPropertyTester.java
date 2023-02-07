@@ -8,12 +8,17 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.NullProgressMonitor;
 
+import com.devepos.adt.base.destinations.DestinationUtil;
 import com.devepos.adt.base.ui.adtobject.IAdtObject;
 import com.devepos.adt.base.ui.projectexplorer.node.IAbapRepositoryFolderNode;
 import com.devepos.adt.base.ui.projectexplorer.virtualfolders.IVirtualFolderNode;
 import com.devepos.adt.cst.search.CodeSearchFactory;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchRelevantWbTypesUtil;
+import com.sap.adt.ris.search.ui.internal.contentassist.AdtRisObjectTypeRegistry;
+import com.sap.adt.ris.search.ui.internal.contentassist.AdtRisParameterProposal;
+import com.sap.adt.ris.search.ui.internal.contentassist.IAdtRisObjectTypeRegistry;
 
 /**
  * Property tester concerning the ABAP Code Search feature
@@ -21,6 +26,7 @@ import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchRelevantWbTypesUtil;
  * @author Ludwig Stockbauer-Muhr
  *
  */
+@SuppressWarnings("restriction")
 public class CodeSearchPropertyTester extends PropertyTester {
   private static final String IS_CODE_SEARCH_AVAILABLE_PROP = "isCodeSearchAvailable";
   private static final String IS_OBJECT_SEARCHABLE_PROP = "isObjectSearchable";
@@ -34,6 +40,7 @@ public class CodeSearchPropertyTester extends PropertyTester {
   private static final List<String> VALID_VIRT_FOLDER_TYPE_KEYS = new ArrayList<>();
   private static final List<String> VALID_ABAP_REPO_FOLDER_TYPE_KEYS = Arrays.asList(
       IAbapRepositoryFolderNode.CATEGORY_CORE_DATA_SERVICES,
+      IAbapRepositoryFolderNode.CATEGORY_ACCESS_CONTROL_MGMT,
       IAbapRepositoryFolderNode.CATEGORY_DICTIONARY, IAbapRepositoryFolderNode.CATEGORY_SOURCE_LIB);
 
   static {
@@ -88,11 +95,11 @@ public class CodeSearchPropertyTester extends PropertyTester {
         return false;
       };
     } else if (receiver instanceof IAbapRepositoryFolderNode) {
-      // should only be relevant for 7.40-7.50 as Repository Trees, and therefore Virtual Folders
-      // are
-      // available starting with 7.51
+      // should only be relevant for 7.40-7.50 as Repository Trees and therefore Virtual Folders
+      // are available starting with 7.51
       IAbapRepositoryFolderNode folder = (IAbapRepositoryFolderNode) receiver;
       project = folder.getProject();
+      String destinationId = DestinationUtil.getDestinationId(project);
       additionalCheck = () -> {
         String category = folder.getCategory();
         if (category != null) {
@@ -100,11 +107,25 @@ public class CodeSearchPropertyTester extends PropertyTester {
             return false;
           }
 
-          // TODO: verify that the category contains the type
+          // Verify that the category contains the type
           // DICTIONARY (7.40) -> DDLS
           // DICTIONARY (7.50) -> invalid
           // CORE_DATA_SERVICES (7.50) -> DDLS,DCLS
-          // -> use class AdtRisObjectTypeRegistry
+          // do not block the property test too much
+          if (IAbapRepositoryFolderNode.CATEGORY_DICTIONARY.equals(category)) {
+            if (AdtRisObjectTypeRegistry.isLoaded(destinationId)) {
+              try {
+                IAdtRisObjectTypeRegistry typeRegistry = AdtRisObjectTypeRegistry.getInstance(
+                    destinationId, new NullProgressMonitor());
+                List<AdtRisParameterProposal> foundObjectTypes = typeRegistry
+                    .getObjectTypeProposalList(
+                        IAbapRepositoryFolderNode.CATEGORY_CORE_DATA_SERVICES);
+                return foundObjectTypes == null || foundObjectTypes.isEmpty();
+              } catch (Exception e) {
+                // exception handling not necessary
+              }
+            }
+          }
         }
         return true;
       };
