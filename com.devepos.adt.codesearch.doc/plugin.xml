@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml">
+      </toc>
+      <toc
+            file="primaryToc.xml"
+            primary="true">
+      </toc>
+      <tocIcon
+            closedIcon="/icons/toc_closed.gif"
+            id="com.devepos.adt.cst.ui.tocIcon"
+            openIcon="/icons/toc_open.gif">
+      </tocIcon>
+   </extension>
+   <extension
+           point="org.eclipse.help.contexts">
+        <contexts
+              file="contexts.xml"
+              plugin="com.devepos.adt.codesearch.doc">
+        </contexts>
+   </extension>
+</plugin>

@@ -9,6 +9,7 @@
         <module>com.devepos.adt.codesearch.model</module>
         <module>com.devepos.adt.codesearch.backend</module>
         <module>com.devepos.adt.codesearch.ui</module>
+        <module>com.devepos.adt.codesearch.doc</module>
         <module>com.devepos.adt.codesearch.feature</module>
     </modules>
     <profiles>

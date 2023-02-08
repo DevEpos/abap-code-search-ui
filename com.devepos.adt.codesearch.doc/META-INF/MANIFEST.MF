@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %Bundle-Name
+Bundle-SymbolicName: com.devepos.adt.codesearch.doc;singleton:=true
+Bundle-Version: 1.3.0.qualifier
+Bundle-Vendor: %Bundle-Vendor
+Bundle-Localization: plugin

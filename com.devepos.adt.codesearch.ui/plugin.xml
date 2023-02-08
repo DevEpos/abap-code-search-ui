@@ -150,7 +150,7 @@
          point="org.eclipse.search.searchResultViewPages">
       <viewPage
             class="com.devepos.adt.cst.ui.internal.codesearch.result.CodeSearchResultPage"
-            helpContextId="com.devepos.adt.codesearch.ui.code_search_result"
+            helpContextId="com.devepos.adt.codesearch.doc.code_search_result"
             icon="icons/codesearch.png"
             id="com.devepos.adt.cst.ui.internal.codesearch.CodeSearchResultPage"
             searchResultClass="com.devepos.adt.cst.ui.internal.codesearch.result.CodeSearchResult">
@@ -212,28 +212,6 @@
             properties="isCodeSearchAvailable"
             type="com.devepos.adt.base.ui.projectexplorer.node.IAbapRepositoryFolderNode">
       </propertyTester>
-   </extension>
-  <extension
-         point="org.eclipse.help.toc">
-      <toc
-            file="toc.xml">
-      </toc>
-      <toc
-            file="primaryToc.xml"
-            primary="true">
-      </toc>
-      <tocIcon
-            closedIcon="icons/toc/toc_closed.gif"
-            id="com.devepos.adt.cst.ui.tocIcon"
-            openIcon="icons/toc/toc_open.gif">
-      </tocIcon>
-   </extension>
-   <extension
-           point="org.eclipse.help.contexts">
-        <contexts
-              file="contexts.xml"
-              plugin="com.devepos.adt.codesearch.ui">
-        </contexts>
    </extension>
 
 </plugin>

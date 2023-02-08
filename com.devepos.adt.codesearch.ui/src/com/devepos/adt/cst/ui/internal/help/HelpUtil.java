@@ -3,8 +3,6 @@ package com.devepos.adt.cst.ui.internal.help;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;
 
-import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
-
 /**
  * Utility for easily setting help context to controls
  *
@@ -32,6 +30,6 @@ public class HelpUtil {
    * @return
    */
   public static String getFullyQualifiedContextId(final HelpContexts context) {
-    return CodeSearchUIPlugin.PLUGIN_ID + "." + context.getHelpContextId();
+    return "com.devepos.adt.codesearch.doc." + context.getHelpContextId();
   }
 }
