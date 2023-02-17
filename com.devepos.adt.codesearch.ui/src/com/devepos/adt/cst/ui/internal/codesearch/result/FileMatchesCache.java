@@ -68,12 +68,17 @@ class FileMatchesCache {
   private String getFileUriFromNode(final SearchMatchNode matchNode) {
     String fileUri = null;
 
-    int fragmentPosition = matchNode.getUri().indexOf("#");
-    if (fragmentPosition != -1) {
-      fileUri = matchNode.getUri().substring(0, fragmentPosition);
+    int queryParamPosition = matchNode.getUri().indexOf("?");
+    if (queryParamPosition != -1) {
+      fileUri = matchNode.getUri().substring(0, queryParamPosition);
     } else {
-      // somehow we have a full file URI in the match???
-      fileUri = matchNode.getUri();
+      int fragmentPosition = matchNode.getUri().indexOf("#");
+      if (fragmentPosition != -1) {
+        fileUri = matchNode.getUri().substring(0, fragmentPosition);
+      } else {
+        // somehow we have a full file URI in the match???
+        fileUri = matchNode.getUri();
+      }
     }
     return fileUri;
   }
