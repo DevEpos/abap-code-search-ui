@@ -97,7 +97,7 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
           .toLowerCase()));
     }
 
-    private void addTypeFilterByCategory(String filterQualifier, String category) {
+    private void addTypeFilterByCategory(final String filterQualifier, final String category) {
       switch (category) {
       case IAbapRepositoryFolderNode.CATEGORY_DICTIONARY:
         addFiltersToFilterString(ITadirTypeConstants.DATA_DEFINITION, filterQualifier);
@@ -116,7 +116,7 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
       }
     }
 
-    private void addTypeFilterByType(String filterQualifier, String type) {
+    private void addTypeFilterByType(final String filterQualifier, final String type) {
       switch (type) {
       case IAdtObjectTypeConstants.DATA_DEFINITION:
       case IAdtObjectTypeConstants.ACCESS_CONTROL:
@@ -131,7 +131,7 @@ public class CodeSearchHandler extends AbstractHandler implements ISearchPageLis
       }
     }
 
-    private void addTypeFilters(String filterQualifier) {
+    private void addTypeFilters(final String filterQualifier) {
       String category = node.getCategory();
       if (!StringUtil.isEmpty(category)) {
         addTypeFilterByCategory(filterQualifier, category);
