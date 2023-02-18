@@ -99,7 +99,7 @@
                      variable="selection">
                   <iterate
                         ifEmpty="false"
-                        operator="and">
+                        operator="or">
                      <and>
                         <test
                               property="com.sap.adt.tools.core.objectTypes.hasGlobalWorkbenchType"
