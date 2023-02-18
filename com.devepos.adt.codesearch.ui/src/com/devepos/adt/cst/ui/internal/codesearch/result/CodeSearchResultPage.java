@@ -1,7 +1,12 @@
 package com.devepos.adt.cst.ui.internal.codesearch.result;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
@@ -23,6 +28,7 @@ import org.eclipse.search.ui.text.Match;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
@@ -71,7 +77,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
 
   private ContextHelper contextHelper;
   private PreferenceToggleAction groupByPackageAction;
-  private IPropertyChangeListener prefChangeListener;
+  private final IPropertyChangeListener prefChangeListener;
 
   public CodeSearchResultPage() {
     super();
@@ -188,10 +194,14 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     IStructuredSelection selection = currentViewer.getStructuredSelection();
     boolean hasCollapsedPackages = false;
     boolean hasExpandedNodes = false;
+    boolean hasAdtObjects = false;
 
     for (Object selObj : selection) {
       if (hasCollapsedPackages && hasExpandedNodes) {
         break;
+      }
+      if (selObj instanceof IAdtObjectReferenceNode) {
+        hasAdtObjects = true;
       }
       if (selObj instanceof ICollectionTreeNode) {
         boolean isExpanded = treeViewer.getExpandedState(selObj);
@@ -209,6 +219,15 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     if (hasExpandedNodes) {
       mgr.appendToGroup(IContextMenuConstants.GROUP_REORGANIZE, collapseNodeAction);
     }
+
+    List<String> additionalGroupsToDelete = new ArrayList<>();
+    if (!hasCollapsedPackages && !hasExpandedNodes) {
+      additionalGroupsToDelete.add(IContextMenuConstants.GROUP_REORGANIZE);
+    }
+    if (!hasAdtObjects) {
+      additionalGroupsToDelete.add(IWorkbenchActionConstants.MB_ADDITIONS);
+    }
+    removeUnusedContextGroups(mgr, additionalGroupsToDelete);
   }
 
   @Override
@@ -308,5 +327,33 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
       return true;
     }
     return false;
+  }
+
+  /*
+   * For some reason an empty separator is shown in the context menu if these groups are not removed
+   *
+   * @see SearchView#createContextMenuGroups
+   */
+  private void removeUnusedContextGroups(final IMenuManager mgr,
+      final List<String> additionalGroups) {
+    IContributionItem[] items = mgr.getItems();
+
+    List<String> groupsToDelete = new ArrayList<>(Arrays.asList(IContextMenuConstants.GROUP_GENERATE,
+        IContextMenuConstants.GROUP_SEARCH, IContextMenuConstants.GROUP_BUILD,
+        IContextMenuConstants.GROUP_GOTO, IContextMenuConstants.GROUP_VIEWER_SETUP,
+        IContextMenuConstants.GROUP_PROPERTIES));
+    if (additionalGroups != null && !additionalGroups.isEmpty()) {
+      additionalGroups.forEach(groupsToDelete::add);
+    }
+
+    for (IContributionItem item : items) {
+      String id = item.getId();
+      if (id == null) {
+        continue;
+      }
+      if (groupsToDelete.contains(id)) {
+        mgr.remove(item);
+      }
+    }
   }
 }

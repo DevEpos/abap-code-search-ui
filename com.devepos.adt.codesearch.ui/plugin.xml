@@ -87,7 +87,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="popup:org.eclipse.search.ui.views.SearchView?before=additions">
+            locationURI="popup:org.eclipse.search.ui.views.SearchView?after=additions">
          <command
                commandId="com.devepos.adt.codesearch.ui.callCodeSearch"
                icon="icons/codesearch.png"
@@ -97,7 +97,9 @@
                   checkEnabled="false">
                <with
                      variable="selection">
-                  <iterate>
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
                      <and>
                         <test
                               property="com.sap.adt.tools.core.objectTypes.hasGlobalWorkbenchType"
