@@ -12,6 +12,7 @@ public class CodeSearchRelevantWbTypesUtil {
   private static List<String> RELEVANT_TYPES;
   private static List<String> POSSIBLE_TYPE_FILTERS;
   private static List<String> SRC_CODE_TYPE_FILTERS;
+  private static List<String> SEARCHABLE_ADT_TYPES;
 
   /**
    * Extracts valid type filters by checking against the valid filters for the Code Search
@@ -37,6 +38,24 @@ public class CodeSearchRelevantWbTypesUtil {
       }
     }
     return validTypes;
+  }
+
+  /**
+   * Returns a list of types of ADT objects that can be searched by the ABAP Code search
+   *
+   * @return list of ADT types
+   */
+  public static List<String> getCodeSearchableAdtTypes() {
+    if (SEARCHABLE_ADT_TYPES == null) {
+      SEARCHABLE_ADT_TYPES = Arrays.asList(IAdtObjectTypeConstants.INTERFACE,
+          IAdtObjectTypeConstants.CLASS, IAdtObjectTypeConstants.PROGRAM,
+          IAdtObjectTypeConstants.PROGRAM_INCLUDE, IAdtObjectTypeConstants.TYPE_GROUP,
+          IAdtObjectTypeConstants.DATA_DEFINITION, IAdtObjectTypeConstants.METADATA_EXTENSION,
+          IAdtObjectTypeConstants.ACCESS_CONTROL, IAdtObjectTypeConstants.BEHAVIOR_DEFINITION,
+          IAdtObjectTypeConstants.SIMPLE_TRANSFORMATION, IAdtObjectTypeConstants.FUNCTION_GROUP);
+    }
+
+    return SEARCHABLE_ADT_TYPES;
   }
 
   /**

@@ -50,6 +50,7 @@ import com.devepos.adt.base.ui.tree.PackageNode;
 import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchDialog;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchQuery;
+import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchRelevantWbTypesUtil;
 import com.devepos.adt.cst.ui.internal.messages.Messages;
 import com.devepos.adt.cst.ui.internal.preferences.CodeSearchPreferencesPage;
 import com.sap.adt.tools.core.model.adtcore.IAdtCoreFactory;
@@ -192,39 +193,47 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     TreeViewer treeViewer = (TreeViewer) currentViewer;
 
     IStructuredSelection selection = currentViewer.getStructuredSelection();
-    boolean hasCollapsedPackages = false;
-    boolean hasExpandedNodes = false;
-    boolean hasAdtObjects = false;
+    boolean collapsedPackageSelected = false;
+    boolean expandedNodeSelected = false;
+    boolean codeSearchableObjSelected = false;
+
+    List<String> relevantAdtTypesForCodeSearch = CodeSearchRelevantWbTypesUtil
+        .getCodeSearchableAdtTypes();
 
     for (Object selObj : selection) {
-      if (hasCollapsedPackages && hasExpandedNodes) {
+      if (collapsedPackageSelected && expandedNodeSelected) {
         break;
       }
-      if (selObj instanceof IAdtObjectReferenceNode) {
-        hasAdtObjects = true;
+      if (!codeSearchableObjSelected && selObj instanceof IAdtObjectReferenceNode
+          && relevantAdtTypesForCodeSearch.contains(((IAdtObjectReferenceNode) selObj)
+              .getAdtObjectType())) {
+        codeSearchableObjSelected = true;
       }
       if (selObj instanceof ICollectionTreeNode) {
         boolean isExpanded = treeViewer.getExpandedState(selObj);
-        if (!hasExpandedNodes && isExpanded) {
-          hasExpandedNodes = true;
-        } else if (!hasCollapsedPackages && selObj instanceof PackageNode && !isExpanded) {
-          hasCollapsedPackages = true;
+        if (!expandedNodeSelected && isExpanded) {
+          expandedNodeSelected = true;
+        } else if (!collapsedPackageSelected && selObj instanceof PackageNode && !isExpanded) {
+          collapsedPackageSelected = true;
         }
       }
     }
 
-    if (hasCollapsedPackages) {
+    if (collapsedPackageSelected) {
       mgr.appendToGroup(IContextMenuConstants.GROUP_REORGANIZE, expandPackageNodeAction);
     }
-    if (hasExpandedNodes) {
+    if (expandedNodeSelected) {
       mgr.appendToGroup(IContextMenuConstants.GROUP_REORGANIZE, collapseNodeAction);
     }
 
+    /*
+     * Ugly workaround to hide empty Separators in context menu - Reason is currently unknown
+     */
     List<String> additionalGroupsToDelete = new ArrayList<>();
-    if (!hasCollapsedPackages && !hasExpandedNodes) {
+    if (!collapsedPackageSelected && !expandedNodeSelected) {
       additionalGroupsToDelete.add(IContextMenuConstants.GROUP_REORGANIZE);
     }
-    if (!hasAdtObjects) {
+    if (!codeSearchableObjSelected) {
       additionalGroupsToDelete.add(IWorkbenchActionConstants.MB_ADDITIONS);
     }
     removeUnusedContextGroups(mgr, additionalGroupsToDelete);
@@ -337,11 +346,14 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   private void removeUnusedContextGroups(final IMenuManager mgr,
       final List<String> additionalGroups) {
     IContributionItem[] items = mgr.getItems();
+    if (items == null || items.length == 0) {
+      return;
+    }
 
-    List<String> groupsToDelete = new ArrayList<>(Arrays.asList(IContextMenuConstants.GROUP_GENERATE,
-        IContextMenuConstants.GROUP_SEARCH, IContextMenuConstants.GROUP_BUILD,
-        IContextMenuConstants.GROUP_GOTO, IContextMenuConstants.GROUP_VIEWER_SETUP,
-        IContextMenuConstants.GROUP_PROPERTIES));
+    List<String> groupsToDelete = new ArrayList<>(Arrays.asList(
+        IContextMenuConstants.GROUP_GENERATE, IContextMenuConstants.GROUP_SEARCH,
+        IContextMenuConstants.GROUP_BUILD, IContextMenuConstants.GROUP_GOTO,
+        IContextMenuConstants.GROUP_VIEWER_SETUP, IContextMenuConstants.GROUP_PROPERTIES));
     if (additionalGroups != null && !additionalGroups.isEmpty()) {
       additionalGroups.forEach(groupsToDelete::add);
     }
