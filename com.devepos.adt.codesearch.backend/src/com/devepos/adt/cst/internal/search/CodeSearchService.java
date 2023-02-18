@@ -32,6 +32,7 @@ import com.sap.adt.communication.resources.QueryParameter;
 import com.sap.adt.communication.resources.ResourceException;
 import com.sap.adt.communication.session.AdtSystemSessionFactory;
 import com.sap.adt.communication.session.ISystemSession;
+import com.sap.adt.compatibility.uritemplate.IAdtUriTemplate;
 
 /**
  * Standard implementation of the interface {@link ICodeSearchService}
@@ -128,6 +129,18 @@ public class CodeSearchService implements ICodeSearchService {
   }
 
   @Override
+  public boolean isCodeSearchParameterSupported(final IProject project,
+      final String queryParameter) {
+    final String destinationId = DestinationUtil.getDestinationId(project);
+    CodeSearchUriDiscovery uriDiscovery = new CodeSearchUriDiscovery(destinationId);
+    if (!uriDiscovery.isResourceDiscoverySuccessful() || uriDiscovery.getCodeSearchUri() == null) {
+      return false;
+    }
+    IAdtUriTemplate template = uriDiscovery.getCodeSearchTemplate();
+    return template != null ? template.containsVariable(queryParameter) : null;
+  }
+
+  @Override
   public ICodeSearchResult search(final String destinationId,
       final Map<String, Object> uriParameters, final IProgressMonitor monitor) {
 
@@ -148,7 +161,7 @@ public class CodeSearchService implements ICodeSearchService {
   @Override
   public IStatus testCodeSearchFeatureAvailability(final IProject project) {
     final String destinationId = DestinationUtil.getDestinationId(project);
-    var uriDiscovery = new CodeSearchUriDiscovery(destinationId);
+    CodeSearchUriDiscovery uriDiscovery = new CodeSearchUriDiscovery(destinationId);
     if (uriDiscovery.isResourceDiscoverySuccessful() && uriDiscovery.getCodeSearchUri() != null) {
       return Status.OK_STATUS;
     }

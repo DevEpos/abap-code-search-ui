@@ -65,6 +65,15 @@ public interface ICodeSearchService {
   ICodeSearchSettings getSettings(String destinationId);
 
   /**
+   * Returns {@code true} if the parameter is supported in the Code Search API
+   * 
+   * @param queryParameter name of a query parameter
+   * @param project        the project to use
+   * @return
+   */
+  boolean isCodeSearchParameterSupported(IProject project, String queryParameter);
+
+  /**
    * Find matches in ABAP Code
    *
    * @param destinationId destination Id for ABAP project

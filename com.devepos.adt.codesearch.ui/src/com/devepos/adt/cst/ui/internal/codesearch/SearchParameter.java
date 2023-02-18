@@ -3,6 +3,7 @@ package com.devepos.adt.cst.ui.internal.codesearch;
 public enum SearchParameter {
   FUGR_INCLUDES("fugrIncludes"),
   CLASS_INCLUDES("classIncludes"),
+  EXPAND_PROG_INCLUDES("expandProgIncl"),
   MAX_OBJECTS("maxObjects"),
   IGNORE_CASE("ignoreCase"),
   IGNORE_COMMENT_LINES("ignoreCommentLines"),

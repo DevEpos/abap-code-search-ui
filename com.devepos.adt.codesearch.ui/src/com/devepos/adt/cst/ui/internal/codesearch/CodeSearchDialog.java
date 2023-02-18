@@ -21,6 +21,7 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.search.ui.ISearchPage;
 import org.eclipse.search.ui.ISearchPageContainer;
 import org.eclipse.search.ui.NewSearchUI;
@@ -64,8 +65,9 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private static final String FUGR_INCLUDES_ALL_ENABLED = "functionGroup.includes.allEnabled";
   private static final String CLASS_INCLUDES_BITS = "class.includeBits";
   private static final String CLASS_INCLUDES_ALL_ENABLED = "class.includes.allEnabled";
+  private static final String PROGRAM_INCLUDES_EXPAND_ENABLED = "program.includes.expandEnabled";
 
-  private Map<ValidationSource, IStatus> allValidationStatuses;
+  private final Map<ValidationSource, IStatus> allValidationStatuses;
   private ISearchPageContainer container;
   private SearchFilterHandler filterHandler;
 
@@ -82,6 +84,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private Button matchAllPatterns;
   private Button ignoreCommentLinesCheck;
   private Button sequentialMatchingCheck;
+  private Button expandProgIncludesButton;
   private IncludeFlagsRadioButtonGroup classIncludeConfigGroup;
   private IncludeFlagsRadioButtonGroup fugrIncludeConfigGroup;
 
@@ -90,8 +93,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   private Text filterInput;
   private ProjectInput projectInput;
 
-  private IAbapProjectProvider projectProvider;
-  private CodeSearchQuerySpecification querySpecs;
+  private final IAbapProjectProvider projectProvider;
+  private final CodeSearchQuerySpecification querySpecs;
 
   private IDialogSettings dialogSettings;
 
@@ -136,7 +139,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
     Composite customTypeOptions = new Composite(mainComposite, SWT.NONE);
     GridDataFactory.fillDefaults().grab(true, false).applyTo(customTypeOptions);
-    GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(customTypeOptions);
+    GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(3).applyTo(customTypeOptions);
     createIncludeConfigOptions(customTypeOptions);
 
     createProjectInput(mainComposite);
@@ -212,6 +215,8 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     fugrIncludesParamCurrent.setAllIncludes(fugrIncludesParamOld.isAllIncludes());
     fugrIncludesParamCurrent.setIncludeFlags(fugrIncludesParamOld.getIncludeFlags());
 
+    expandProgIncludesButton.setSelection(querySpecs.isExpandProgramIncludes());
+
     classIncludeConfigGroup.updateControlsFromModel();
     fugrIncludeConfigGroup.updateControlsFromModel();
 
@@ -247,6 +252,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     querySpecs.setMultilineSearchOption(multilineSearchOption.getSelection());
     querySpecs.setMatchAllPatterns(matchAllPatterns.getSelection());
     querySpecs.setUseRegExp(useRegExpCheck.getSelection());
+    querySpecs.setExpandProgramIncludes(expandProgIncludesButton.getSelection());
 
     collectExtensionSectionParameters();
   }
@@ -356,6 +362,16 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
             .getFugrIncludesParam());
 
     fugrIncludeConfigGroup.createControl(parent);
+
+    // create Group to control search of program includes
+    final Group programSettingsGroup = new Group(parent, SWT.NONE);
+    programSettingsGroup.setText(Messages.CodeSearchDialog_programSettingsGroup_xtit);
+    GridDataFactory.fillDefaults().grab(true, false).applyTo(programSettingsGroup);
+    RowLayoutFactory.swtDefaults().applyTo(programSettingsGroup);
+
+    expandProgIncludesButton = new Button(programSettingsGroup, SWT.CHECK);
+    expandProgIncludesButton.setText(Messages.CodeSearchDialog_expandIncludes_xchk);
+    expandProgIncludesButton.setSelection(querySpecs.isExpandProgramIncludes());
   }
 
   private void createObjectScopeGroup(final Composite parent) {
@@ -447,10 +463,13 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     projectInput.addProjectValidator(project -> CodeSearchFactory.getCodeSearchService()
         .testCodeSearchFeatureAvailability(project));
     projectInput.addStatusChangeListener(status -> {
+      boolean isProjectValid = false;
       if (validateAndSetStatus(status, ValidationSource.PROJECT)) {
+        isProjectValid = true;
         validateFilterPattern();
         validateSearchPatterns();
       }
+      updateProjectDependentOptions(isProjectValid);
       setProjectInExtensionSections();
       updateOKStatus();
     });
@@ -461,7 +480,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
 
     GridDataFactory.swtDefaults()
         .align(SWT.FILL, SWT.FILL)
-        .hint(550, SWT.DEFAULT)
+        .hint(650, SWT.DEFAULT)
         .grab(true, false)
         .applyTo(statusArea);
     GridLayoutFactory.fillDefaults().numColumns(2).applyTo(statusArea);
@@ -509,6 +528,7 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     }
     fugrIncludesParam.setAllIncludes(dialogSettings.getBoolean(FUGR_INCLUDES_ALL_ENABLED)
         || fugrIncludesParam.getIncludeFlags() == 0);
+    querySpecs.setExpandProgramIncludes(dialogSettings.getBoolean(PROGRAM_INCLUDES_EXPAND_ENABLED));
   }
 
   private void registerContentAssist() {
@@ -667,6 +687,21 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
     }
   }
 
+  private void updateProjectDependentOptions(final boolean isProjectValid) {
+    if (expandProgIncludesButton == null || expandProgIncludesButton.isDisposed()) {
+      return;
+    }
+
+    if (!isProjectValid) {
+      expandProgIncludesButton.setEnabled(false);
+    } else {
+      expandProgIncludesButton.setEnabled(CodeSearchFactory.getCodeSearchService()
+          .isCodeSearchParameterSupported(projectProvider.getProject(),
+              SearchParameter.EXPAND_PROG_INCLUDES.getUriName()));
+    }
+
+  }
+
   private IStatus updateStatus(final IStatus status, final ValidationSource type) {
     final IStatus validatedStatus = status == null ? Status.OK_STATUS : status;
     allValidationStatuses.put(type, validatedStatus);
@@ -736,5 +771,6 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
         .isAllIncludes());
     dialogSettings.put(FUGR_INCLUDES_BITS, querySpecs.getFugrIncludesParam().getIncludeFlags());
     dialogSettings.put(LAST_PROJECT_PREF, projectProvider.getProjectName());
+    dialogSettings.put(PROGRAM_INCLUDES_EXPAND_ENABLED, querySpecs.isExpandProgramIncludes());
   }
 }

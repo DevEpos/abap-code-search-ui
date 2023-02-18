@@ -15,6 +15,7 @@ public class Messages extends NLS {
   public static String CodeSearchDialog_checkSequenceBoundsOption_xchk;
   public static String CodeSearchDialog_checkSequenceBoundsOption_xtol;
   public static String CodeSearchDialog_classIncludesRadioGroup_xlbl;
+  public static String CodeSearchDialog_expandIncludes_xchk;
   public static String CodeSearchDialog_extensionInitError_xtit;
   public static String CodeSearchDialog_extensionNotAvailableError_xmsg;
   public static String CodeSearchDialog_functionGroupIncludesRadioGroup_xlbl;
@@ -32,6 +33,7 @@ public class Messages extends NLS {
   public static String CodeSearchDialog_objectScopeFilters_xlbl;
   public static String CodeSearchDialog_objectScopeGroup_xlbl;
   public static String CodeSearchDialog_otherClassIncludeSection_xlbl;
+  public static String CodeSearchDialog_programSettingsGroup_xtit;
   public static String CodeSearchDialog_queryReuseNotPossibleErrorText_xmsg;
   public static String CodeSearchDialog_queryStillRunningError_xtit;
   public static String CodeSearchDialog_regularExpressionsOption_xchk;

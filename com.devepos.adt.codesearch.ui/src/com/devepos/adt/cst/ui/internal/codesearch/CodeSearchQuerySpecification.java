@@ -37,6 +37,7 @@ public class CodeSearchQuerySpecification {
   private boolean matchAllPatterns;
   private boolean sequentialMatching;
   private boolean multilineSearchOption;
+  private boolean expandProgIncludes;
 
   private boolean readPackageHierarchy;
 
@@ -50,7 +51,7 @@ public class CodeSearchQuerySpecification {
   private IncludeFlagsParameter fugrIncludesParam;
 
   private Map<String, Object> objectScopeFilters;
-  private Map<String, Object> extensionObjectScopeFilters = new HashMap<>();
+  private final Map<String, Object> extensionObjectScopeFilters = new HashMap<>();
   private String objectScopeFiltersString = "";
 
   private String queryStringShort;
@@ -92,6 +93,9 @@ public class CodeSearchQuerySpecification {
     uriParameters.put(SearchParameter.FUGR_INCLUDES.getUriName(), getFugrIncludesParam()
         .getUriParamValue());
 
+    if (expandProgIncludes) {
+      uriParameters.put(SearchParameter.EXPAND_PROG_INCLUDES.getUriName(), true);
+    }
     return uriParameters;
   }
 
@@ -219,6 +223,10 @@ public class CodeSearchQuerySpecification {
     return readPackageHierarchy;
   }
 
+  public boolean isExpandProgramIncludes() {
+    return expandProgIncludes;
+  }
+
   public boolean isSequentialMatching() {
     return sequentialMatching;
   }
@@ -282,6 +290,10 @@ public class CodeSearchQuerySpecification {
    */
   public void setReadPackageHierarchy(final boolean readPackageHierarchy) {
     this.readPackageHierarchy = readPackageHierarchy;
+  }
+
+  public void setExpandProgramIncludes(final boolean expandProgIncludes) {
+    this.expandProgIncludes = expandProgIncludes;
   }
 
   public void setSequentialMatching(final boolean sequentialMatching) {
