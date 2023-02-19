@@ -32,6 +32,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
+import com.devepos.adt.base.IAdtObjectTypeConstants;
 import com.devepos.adt.base.ui.AdtBaseUIResources;
 import com.devepos.adt.base.ui.ContextHelper;
 import com.devepos.adt.base.ui.IAdtBaseImages;
@@ -204,9 +205,11 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
       if (collapsedPackageSelected && expandedNodeSelected) {
         break;
       }
+      // check if code searchable object is selected (clas,intf, ... or package)
       if (!codeSearchableObjSelected && selObj instanceof IAdtObjectReferenceNode
-          && relevantAdtTypesForCodeSearch.contains(((IAdtObjectReferenceNode) selObj)
-              .getAdtObjectType())) {
+          && (relevantAdtTypesForCodeSearch.contains(((IAdtObjectReferenceNode) selObj)
+              .getAdtObjectType()) || ((IAdtObjectReferenceNode) selObj).getAdtObjectType()
+                  .equals(IAdtObjectTypeConstants.PACKAGE))) {
         codeSearchableObjSelected = true;
       }
       if (selObj instanceof ICollectionTreeNode) {
