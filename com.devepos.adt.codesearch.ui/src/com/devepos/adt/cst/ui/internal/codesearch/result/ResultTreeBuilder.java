@@ -207,9 +207,23 @@ class ResultTreeBuilder {
         IAdtObjectReferenceNode objectNode = createAdtObjectRefNode(destinationId, searchObject,
             mainObject);
         addSearchMatchNodes(searchObject, objectNode);
-        urisToNodes.put(searchObject.getUri(), objectNode);
-        urisInCorrectTreeOrder.add(searchObject.getUri());
+        String nodeUuid = null;
+        if (IAdtObjectTypeConstants.FUNCTION_INCLUDE.equals(mainObject.getType())
+            || IAdtObjectTypeConstants.PROGRAM_INCLUDE.equals(mainObject.getType())) {
+          // double fail-safe if program include has matches in expanded include and resides under
+          // package
+          if (packageNodeCache.containsKey(searchObject.getParentUri())) {
+            nodeUuid = searchObject.getUri();
+          } else {
+            nodeUuid = searchObject.getParentUri() + "::" + searchObject.getUri();
+          }
+        } else {
+          nodeUuid = searchObject.getUri();
+        }
+        urisToNodes.put(nodeUuid, objectNode);
+        urisInCorrectTreeOrder.add(nodeUuid);
         newNode = objectNode;
+
       }
 
       if (newNode != null && StringUtil.isEmpty(searchObject.getParentUri())) {
