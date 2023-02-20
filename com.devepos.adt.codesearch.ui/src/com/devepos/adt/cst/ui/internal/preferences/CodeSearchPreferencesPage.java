@@ -26,7 +26,7 @@ import com.devepos.adt.cst.ui.internal.pages.CodeSearchPropertyPage;
 public class CodeSearchPreferencesPage extends FieldEditorPrefPageBase implements
     IWorkbenchPreferencePage {
 
-  public static final String PAGE_ID = "com.devepos.adt.codesearch.ui.preferences.CodeSearchPreferencesPage";
+  public static final String PAGE_ID = "com.devepos.adt.codesearch.ui.preferences.CodeSearchPreferencesPage"; //$NON-NLS-1$
 
   @Override
   public void init(final IWorkbench workbench) {
@@ -61,6 +61,12 @@ public class CodeSearchPreferencesPage extends FieldEditorPrefPageBase implement
   private void createSearchDialogSettings(final Composite parent) {
     final Group group = createGroup(
         Messages.CodeSearchPreferencesPage_searchDialogSettingsGroup_xlbl, parent);
+
+    final Group includeSettingsGroup = createGroup(
+        Messages.CodeSearchPreferencesPage_dialogIncludeSettingsGroup_xlbl, group);
+    addBooleanEditor(ICodeSearchPrefs.REMEMBER_INCLUDE_SETTINGS,
+        Messages.CodeSearchPreferencesPage_useFromPreviousSearch_xchk, createEditorParent(
+            includeSettingsGroup));
 
     final Group singlePatternModeGroup = createGroup(
         Messages.CodeSearchPreferencesPage_singlePatternModeSettingsGroup_xlbl, group);

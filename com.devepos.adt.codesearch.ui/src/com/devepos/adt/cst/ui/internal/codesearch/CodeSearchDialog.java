@@ -54,6 +54,7 @@ import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.help.HelpContexts;
 import com.devepos.adt.cst.ui.internal.help.HelpUtil;
 import com.devepos.adt.cst.ui.internal.messages.Messages;
+import com.devepos.adt.cst.ui.internal.preferences.ICodeSearchPrefs;
 import com.sap.adt.util.ui.swt.AdtSWTUtilFactory;
 
 public class CodeSearchDialog extends DialogPage implements ISearchPage,
@@ -509,6 +510,11 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
   }
 
   private void readDialogSettings() {
+    if (!CodeSearchUIPlugin.getDefault()
+        .getPreferenceStore()
+        .getBoolean(ICodeSearchPrefs.REMEMBER_INCLUDE_SETTINGS)) {
+      return;
+    }
     IDialogSettings dialogSettings = getDialogSettings();
 
     IncludeFlagsParameter classIncludesParam = querySpecs.getClassIncludesParam();
@@ -700,6 +706,9 @@ public class CodeSearchDialog extends DialogPage implements ISearchPage,
               SearchParameter.EXPAND_PROG_INCLUDES.getUriName()));
     }
 
+    if (!expandProgIncludesButton.isEnabled()) {
+      expandProgIncludesButton.setSelection(false);
+    }
   }
 
   private IStatus updateStatus(final IStatus status, final ValidationSource type) {

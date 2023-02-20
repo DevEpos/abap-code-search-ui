@@ -21,4 +21,8 @@ public interface ICodeSearchPrefs {
    * are active
    */
   String SINGLE_PATTERN_REGEX_CONCAT_WITH_LF = "codeSearch.singlePattern.regex.concatPatternLinesWithLf";
+  /**
+   * Setting to remember the include settings for class/function group/program for next dialog call
+   */
+  String REMEMBER_INCLUDE_SETTINGS = "codeSearch.rememberIncludeSettings";
 }
