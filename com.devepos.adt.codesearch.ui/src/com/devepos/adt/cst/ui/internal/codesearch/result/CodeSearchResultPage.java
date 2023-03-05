@@ -189,6 +189,8 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
 
     StructuredViewer currentViewer = getViewer();
     if (!(currentViewer instanceof TreeViewer)) {
+      removeUnusedContextGroups(mgr, Arrays.asList(IContextMenuConstants.GROUP_REORGANIZE,
+          IWorkbenchActionConstants.MB_ADDITIONS));
       return;
     }
     TreeViewer treeViewer = (TreeViewer) currentViewer;
