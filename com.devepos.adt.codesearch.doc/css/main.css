@@ -40,6 +40,11 @@ figure {
 	display: block;
 }
 
+figure img {
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 3px 10px
+		rgba(0, 0, 0, 0.08);
+}
+
 .alert {
 	position: relative;
 	font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
@@ -90,6 +95,19 @@ figure {
 figure figcaption {
 	font-size: 85%;
 	font-style: italic;
+}
+
+body {
+	counter-reset: fig-number;
+}
+
+figcaption {
+	counter-increment: fig-number 1;
+}
+
+figure figcaption::before {
+	content: 'Figure ' counter(fig-number) ': ';
+	font-weight: bold;
 }
 
 table {
