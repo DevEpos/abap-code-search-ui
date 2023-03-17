@@ -2,7 +2,7 @@
 <feature
       id="com.devepos.adt.codesearch"
       label="ABAP Code Search"
-      version="1.4.0.qualifier"
+      version="1.4.1.qualifier"
       provider-name="DevEpos"
       plugin="com.devepos.adt.branding">
 
