@@ -7,12 +7,13 @@ import java.util.Map;
 
 import com.devepos.adt.base.IAdtObjectTypeConstants;
 import com.devepos.adt.base.adtobject.AdtObjectReferenceModelFactory;
-import com.devepos.adt.base.ui.tree.AdtObjectReferenceNode;
 import com.devepos.adt.base.ui.tree.FolderTreeNode;
 import com.devepos.adt.base.ui.tree.IAdtObjectReferenceNode;
 import com.devepos.adt.base.ui.tree.ICollectionTreeNode;
 import com.devepos.adt.base.ui.tree.ITreeNode;
 import com.devepos.adt.base.ui.tree.PackageNode;
+import com.devepos.adt.base.ui.tree.launchable.LaunchableAdtObjectReferenceNode;
+import com.devepos.adt.base.ui.tree.launchable.LaunchablePackageNode;
 import com.devepos.adt.base.util.StringUtil;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchMatch;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchObject;
@@ -114,8 +115,8 @@ class ResultTreeBuilder {
     String uri = searchObject.getUri();
     PackageNode packageNode = packageNodeCache.get(uri);
     if (packageNode == null) {
-      packageNode = new PackageNode(mainObject.getName(), null, createObjectRef(destinationId,
-          mainObject, searchObject));
+      packageNode = new LaunchablePackageNode(mainObject.getName(), null, createObjectRef(
+          destinationId, mainObject, searchObject));
       packageNodeCache.put(uri, packageNode);
       newPackagesToAddToTree.add(packageNode);
       urisToNodes.put(uri, packageNode);
@@ -181,9 +182,9 @@ class ResultTreeBuilder {
 
   private IAdtObjectReferenceNode createAdtObjectRefNode(final String destinationId,
       final ICodeSearchObject searchObject, final IAdtMainObject mainObject) {
-    IAdtObjectReferenceNode objectNode = new AdtObjectReferenceNode(mainObject.getName(), mainObject
-        .getName(), mainObject.getDescription(), createObjectRef(destinationId, mainObject,
-            searchObject));
+    IAdtObjectReferenceNode objectNode = new LaunchableAdtObjectReferenceNode(mainObject.getName(),
+        mainObject.getName(), mainObject.getDescription(), createObjectRef(destinationId,
+            mainObject, searchObject));
     return objectNode;
   }
 

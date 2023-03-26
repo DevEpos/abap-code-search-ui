@@ -237,6 +237,8 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     List<String> additionalGroupsToDelete = new ArrayList<>();
     if (!collapsedPackageSelected && !expandedNodeSelected) {
       additionalGroupsToDelete.add(IContextMenuConstants.GROUP_REORGANIZE);
+    } else if (codeSearchableObjSelected) {
+      mgr.appendToGroup(IContextMenuConstants.GROUP_REORGANIZE, new Separator());
     }
     if (!codeSearchableObjSelected) {
       additionalGroupsToDelete.add(IWorkbenchActionConstants.MB_ADDITIONS);
