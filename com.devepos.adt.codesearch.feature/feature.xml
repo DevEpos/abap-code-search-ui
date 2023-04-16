@@ -21,11 +21,7 @@ Searches Code in ABAP sources like
 - Simple Transformations (XSLT)
    </description>
 
-   <copyright>
-      [Enter Copyright Description here.]
-   </copyright>
-
-   <license url="">
+   <license url="https://github.com/stockbal/abap-code-search-ui/blob/main/LICENSE">
       The MIT License (MIT)
 
 Copyright (c) 2021 Ludwig Stockbauer-Muhr
