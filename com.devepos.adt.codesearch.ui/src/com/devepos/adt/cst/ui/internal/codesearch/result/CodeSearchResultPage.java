@@ -199,6 +199,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     boolean collapsedPackageSelected = false;
     boolean expandedNodeSelected = false;
     boolean codeSearchableObjSelected = false;
+    boolean searchMatchSelected = false;
 
     List<String> relevantAdtTypesForCodeSearch = CodeSearchRelevantWbTypesUtil
         .getCodeSearchableAdtTypes();
@@ -221,6 +222,8 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
         } else if (!collapsedPackageSelected && selObj instanceof PackageNode && !isExpanded) {
           collapsedPackageSelected = true;
         }
+      } else if (!searchMatchSelected && selObj instanceof SearchMatchNode) {
+        searchMatchSelected = true;
       }
     }
 
@@ -240,7 +243,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     } else if (codeSearchableObjSelected) {
       mgr.appendToGroup(IContextMenuConstants.GROUP_REORGANIZE, new Separator());
     }
-    if (!codeSearchableObjSelected) {
+    if (!codeSearchableObjSelected || searchMatchSelected) {
       additionalGroupsToDelete.add(IWorkbenchActionConstants.MB_ADDITIONS);
     }
     removeUnusedContextGroups(mgr, additionalGroupsToDelete);
