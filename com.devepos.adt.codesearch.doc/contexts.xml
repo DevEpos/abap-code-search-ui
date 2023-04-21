@@ -18,4 +18,8 @@
       <description>Configure project specific properties for the ABAP Code Search</description>
       <topic href="html/code_search/properties.html" label="ABAP Code Search - Properties"/>
    </context>
+   <context id="result_csv_export">
+      <description>Exporting code search results to a text file</description>
+      <topic href="html/code_search/csv_export.html" label="ABAP Code Search - File Export for Results"/>
+   </context>
 </contexts>

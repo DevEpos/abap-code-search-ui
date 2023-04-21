@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html id="doc-page">
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>File Export for Search Results</title>
+</head>
+<body id="doc-body">
+	<h2 class="heading">File Export for Code Search Results</h2>
+	<p>To export the visible search results to a delimited text file
+		you can use the export function which is available from the view menu
+		of the search result page.</p>
+
+	<figure>
+		<img src="../../images/CodeSearch-Result-ViewMenu-ExportAction.png">
+		<figcaption>Export Function in Result Page View Menu</figcaption>
+	</figure>
+
+	<p>This action opens up a dialog with some configuration options on
+		how the results shall be saved to a text file</p>
+
+	<figure>
+		<img src="../../images/CodeSearch-Results-ExportDialog.png">
+		<figcaption>Export Dialog</figcaption>
+	</figure>
+
+	<p>
+		First you have to select a file via the <em>Browse</em> button which
+		opens up a system file dialog. If the chosen file already exists, you
+		will get a warning message in the dialog that it will get overwriten
+		upon completing the dialog.
+	</p>
+	<p>
+		Additionally you can choose between <em>Comma</em>, <em>Semicolon</em>
+		and <em>Tab</em> as a delimiter.
+	</p>
+	<p>
+		It may also be helpful to activate the option <em>Use Marker
+			sequence for Match</em>. This will use the specified <em>Marker
+			Sequence</em> to wrap the found search pattern in the code snippet (e.g.
+		<code class="code"> " %%TODO%%: clean up algorithm</code>
+		for the pattern
+		<code class="code">todo</code>
+		).
+	</p>
+
+	<h3 class="heading">Related Information</h3>
+	<div>
+		<a class="link" href="search_result.html">Search Result</a>
+	</div>
+	<div>
+		<a class="link" href="preferences.html">Preferences</a>
+	</div>
+</body>

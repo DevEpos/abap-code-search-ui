@@ -13,6 +13,8 @@
          <topic href="html/code_search/regular_expressions.html" label="Regular Expressions">
          </topic>
          <topic href="html/code_search/search_result.html" label="Search Result">
+             <topic href="html/code_search/csv_export.html" label="File Export">
+             </topic>
          </topic>
          <topic href="html/code_search/preferences.html" label="Preferences">
          </topic>
@@ -21,6 +23,8 @@
       </topic>
    </topic>
    <topic href="html/changelog/overview.html" label="What&apos;s New">
+      <topic href="html/changelog/v1_6_0.html" label="Version 1.6.0">
+      </topic>
       <topic href="html/changelog/v1_5_0.html" label="Version 1.5.0">
       </topic>
       <topic href="html/changelog/v1_4_0.html" label="Version 1.4.0">
