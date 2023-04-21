@@ -185,6 +185,10 @@ class ResultTreeBuilder {
     IAdtObjectReferenceNode objectNode = new LaunchableAdtObjectReferenceNode(mainObject.getName(),
         mainObject.getName(), mainObject.getDescription(), createObjectRef(destinationId,
             mainObject, searchObject));
+    if (mainObject.getResponsible() != null) {
+      objectNode.getProperties()
+          .put(IResultPropertyNameConstants.OBJECT_RESPONSIBLE, mainObject.getResponsible());
+    }
     return objectNode;
   }
 

@@ -21,6 +21,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     IPreferenceStore store = CodeSearchUIPlugin.getDefault().getPreferenceStore();
     store.setDefault(ICodeSearchPrefs.SINGLE_PATTERN_REGEX_CONCAT_WITH_LF, false);
     store.setDefault(ICodeSearchPrefs.REMEMBER_INCLUDE_SETTINGS, true);
+    store.setDefault(ICodeSearchPrefs.EXPORT_DIALOG_MATCH_MARKER_SEQUENCE, "%%");
   }
 
 }

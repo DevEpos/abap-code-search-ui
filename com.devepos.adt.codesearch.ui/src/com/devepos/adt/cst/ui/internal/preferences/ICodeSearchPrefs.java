@@ -25,4 +25,8 @@ public interface ICodeSearchPrefs {
    * Setting to remember the include settings for class/function group/program for next dialog call
    */
   String REMEMBER_INCLUDE_SETTINGS = "codeSearch.rememberIncludeSettings";
+  /**
+   * Marker sequence value to mark Code search matches in a file export
+   */
+  String EXPORT_DIALOG_MATCH_MARKER_SEQUENCE = "codeSearch.exportDialog.matchMarkerSequence";
 }

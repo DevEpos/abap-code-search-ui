@@ -10,6 +10,7 @@ import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.OpenStrategy;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
@@ -52,6 +53,7 @@ import com.devepos.adt.cst.ui.internal.CodeSearchUIPlugin;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchDialog;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchQuery;
 import com.devepos.adt.cst.ui.internal.codesearch.CodeSearchRelevantWbTypesUtil;
+import com.devepos.adt.cst.ui.internal.export.ExportSearchResultsDialog;
 import com.devepos.adt.cst.ui.internal.messages.Messages;
 import com.devepos.adt.cst.ui.internal.preferences.CodeSearchPreferencesPage;
 import com.sap.adt.tools.core.model.adtcore.IAdtCoreFactory;
@@ -76,6 +78,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   private IAction openRuntimeInformation;
   private IAction expandPackageNodeAction;
   private IAction collapseNodeAction;
+  private IAction exportResultsAction;
 
   private ContextHelper contextHelper;
   private PreferenceToggleAction groupByPackageAction;
@@ -139,6 +142,8 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     IMenuManager menuMgr = actionBars.getMenuManager();
     menuMgr.appendToGroup(IContextMenuConstants.GROUP_ADDITIONS, openRuntimeInformation);
     menuMgr.appendToGroup(IContextMenuConstants.GROUP_PROPERTIES, openPreferencesAction);
+    menuMgr.add(new Separator());
+    menuMgr.add(exportResultsAction);
   }
 
   @Override
@@ -258,6 +263,9 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
       tbm.appendToGroup(IContextMenuConstants.GROUP_VIEWER_SETUP, new Separator(GROUP_GROUPING));
       tbm.appendToGroup(GROUP_GROUPING, groupByPackageAction);
     }
+
+    // tbm.add(new Separator());
+    // tbm.add(exportResultsAction);
   }
 
   @Override
@@ -288,12 +296,28 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     navigateToElement(element, activate);
   }
 
+  private void exportResults() {
+    var searchResult = (CodeSearchResult) getInput();
+    if (searchResult.getResultTree() == null || !searchResult.getResultTree().hasChildren()) {
+      MessageDialog.openInformation(getSite().getShell(),
+          Messages.CodeSearchResultPage_NoResultsForExport_xtit,
+          Messages.CodeSearchResultPage_NoResultsForExport_xmsg);
+      return;
+    }
+    var exportResultsDialog = new ExportSearchResultsDialog(getSite().getShell(), searchResult
+        .getResultTree(), ((CodeSearchQuery) getInput().getQuery()).getProjectProvider()
+            .getProject());
+    exportResultsDialog.open();
+  }
+
   private void initializeActions() {
     openPreferencesAction = ActionFactory.createAction(
         Messages.CodeSearchResultPage_openSearchPreferencesAction_xlbl, null, () -> {
           PreferencesUtil.createPreferenceDialogOn(null, CodeSearchPreferencesPage.PAGE_ID,
               new String[] { CodeSearchPreferencesPage.PAGE_ID }, (Object) null).open();
         });
+    exportResultsAction = ActionFactory.createAction(
+        Messages.CodeSearchResultPage_ExportResultAction_xtit, null, this::exportResults);
     groupByPackageAction = new PreferenceToggleAction(
         Messages.CodeSearchResultPage_groupByPackageAction_xtol, AdtBaseUIResources
             .getImageDescriptor(IAdtBaseImages.PACKAGE), GROUP_BY_PACKAGE_PREF, true,
