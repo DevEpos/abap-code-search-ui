@@ -44,6 +44,7 @@ import com.sap.adt.util.ui.swt.AdtSWTUtilFactory;
 public class ExportSearchResultsDialog extends TitleAreaDialog {
   private static final String DIALOG_SETTINGS_NAME = ExportSearchResultsDialog.class
       .getCanonicalName();
+
   private Composite mainComposite;
   private Button commaDelimiter;
   private Button semicolonDelimiter;
@@ -177,8 +178,13 @@ public class ExportSearchResultsDialog extends TitleAreaDialog {
     browseButton.setText(Messages.ExportSearchResultsDialog_FileBrowse_xbtn);
     browseButton.addSelectionListener(widgetSelectedAdapter(l -> {
       var fileDialog = new FileDialog(getShell(), SWT.SAVE);
-      fileDialog.setFilterExtensions(new String[] { "*.txt", "*.csv", "*.*" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-      fileDialog.setFileName("codeSearchResult"); //$NON-NLS-1$
+      if (!StringUtil.isEmpty(fileInput.getText())) {
+        var file = new File(fileInput.getText());
+        fileDialog.setFileName(file.getName());
+      } else {
+        fileDialog.setFileName("codeSearchResult"); //$NON-NLS-1$
+      }
+      fileDialog.setFilterExtensions(new String[] { "*.csv", "*.txt", "*.*" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       var fileName = fileDialog.open();
       if (fileName != null) {
         fileInput.setText(fileName);
