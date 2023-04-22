@@ -108,6 +108,8 @@ public class ExportSearchResultsDialog extends TitleAreaDialog {
     createDelimiterOptions();
     createOtherOptions();
 
+    selectDelimiterFromPrefs();
+
     return dialogArea;
   }
 
@@ -124,7 +126,7 @@ public class ExportSearchResultsDialog extends TitleAreaDialog {
   @Override
   protected void okPressed() {
     var exporter = new ResultExporter(DestinationUtil.getSystemId(DestinationUtil.getDestinationId(
-        project)), rootResultNode, getSeparator(), generateColHeaders.getSelection(), fileInput
+        project)), rootResultNode, getDelimiter(), generateColHeaders.getSelection(), fileInput
             .getText(), qualifierCombo.getText(), useQualifierWhenRequired.getSelection(),
         useMatchMarker.getSelection() ? matchMarker.getText() : null);
     try {
@@ -134,10 +136,7 @@ public class ExportSearchResultsDialog extends TitleAreaDialog {
           Messages.ExportSearchResultsDialog_FileOperationError_xtit, e.getLocalizedMessage());
       return;
     }
-    if (useMatchMarker.getSelection()) {
-      prefStore.putValue(ICodeSearchPrefs.EXPORT_DIALOG_MATCH_MARKER_SEQUENCE, matchMarker
-          .getText());
-    }
+    updateDialogPrefs();
     super.okPressed();
   }
 
@@ -234,6 +233,7 @@ public class ExportSearchResultsDialog extends TitleAreaDialog {
 
     useMatchMarker = new Button(group, SWT.CHECK);
     useMatchMarker.setText(Messages.ExportSearchResultsDialog_UseMarkerSequenceOption_xchk);
+    useMatchMarker.setSelection(prefStore.getBoolean(ICodeSearchPrefs.CSV_EXPORT_USE_MATCH_MARKER));
     useMatchMarker.addSelectionListener(widgetSelectedAdapter(l -> {
       matchMarker.setEnabled(useMatchMarker.getSelection());
       validateInput();
@@ -246,7 +246,7 @@ public class ExportSearchResultsDialog extends TitleAreaDialog {
 
     matchMarker = new Text(group, SWT.BORDER);
     GridDataFactory.fillDefaults().hint(30, SWT.DEFAULT).applyTo(matchMarker);
-    matchMarker.setText(prefStore.getString(ICodeSearchPrefs.EXPORT_DIALOG_MATCH_MARKER_SEQUENCE));
+    matchMarker.setText(prefStore.getString(ICodeSearchPrefs.CSV_EXPORT_MATCH_MARKER_SEQUENCE));
     matchMarker.addModifyListener(l -> {
       validateInput();
     });
@@ -260,17 +260,46 @@ public class ExportSearchResultsDialog extends TitleAreaDialog {
     }
   }
 
-  private String getSeparator() {
+  private String getDelimiter() {
     if (commaDelimiter.getSelection()) {
-      return ","; //$NON-NLS-1$
+      return ResultExporter.COMMA_DELIMITER;
     }
     if (semicolonDelimiter.getSelection()) {
-      return ";"; //$NON-NLS-1$
+      return ResultExporter.SEMICOLON_DELIMITER;
     }
     if (tabDelimiter.getSelection()) {
-      return "\t"; //$NON-NLS-1$
+      return ResultExporter.TAB_DELIMITER;
     }
-    return null;
+    return ResultExporter.COMMA_DELIMITER;
+  }
+
+  private void selectDelimiterFromPrefs() {
+    var delimiterInPrefs = prefStore.getString(ICodeSearchPrefs.CSV_EXPORT_DELIMITER);
+    switch (delimiterInPrefs) {
+    case ResultExporter.COMMA_DELIMITER:
+      commaDelimiter.setSelection(true);
+      semicolonDelimiter.setSelection(false);
+      tabDelimiter.setSelection(false);
+      break;
+    case ResultExporter.SEMICOLON_DELIMITER:
+      semicolonDelimiter.setSelection(true);
+      commaDelimiter.setSelection(false);
+      tabDelimiter.setSelection(false);
+      break;
+    case ResultExporter.TAB_DELIMITER:
+      tabDelimiter.setSelection(true);
+      semicolonDelimiter.setSelection(false);
+      commaDelimiter.setSelection(false);
+      break;
+    }
+  }
+
+  private void updateDialogPrefs() {
+    if (useMatchMarker.getSelection()) {
+      prefStore.setValue(ICodeSearchPrefs.CSV_EXPORT_MATCH_MARKER_SEQUENCE, matchMarker.getText());
+    }
+    prefStore.setValue(ICodeSearchPrefs.CSV_EXPORT_DELIMITER, getDelimiter());
+    prefStore.setValue(ICodeSearchPrefs.CSV_EXPORT_USE_MATCH_MARKER, useMatchMarker.getSelection());
   }
 
   private void validateInput() {

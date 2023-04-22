@@ -28,5 +28,14 @@ public interface ICodeSearchPrefs {
   /**
    * Marker sequence value to mark Code search matches in a file export
    */
-  String EXPORT_DIALOG_MATCH_MARKER_SEQUENCE = "codeSearch.exportDialog.matchMarkerSequence";
+  String CSV_EXPORT_MATCH_MARKER_SEQUENCE = "codeSearch.exportDialog.matchMarkerSequence";
+  /**
+   * Flag to indicate if a marker sequence should be used to mark the search pattern in a file
+   * export
+   */
+  String CSV_EXPORT_USE_MATCH_MARKER = "codeSearch.exportDialog.useMatchMarker";
+  /**
+   * Delimiter for csv data export
+   */
+  String CSV_EXPORT_DELIMITER = "codeSearch.exportDialog.delimiter";
 }
