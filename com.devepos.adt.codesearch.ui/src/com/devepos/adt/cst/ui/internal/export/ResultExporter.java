@@ -66,9 +66,8 @@ public class ResultExporter {
       bufferedWriter.write(String.join(separator,
           Messages.ResultExporter_PackageHierarchyPathHeader_xtit,
           Messages.ResultExporter_SourcePackageHeader_xtit,
-          Messages.ResultExporter_ObjectTypeHeader_xtit, Messages.ResultExporter_NameHeader_xtit,
-          Messages.ResultExporter_OwnerHeader_xtit,
-          Messages.ResultExporter_SubObjectTypeHeader_xtit,
+          Messages.ResultExporter_OwnerHeader_xtit, Messages.ResultExporter_ObjectTypeHeader_xtit,
+          Messages.ResultExporter_NameHeader_xtit, Messages.ResultExporter_SubObjectTypeHeader_xtit,
           Messages.ResultExporter_SubObjectNameHeader_xtit,
           Messages.ResultExporter_LineNumberHeader_xtit,
           Messages.ResultExporter_SourceCodeExtractHeader_xtit,
@@ -139,10 +138,10 @@ public class ResultExporter {
 
     IAdtObjectReference object = objectNode.getObjectReference();
 
-    rowEntries.add(getCsvValue(adtTypeUtil.getTypeDescription(object.getType())));
-    rowEntries.add(getCsvValue(object.getName()));
     rowEntries.add(getCsvValue(objectNode.getPropertyValue(
         IResultPropertyNameConstants.OBJECT_RESPONSIBLE)));
+    rowEntries.add(getCsvValue(adtTypeUtil.getTypeDescription(object.getType())));
+    rowEntries.add(getCsvValue(object.getName()));
 
     rowEntries.add(getCsvValue(subObject != null ? adtTypeUtil.getTypeDescription(subObject
         .getType()) : "")); //$NON-NLS-1$
