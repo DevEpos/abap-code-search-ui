@@ -93,6 +93,10 @@ public class ResultExporter {
         : value;
   }
 
+  private String getMatchLink(final String uri) {
+    return getCsvValue(String.format("=HYPERLINK(\"adt://%s%s\")", projectId, uri));
+  }
+
   private String getSnippet(final StyledString snippetText, final IPlainTextPosition position) {
     if (matchMarker == null) {
       return getCsvValue(snippetText.getString());
@@ -156,7 +160,7 @@ public class ResultExporter {
       rowEntries.add(getCsvValue(String.valueOf(position.getStartLine())));
       rowEntries.add(getSnippet(node.getStyledText(), position));
 
-      rowEntries.add(getCsvValue(String.format("adt://%s%s", projectId, node.getUri()))); //$NON-NLS-1$
+      rowEntries.add(getMatchLink(node.getUri()));
       bufferedWriter.write(String.join(separator, rowEntries.toArray(String[]::new)));
       bufferedWriter.newLine();
     } catch (Exception exc) {
