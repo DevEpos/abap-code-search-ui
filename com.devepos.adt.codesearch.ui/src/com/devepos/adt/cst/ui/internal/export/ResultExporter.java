@@ -111,7 +111,7 @@ public class ResultExporter {
           .concat(matchMarker)
           .concat(snippet.substring(styledMatch.start + styledMatch.length));
     }
-    return snippet;
+    return getCsvValue(snippet);
   }
 
   private void writeResult(final SearchMatchNode node, final String packageHierarchy,
