@@ -100,6 +100,7 @@ public class ExportSearchResultsDialog extends TitleAreaDialog {
     GridLayoutFactory.swtDefaults()
         .extendedMargins(5, 5, 5, 5)
         .numColumns(2)
+        .equalWidth(true)
         .applyTo(mainComposite);
     GridDataFactory.fillDefaults().hint(450, 250).grab(true, true).applyTo(mainComposite);
 
@@ -256,7 +257,7 @@ public class ExportSearchResultsDialog extends TitleAreaDialog {
     matchMarker.addModifyListener(l -> {
       validateInput();
     });
-    matchMarker.setEnabled(false);
+    matchMarker.setEnabled(useMatchMarker.getSelection());
   }
 
   private void enableOkButton(final boolean enable) {
