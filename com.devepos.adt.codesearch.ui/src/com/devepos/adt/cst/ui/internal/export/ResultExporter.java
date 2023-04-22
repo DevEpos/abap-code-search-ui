@@ -30,6 +30,10 @@ import com.sap.adt.tools.core.model.adtcore.IAdtObjectReference;
  *
  */
 public class ResultExporter {
+  public static final String COMMA_DELIMITER = ",";
+  public static final String SEMICOLON_DELIMITER = ";";
+  public static final String TAB_DELIMITER = "\t";
+
   private IPlainTextFragmentHandler plainTextFragmentHandler;
   private final ICollectionTreeNode rootResultNode;
   private final String separator;
