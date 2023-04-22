@@ -34,6 +34,8 @@
 		Additionally you can choose between <em>Comma</em>, <em>Semicolon</em>
 		and <em>Tab</em> as a delimiter.
 	</p>
+
+	<h3 class="heading">Emphasize your matches</h3>
 	<p>
 		It may also be helpful to activate the option <em>Use Marker
 			sequence for Match</em>. This will use the specified <em>Marker
@@ -43,6 +45,59 @@
 		<code class="code">todo</code>
 		).
 	</p>
+
+	<h3 class="heading">Columns in the Export</h3>
+	<p>The following columns are currently written to the text file:</p>
+	<table style="width: 700px;">
+		<tr>
+			<th>Column</th>
+			<th>Description</th>
+		</tr>
+		<tr>
+			<td>Package Hierarchy Path</td>
+			<td>Holds the full package hierarchy of the object separated by
+				">"</td>
+		</tr>
+		<tr>
+			<td>Source Package</td>
+			<td>Contains the actual package of the repository object</td>
+		</tr>
+		<tr>
+			<td>Owner</td>
+			<td>The id of the responsible person</td>
+		</tr>
+		<tr>
+			<td>Name</td>
+			<td>The name of the main repository object (e.g. of a global
+				class)</td>
+		</tr>
+		<tr>
+			<td>Object Type</td>
+			<td>The description of the main repository object type</td>
+		</tr>
+		<tr>
+			<td>Sub-Object Name</td>
+			<td>The name of the sub object, if available (e.g. Method Name
+				or Include)</td>
+		</tr>
+		<tr>
+			<td>Sub-Object Type</td>
+			<td>The type of the sub object (e.g. Method, Class Include,
+				etc.)</td>
+		</tr>
+		<tr>
+			<td>Line Number</td>
+			<td>The first line of the match</td>
+		</tr>
+		<tr>
+			<td>Source Code Extract</td>
+			<td>The first source code line where the match was found</td>
+		</tr>
+		<tr>
+			<td>Link to Match</td>
+			<td>ADT Link to the match in the repository object</td>
+		</tr>
+	</table>
 
 	<h3 class="heading">Related Information</h3>
 	<div>
