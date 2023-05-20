@@ -105,7 +105,7 @@ public class CodeSearchRuntimeInformation implements IQueryListener {
   }
 
   public boolean isAllSearched() {
-    return objectScopeCount == searchedObjectsCount;
+    return searchedObjectsCount >= objectScopeCount;
   }
 
   public boolean isSearchRunning() {
