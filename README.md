@@ -18,4 +18,4 @@ ADT Plugin for searching ABAP code sources like Classes, Interfaces, Data Defini
 ## Preconditions
 
 - The ABAP Development Tools Plugin is installed [ADT Plugin](https://tools.hana.ondemand.com/)
-- The ADT Backend for the _ABAP Code Search Tools_ is installed [abap-code-search-tools](https://github.com/stockbal/abap-code-search-tools)
+- The ADT Backend for the _ABAP Code Search Tools_ is installed [abap-code-search-tools](https://github.com/DevEpos/abap-code-search-tools)
