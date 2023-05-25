@@ -243,7 +243,7 @@ public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntim
   }
 
   private void updateDurationLabels() {
-    String durationUnit = UNIT_MINUTE;
+    String durationUnit = UNIT_MILLISECOND;
     var duration = (float) runtimeInfo.getOverallServerTimeInMs();
     var numberFormat = defaultFormat;
 
