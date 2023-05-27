@@ -19,8 +19,6 @@ import com.devepos.adt.cst.model.codesearch.ICodeSearchScope;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameter;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchScopeParameters;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchSettings;
-import com.sap.adt.tools.core.model.adtcore.IAdtCorePackage;
-import com.sap.adt.tools.core.model.atom.IAtomPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -148,8 +146,6 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
 
     // Initialize simple dependencies
     IAdtBasePackage.eINSTANCE.eClass();
-    IAdtCorePackage.eINSTANCE.eClass();
-    IAtomPackage.eINSTANCE.eClass();
     XMLTypePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
@@ -610,8 +606,6 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     // Obtain other dependent packages
     XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE.getEPackage(
         XMLTypePackage.eNS_URI);
-    IAdtCorePackage theAdtCorePackage = (IAdtCorePackage) EPackage.Registry.INSTANCE.getEPackage(
-        IAdtCorePackage.eNS_URI);
     IAdtBasePackage theAdtBasePackage = (IAdtBasePackage) EPackage.Registry.INSTANCE.getEPackage(
         IAdtBasePackage.eNS_URI);
 
@@ -630,7 +624,7 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     initEAttribute(getCodeSearchObject_ParentUri(), theXMLTypePackage.getAnyURI(), "parentUri",
         null, 0, 1, ICodeSearchObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
         !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getCodeSearchObject_AdtMainObject(), theAdtCorePackage.getAdtMainObject(), null,
+    initEReference(getCodeSearchObject_AdtMainObject(), theAdtBasePackage.getAdtObjRef(), null,
         "adtMainObject", null, 0, 1, ICodeSearchObject.class, !IS_TRANSIENT, !IS_VOLATILE,
         IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
         IS_ORDERED);
@@ -743,7 +737,7 @@ public class CodeSearchPackage extends EPackageImpl implements ICodeSearchPackag
     addAnnotation(getCodeSearchObject_ParentUri(), source, new String[] { "kind", "attribute",
         "name", "parentUri", "namespace", "##targetNamespace" });
     addAnnotation(getCodeSearchObject_AdtMainObject(), source, new String[] { "kind", "element",
-        "name", "adtMainObject", "namespace", "http://www.sap.com/adt/core" });
+        "name", "adtMainObject", "namespace", "http://www.devepos.com/adt/base" });
     addAnnotation(getCodeSearchObject_Matches(), source, new String[] { "kind", "element", "name",
         "match", "namespace", "##targetNamespace" });
     addAnnotation(codeSearchMatchEClass, source, new String[] { "kind", "elementOnly", "name",

@@ -14,10 +14,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import com.devepos.adt.base.model.adtbase.IAdtObjRef;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchMatch;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchObject;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchPackage;
-import com.sap.adt.tools.core.model.adtcore.IAdtMainObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -93,7 +93,7 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
    * @generated
    * @ordered
    */
-  protected IAdtMainObject adtMainObject;
+  protected IAdtObjRef adtMainObject;
 
   /**
    * The cached value of the '{@link #getMatches() <em>Matches</em>}' containment reference list.
@@ -186,7 +186,7 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
    * @generated
    */
   @Override
-  public IAdtMainObject getAdtMainObject() {
+  public IAdtObjRef getAdtMainObject() {
     return adtMainObject;
   }
 
@@ -196,9 +196,9 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
    *
    * @generated
    */
-  public NotificationChain basicSetAdtMainObject(final IAdtMainObject newAdtMainObject,
+  public NotificationChain basicSetAdtMainObject(final IAdtObjRef newAdtMainObject,
       NotificationChain msgs) {
-    IAdtMainObject oldAdtMainObject = adtMainObject;
+    IAdtObjRef oldAdtMainObject = adtMainObject;
     adtMainObject = newAdtMainObject;
     if (eNotificationRequired()) {
       ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
@@ -219,7 +219,7 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
    *
    * @generated
    */
-  public void setAdtMainObject(final IAdtMainObject newAdtMainObject) {
+  public void setAdtMainObject(final IAdtObjRef newAdtMainObject) {
     if (newAdtMainObject != adtMainObject) {
       NotificationChain msgs = null;
       if (adtMainObject != null) {
@@ -312,7 +312,7 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
       setParentUri((String) newValue);
       return;
     case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT:
-      setAdtMainObject((IAdtMainObject) newValue);
+      setAdtMainObject((IAdtObjRef) newValue);
       return;
     case ICodeSearchPackage.CODE_SEARCH_OBJECT__MATCHES:
       getMatches().clear();
@@ -338,7 +338,7 @@ public class CodeSearchObject extends MinimalEObjectImpl.Container implements IC
       setParentUri(PARENT_URI_EDEFAULT);
       return;
     case ICodeSearchPackage.CODE_SEARCH_OBJECT__ADT_MAIN_OBJECT:
-      setAdtMainObject((IAdtMainObject) null);
+      setAdtMainObject((IAdtObjRef) null);
       return;
     case ICodeSearchPackage.CODE_SEARCH_OBJECT__MATCHES:
       getMatches().clear();

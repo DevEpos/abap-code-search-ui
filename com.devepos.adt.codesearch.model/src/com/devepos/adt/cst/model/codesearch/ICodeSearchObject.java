@@ -5,7 +5,7 @@ package com.devepos.adt.cst.model.codesearch;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
-import com.sap.adt.tools.core.model.adtcore.IAdtMainObject;
+import com.devepos.adt.base.model.adtbase.IAdtObjRef;
 
 /**
  * <!-- begin-user-doc -->
@@ -65,10 +65,10 @@ public interface ICodeSearchObject extends EObject {
    * @see com.devepos.adt.cst.model.codesearch.ICodeSearchPackage#getCodeSearchObject_AdtMainObject()
    * @model containment="true" suppressedSetVisibility="true"
    *        extendedMetaData="kind='element' name='adtMainObject'
-   *        namespace='http://www.sap.com/adt/core'"
+   *        namespace='http://www.devepos.com/adt/base'"
    * @generated
    */
-  IAdtMainObject getAdtMainObject();
+  IAdtObjRef getAdtMainObject();
 
   /**
    * Returns the value of the '<em><b>Matches</b></em>' containment reference list.
