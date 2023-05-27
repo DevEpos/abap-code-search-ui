@@ -182,7 +182,9 @@ public class CodeSearchResult extends AbstractTextSearchResult {
    */
   public void removeChildeNode(final ICollectionTreeNode parent, final ITreeNode child) {
     if (child instanceof PackageNode) {
-      resultTree.removePackageNode((PackageNode) child);
+      if (resultTree != null) {
+        resultTree.removePackageNode((PackageNode) child);
+      }
     }
     parent.removeChild(child);
   }

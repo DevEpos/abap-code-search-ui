@@ -21,16 +21,17 @@ public class CodeSearchTreeContentProvider extends TreeContentProvider {
 
   @Override
   public Object[] getElements(final Object inputElement) {
-    CodeSearchResult result = (CodeSearchResult) resultPage.getInput();
+    var result = (CodeSearchResult) resultPage.getInput();
     if (result != null) {
-      ICollectionTreeNode rootNode = result.getResultTree();
+      var rootNode = result.getResultTree();
       if (rootNode == null) {
         return EMPTY_ARRAY;
       }
       if (resultPage.isPackageGroupingEnabled()) {
         return rootNode.getChildren().toArray();
       }
-      return getNonPackageResults(rootNode.getChildren());
+      // Clone list to fix potential ConcurrentModification problem
+      return getNonPackageResults(new ArrayList<>(rootNode.getChildren()));
     }
     return EMPTY_ARRAY;
   }
@@ -43,7 +44,7 @@ public class CodeSearchTreeContentProvider extends TreeContentProvider {
 
   private void collectNonPackageResults(final List<ITreeNode> nodes,
       final List<ITreeNode> nonPackageNodes) {
-    for (ITreeNode node : nodes) {
+    for (var node : nodes) {
       if (node instanceof PackageNode) {
         collectNonPackageResults(((ICollectionTreeNode) node).getChildren(), nonPackageNodes);
       } else {
