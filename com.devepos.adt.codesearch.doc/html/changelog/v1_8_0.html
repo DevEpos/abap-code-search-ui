@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html id="doc-page">
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Version 1.8.0</title>
+</head>
+
+<body id="doc-body">
+	<h2 class="heading">Version 1.8.0</h2>
+	<h3 class="heading">ABAP Code Search</h3>
+	<h4 class="heading">Features</h4>
+	<ul class="list">
+		<li>Adds option to <a
+			href="../code_search/search_result.html#continue-search" class="link">continue</a>
+			a search query that was cancelled or interrupted
+		</li>
+	</ul>
+
+	<h4 class="heading">Changes</h4>
+	<ul class="list">
+		<li>Search Matches in object type <em>Data Definition</em> are
+			now grouped under the contained <em>Entity</em> with its contained
+			camel-case name.
+
+			<figure>
+				<img src="../../images/CodeSearch-Result-DDLS-Names.png">
+				<figcaption>Entity names instead of upper-case DDL
+					names</figcaption>
+			</figure>
+		</li>
+		<li>Behavior definitions are displayed with the name of the
+			corresponding root CDS entity
+
+			<figure>
+				<img src="../../images/CodeSearch-Result-BDEF-Names.png">
+				<figcaption>Root entity names intead of upper-case BDEF
+					names</figcaption>
+			</figure>
+		</li>
+	</ul>
+</body>
+</html>
