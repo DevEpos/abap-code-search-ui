@@ -28,15 +28,15 @@ import com.sap.adt.tools.core.model.adtcore.IAdtObjectReference;
  *
  */
 class ResultTreeBuilder {
-  private FolderTreeNode rootNode;
-  private String destinationId;
+  private final FolderTreeNode rootNode;
+  private final String destinationId;
   private Map<String, IAdtObjectReferenceNode> urisToNodes = new HashMap<>();
   private List<String> urisInCorrectTreeOrder;
   private List<PackageNode> newPackagesToAddToTree;
   private List<ITreeNode> flatResult;
   private List<ITreeNode> nodesWithMatches;
-  private Map<String, PackageNode> packageNodeCache = new HashMap<>();
-  private FileMatchesCache fileMatchesCache;
+  private final Map<String, PackageNode> packageNodeCache = new HashMap<>();
+  private final FileMatchesCache fileMatchesCache;
 
   /**
    * Creates new result tree instance
