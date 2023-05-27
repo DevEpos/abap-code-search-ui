@@ -101,6 +101,7 @@ public class Messages extends NLS {
   public static String CodeSearchRuntimeInfoDialog_searchProgressGroup_xtit;
   public static String CodeSearchRuntimeInfoDialog_startUpdatesAction_xbtn;
   public static String CodeSearchRuntimeInfoDialog_stopUpdatesAction_xbtn;
+  public static String ContinueCodeSearchAction_actionName_xlbl;
   public static String ExportSearchResultsDialog_CommaDelimiter_xbtn;
   public static String ExportSearchResultsDialog_DelimterOptions_xgrp;
   public static String ExportSearchResultsDialog_FileBrowse_xbtn;

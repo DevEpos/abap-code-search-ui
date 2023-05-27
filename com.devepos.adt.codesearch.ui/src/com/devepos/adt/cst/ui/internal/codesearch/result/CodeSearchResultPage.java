@@ -24,6 +24,10 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.search.ui.IContextMenuConstants;
+import org.eclipse.search.ui.IQueryListener;
+import org.eclipse.search.ui.ISearchQuery;
+import org.eclipse.search.ui.ISearchResult;
+import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.search.ui.text.AbstractTextSearchViewPage;
 import org.eclipse.search.ui.text.Match;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -67,7 +71,7 @@ import com.sap.adt.tools.core.ui.navigation.AdtNavigationServiceFactory;
  *
  */
 public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
-    ISearchResultPageExtension<CodeSearchQuery> {
+    ISearchResultPageExtension<CodeSearchQuery>, IQueryListener {
 
   private static final String GROUP_BY_PACKAGE_PREF = "codeSearch.result.groupByPackageEnabled"; //$NON-NLS-1$
   private static final String GROUP_GROUPING = "com.devepos.adt.cst.searchResult.grouping"; //$NON-NLS-1$
@@ -79,6 +83,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   private IAction expandPackageNodeAction;
   private IAction collapseNodeAction;
   private IAction exportResultsAction;
+  private ContinueCodeSearchAction continueSearchAction;
 
   private ContextHelper contextHelper;
   private PreferenceToggleAction groupByPackageAction;
@@ -108,6 +113,8 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     contextHelper = ContextHelper.createForServiceLocator(getSite());
     contextHelper.activateAbapContext();
     contextHelper.activateContext(IGeneralContextConstants.SEARCH_PAGE_VIEWS);
+
+    NewSearchUI.addQueryListener(this);
   }
 
   @Override
@@ -120,6 +127,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
           .getPreferenceStore()
           .removePropertyChangeListener(prefChangeListener);
     }
+    NewSearchUI.removeQueryListener(this);
     super.dispose();
   }
 
@@ -130,11 +138,42 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
 
   @Override
   public CodeSearchQuery getSearchQuery() {
-    return (CodeSearchQuery) getInput().getQuery();
+    var searchResult = getInput();
+    return searchResult != null ? (CodeSearchQuery) searchResult.getQuery() : null;
   }
 
   public boolean isPackageGroupingEnabled() {
     return groupByPackageAction != null ? groupByPackageAction.isChecked() : false;
+  }
+
+  @Override
+  public void queryAdded(final ISearchQuery query) {
+  }
+
+  @Override
+  public void queryFinished(final ISearchQuery query) {
+    if (isActionUpdateRequired(query)) {
+      updateContinueAction();
+    }
+  }
+
+  @Override
+  public void queryRemoved(final ISearchQuery query) {
+    if (isActionUpdateRequired(query)) {
+      updateContinueAction();
+    }
+  }
+
+  @Override
+  public void queryStarting(final ISearchQuery query) {
+    if (isActionUpdateRequired(query)) {
+      updateContinueAction();
+    }
+  }
+
+  private boolean isActionUpdateRequired(ISearchQuery query) {
+    var searchResult = getInput();
+    return searchResult != null && searchResult.equals(query.getSearchResult());
   }
 
   @Override
@@ -147,6 +186,13 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   }
 
   @Override
+  public void setInput(final ISearchResult newSearch, final Object viewState) {
+    super.setInput(newSearch, viewState);
+
+    updateContinueAction();
+  }
+
+  @Override
   protected void clear() {
     getViewer().refresh();
   }
@@ -156,6 +202,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     collapseNodeAction = null;
     contentProvider = new CodeSearchTableContentProvider(this);
     viewer.setContentProvider(contentProvider);
+    viewer.setUseHashlookup(true);
     ColumnViewerToolTipSupport.enableFor(viewer);
     viewer.setLabelProvider(new DelegatingStyledCellLabelProvider(
         new CodeSearchResultLabelProvider()));
@@ -166,6 +213,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     collapseNodeAction = new CollapseTreeNodesAction(viewer);
     contentProvider = new CodeSearchTreeContentProvider(this);
     viewer.setContentProvider(contentProvider);
+    viewer.setUseHashlookup(true);
     ColumnViewerToolTipSupport.enableFor(viewer);
     viewer.setLabelProvider(new DelegatingStyledCellLabelProvider(
         new CodeSearchResultLabelProvider()));
@@ -263,9 +311,7 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
       tbm.appendToGroup(IContextMenuConstants.GROUP_VIEWER_SETUP, new Separator(GROUP_GROUPING));
       tbm.appendToGroup(GROUP_GROUPING, groupByPackageAction);
     }
-
-    // tbm.add(new Separator());
-    // tbm.add(exportResultsAction);
+    tbm.prependToGroup(IContextMenuConstants.GROUP_SEARCH, continueSearchAction);
   }
 
   @Override
@@ -311,6 +357,8 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   }
 
   private void initializeActions() {
+    continueSearchAction = new ContinueCodeSearchAction(this);
+    continueSearchAction.setEnabled(false);
     openPreferencesAction = ActionFactory.createAction(
         Messages.CodeSearchResultPage_openSearchPreferencesAction_xlbl, null, () -> {
           PreferencesUtil.createPreferenceDialogOn(null, CodeSearchPreferencesPage.PAGE_ID,
@@ -401,5 +449,15 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
         mgr.remove(item);
       }
     }
+  }
+
+  private void updateContinueAction() {
+    boolean enabled = false;
+    var query = getSearchQuery();
+    if (query != null && !query.isFinished() && !NewSearchUI.isQueryRunning(query)) {
+      enabled = true;
+    }
+
+    continueSearchAction.setEnabled(enabled);
   }
 }
