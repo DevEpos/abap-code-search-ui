@@ -27,7 +27,7 @@ import com.devepos.adt.cst.ui.internal.messages.Messages;
 class CodeSearchResultLabelProvider extends LabelProvider implements ILabelProvider,
     IStyledLabelProvider, IToolTipProvider {
 
-  private NumberFormat matchCountFormat = new DecimalFormat("###,###");
+  private final NumberFormat matchCountFormat = new DecimalFormat("###,###");
 
   @Override
   public Image getImage(final Object element) {
@@ -39,6 +39,9 @@ class CodeSearchResultLabelProvider extends LabelProvider implements ILabelProvi
       String adtType = adtObjRefNode.getObjectReference().getType();
       if (adtType.equals(IAdtObjectTypeConstants.CLASS_INCLUDE)) {
         return AdtBaseUIResources.getImage(IAdtBaseImages.NEUTRAL_METHOD);
+      }
+      if (IAdtObjectTypeConstants.DATA_DEFINITION.equals(adtType)) {
+        adtType = IAdtObjectTypeConstants.CDS_VIEW;
       }
       image = AdtTypeUtil.getInstance().getTypeImage(adtType);
     }
@@ -59,6 +62,9 @@ class CodeSearchResultLabelProvider extends LabelProvider implements ILabelProvi
       if (element instanceof IAdtObjectReferenceNode) {
         text.append(searchResult.getDisplayName());
         String type = ((IAdtObjectReferenceNode) element).getAdtObjectType();
+        if (IAdtObjectTypeConstants.DATA_DEFINITION.equals(type)) {
+          type = IAdtObjectTypeConstants.CDS_VIEW;
+        }
         String typeDescription = null;
         if (IAdtObjectTypeConstants.BUSINESS_OBJ_TYPE_PROGRAM.equals(type)) {
           typeDescription = Messages.CodeSearchResultLabelProvider_1;

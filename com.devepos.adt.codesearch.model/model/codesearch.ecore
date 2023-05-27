@@ -26,12 +26,12 @@
         <details key="suppressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="adtMainObject" eType="ecore:EClass ../../com.sap.adt.tools.core.base/model/adtcore.ecore#//AdtMainObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adtMainObject" eType="ecore:EClass ../../com.devepos.adt.base/model/adtbase.ecore#//AdtObjRef"
         containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="adtMainObject"/>
-        <details key="namespace" value="http://www.sap.com/adt/core"/>
+        <details key="namespace" value="http://www.devepos.com/adt/base"/>
       </eAnnotations>
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="suppressedSetVisibility" value="true"/>

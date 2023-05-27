@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.devepos.adt.base.IAdtObjectTypeConstants;
 import com.devepos.adt.base.adtobject.AdtObjectReferenceModelFactory;
+import com.devepos.adt.base.model.adtbase.IAdtObjRef;
 import com.devepos.adt.base.ui.tree.FolderTreeNode;
 import com.devepos.adt.base.ui.tree.IAdtObjectReferenceNode;
 import com.devepos.adt.base.ui.tree.ICollectionTreeNode;
@@ -18,7 +19,6 @@ import com.devepos.adt.base.util.StringUtil;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchMatch;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchObject;
 import com.devepos.adt.cst.model.codesearch.ICodeSearchResult;
-import com.sap.adt.tools.core.model.adtcore.IAdtMainObject;
 import com.sap.adt.tools.core.model.adtcore.IAdtObjectReference;
 
 /**
@@ -109,7 +109,7 @@ class ResultTreeBuilder {
    * Create package node from main object and add it to the node map
    */
   private ITreeNode addPackageNode(final ICodeSearchObject searchObject,
-      final IAdtMainObject mainObject) {
+      final IAdtObjRef mainObject) {
 
     // Test if the package node already exists in the tree
     String uri = searchObject.getUri();
@@ -181,19 +181,19 @@ class ResultTreeBuilder {
   }
 
   private IAdtObjectReferenceNode createAdtObjectRefNode(final String destinationId,
-      final ICodeSearchObject searchObject, final IAdtMainObject mainObject) {
+      final ICodeSearchObject searchObject, final IAdtObjRef mainObject) {
     IAdtObjectReferenceNode objectNode = new LaunchableAdtObjectReferenceNode(mainObject.getName(),
-        mainObject.getName(), mainObject.getDescription(), createObjectRef(destinationId,
+        mainObject.getDisplayName(), mainObject.getDescription(), createObjectRef(destinationId,
             mainObject, searchObject));
-    if (mainObject.getResponsible() != null) {
+    if (mainObject.getOwner() != null) {
       objectNode.getProperties()
-          .put(IResultPropertyNameConstants.OBJECT_RESPONSIBLE, mainObject.getResponsible());
+          .put(IResultPropertyNameConstants.OBJECT_RESPONSIBLE, mainObject.getOwner());
     }
     return objectNode;
   }
 
   private IAdtObjectReference createObjectRef(final String destinationId,
-      final IAdtMainObject adtMainObject, final ICodeSearchObject searchObject) {
+      final IAdtObjRef adtMainObject, final ICodeSearchObject searchObject) {
     IAdtObjectReference adtObjectRef = AdtObjectReferenceModelFactory.createReference(destinationId,
         adtMainObject.getName(), adtMainObject.getType(), searchObject.getUri());
     adtObjectRef.setParentUri(searchObject.getParentUri());
@@ -202,7 +202,7 @@ class ResultTreeBuilder {
 
   private void createTreeNodes(final ICodeSearchResult searchResult) {
     for (ICodeSearchObject searchObject : searchResult.getSearchObjects()) {
-      IAdtMainObject mainObject = searchObject.getAdtMainObject();
+      var mainObject = searchObject.getAdtMainObject();
       ITreeNode newNode = null;
 
       if (IAdtObjectTypeConstants.PACKAGE.equalsIgnoreCase(mainObject.getType())) {
