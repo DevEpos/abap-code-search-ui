@@ -28,11 +28,11 @@ import com.devepos.adt.cst.ui.internal.messages.Messages;
 public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntimeInfoListener {
 
   private static final int UPDATE_BUTTON_ID = 50;
-  private static final String UNIT_HOUR = "h";
-  private static final String UNIT_MINUTE = "m";
-  private static final String UNIT_SECOND = "s";
+  private static final String UNIT_HOUR = "h"; //$NON-NLS-1$
+  private static final String UNIT_MINUTE = "m"; //$NON-NLS-1$
+  private static final String UNIT_SECOND = "s"; //$NON-NLS-1$
 
-  private static final String UNIT_MILLISECOND = "ms";
+  private static final String UNIT_MILLISECOND = "ms"; //$NON-NLS-1$
   private static final float HOUR_DENOMINATOR = 3600000f;
   private static final float MINUTE_DENOMINATOR = 60000f;
   private static final float SECONDS_DENOMINATOR = 1000f;
@@ -47,7 +47,10 @@ public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntim
   private Label foundMatches;
   private Label queryDuration;
   private Label queryDurationUnit;
+  private Label clientQueryDuration;
+  private Label clientQueryDurationUnit;
   private Label averageRequestDuration;
+  private Label averageRequestDurationUnit;
   private Label queryStatus;
   private Button updateButton;
   private boolean isUpdatesOn;
@@ -146,6 +149,30 @@ public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntim
     return true;
   }
 
+  private Label createDurationOutput(final Composite parent, final String label) {
+    var durationLabel = new Label(parent, SWT.NONE);
+    durationLabel.setText(label);
+
+    var duration = new Label(parent, SWT.NONE);
+    GridDataFactory.fillDefaults()
+        .align(SWT.END, SWT.FILL)
+        .indent(10, SWT.DEFAULT)
+        .applyTo(duration);
+    return duration;
+  }
+
+  private Label createDurationUnitOutput(final Composite parent) {
+    var durationUnit = new Label(parent, SWT.NONE);
+    GridDataFactory.fillDefaults()
+        .align(SWT.BEGINNING, SWT.FILL)
+        .indent(1, SWT.DEFAULT)
+        .applyTo(durationUnit);
+
+    // set default unit
+    durationUnit.setText(UNIT_MILLISECOND);
+    return durationUnit;
+  }
+
   private void createProgressGroup(final Composite parent) {
     var group = new Group(parent, SWT.NONE);
     group.setText(Messages.CodeSearchRuntimeInfoDialog_searchProgressGroup_xtit);
@@ -160,7 +187,7 @@ public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntim
     if (runtimeInfo.isSearchRunning()) {
       queryStatus.setText(Messages.CodeSearchRuntimeInfoDialog_queryStatusRunning_xlbl);
     } else {
-      queryStatus.setText(runtimeInfo.isAllSearched()
+      queryStatus.setText(runtimeInfo.isQueryFinished()
           ? Messages.CodeSearchRuntimeInfoDialog_queryStatusFinished_xlbl
           : Messages.CodeSearchRuntimeInfoDialog_queryStatusCancelled_xlbl);
     }
@@ -192,30 +219,17 @@ public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntim
     GridDataFactory.fillDefaults().grab(true, true).applyTo(group);
     GridLayoutFactory.swtDefaults().numColumns(3).applyTo(group);
 
-    var queryRuntimeLabel = new Label(group, SWT.NONE);
-    queryRuntimeLabel.setText(Messages.CodeSearchRuntimeInfoDialog_queryRuntimeInMs_xlbl);
-    queryDuration = new Label(group, SWT.NONE);
-    GridDataFactory.fillDefaults().align(SWT.END, SWT.FILL).applyTo(queryDuration);
+    clientQueryDuration = createDurationOutput(group,
+        Messages.CodeSearchRuntimeInfoDialog_clientQueryRuntime_xlbl);
+    clientQueryDurationUnit = createDurationUnitOutput(group);
 
-    queryDurationUnit = new Label(group, SWT.NONE);
-    queryDurationUnit.setText(UNIT_MILLISECOND);
-    GridDataFactory.fillDefaults()
-        .align(SWT.BEGINNING, SWT.FILL)
-        .indent(1, SWT.DEFAULT)
-        .applyTo(queryDurationUnit);
+    queryDuration = createDurationOutput(group,
+        Messages.CodeSearchRuntimeInfoDialog_queryRuntime_xlbl);
+    queryDurationUnit = createDurationUnitOutput(group);
 
-    var averageRuntimeLabel = new Label(group, SWT.NONE);
-    averageRuntimeLabel.setText(
+    averageRequestDuration = createDurationOutput(group,
         Messages.CodeSearchRuntimeInfoDialog_averageRequestRuntimeLabel_xlbl);
-    averageRequestDuration = new Label(group, SWT.NONE);
-    GridDataFactory.fillDefaults().align(SWT.END, SWT.FILL).applyTo(averageRequestDuration);
-
-    var averageRuntimeUnitLabel = new Label(group, SWT.NONE);
-    averageRuntimeUnitLabel.setText(UNIT_MILLISECOND);
-    GridDataFactory.fillDefaults()
-        .align(SWT.BEGINNING, SWT.FILL)
-        .indent(1, SWT.DEFAULT)
-        .applyTo(averageRuntimeUnitLabel);
+    averageRequestDurationUnit = createDurationUnitOutput(group);
   }
 
   private void updateControlsFromResult() {
@@ -236,15 +250,13 @@ public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntim
 
     updateDurationLabels();
 
-    averageRequestDuration.setText(defaultFormat.format(runtimeInfo.getAverageDuration()));
-
     searchedObjects.getParent().layout();
     queryDuration.getParent().layout();
   }
 
-  private void updateDurationLabels() {
+  private void updateDurationLabel(float duration, final Label durationLabel,
+      final Label durationUnitLabel) {
     String durationUnit = UNIT_MILLISECOND;
-    var duration = (float) runtimeInfo.getOverallServerTimeInMs();
     var numberFormat = defaultFormat;
 
     if (duration >= HOUR_DENOMINATOR) {
@@ -261,8 +273,16 @@ public class CodeSearchRuntimeInfoDialog extends StatusDialog implements IRuntim
       numberFormat = formatWithDecimals;
     }
 
-    queryDuration.setText(numberFormat.format(duration));
-    queryDurationUnit.setText(durationUnit);
+    durationLabel.setText(numberFormat.format(duration));
+    durationUnitLabel.setText(durationUnit);
+  }
+
+  private void updateDurationLabels() {
+    updateDurationLabel(runtimeInfo.getOverallServerTimeInMs(), queryDuration, queryDurationUnit);
+    updateDurationLabel(runtimeInfo.getOverallClientTimeInMs(), clientQueryDuration,
+        clientQueryDurationUnit);
+    updateDurationLabel(runtimeInfo.getAverageDuration(), averageRequestDuration,
+        averageRequestDurationUnit);
   }
 
 }

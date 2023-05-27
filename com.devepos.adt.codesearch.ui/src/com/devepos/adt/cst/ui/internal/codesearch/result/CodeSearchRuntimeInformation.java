@@ -29,6 +29,7 @@ public class CodeSearchRuntimeInformation implements IQueryListener {
 
   private String systemId;
   private int overallServerTimeInMs;
+  private long overallClientTimeInMs;
   private final CodeSearchQuery searchQuery;
 
   public CodeSearchRuntimeInformation(final CodeSearchQuery searchQuery) {
@@ -41,23 +42,26 @@ public class CodeSearchRuntimeInformation implements IQueryListener {
     void updated();
   }
 
+  /**
+   * Returns the average net query duration
+   */
   public int getAverageDuration() {
     return averageDuration;
   }
 
   /**
    * Returns the count of the objects in scope
-   *
-   * @return
    */
   public int getObjectScopeCount() {
     return objectScopeCount;
   }
 
+  public long getOverallClientTimeInMs() {
+    return overallClientTimeInMs;
+  }
+
   /**
-   * Returns the overall server time of the query
-   *
-   * @return
+   * Returns the overall net server time of the query, i.e. the pure search duration
    */
   public int getOverallServerTimeInMs() {
     return overallServerTimeInMs;
@@ -69,8 +73,6 @@ public class CodeSearchRuntimeInformation implements IQueryListener {
 
   /**
    * Returns the number of lines of code that were searched
-   *
-   * @return
    */
   public float getSearchedLinesOfCode() {
     return searchedLinesOfCode;
@@ -78,8 +80,6 @@ public class CodeSearchRuntimeInformation implements IQueryListener {
 
   /**
    * Returns the count of searched objects
-   *
-   * @return
    */
   public int getSearchedObjectsCount() {
     return searchedObjectsCount;
@@ -87,8 +87,6 @@ public class CodeSearchRuntimeInformation implements IQueryListener {
 
   /**
    * Returns the count of searched sources
-   *
-   * @return
    */
   public int getSearchedSourcesCount() {
     return searchedSourcesCount;
@@ -104,8 +102,12 @@ public class CodeSearchRuntimeInformation implements IQueryListener {
     return systemId;
   }
 
-  public boolean isAllSearched() {
-    return searchedObjectsCount >= objectScopeCount;
+  public void increaseOverallClientTimeInMs(final long overallClientTimeInMs) {
+    this.overallClientTimeInMs += overallClientTimeInMs;
+  }
+
+  public boolean isQueryFinished() {
+    return searchQuery != null && searchQuery.isFinished();
   }
 
   public boolean isSearchRunning() {
@@ -134,6 +136,7 @@ public class CodeSearchRuntimeInformation implements IQueryListener {
   public void reset() {
     averageDuration = 0;
     overallServerTimeInMs = 0;
+    overallClientTimeInMs = 0;
     resultCount = 0;
     requestCount = 0;
     searchedLinesOfCode = 0;
@@ -147,9 +150,7 @@ public class CodeSearchRuntimeInformation implements IQueryListener {
   }
 
   public void updateWithNewResult(final ICodeSearchResult result) {
-    int queryTime = result.getQueryTimeInMs();
-
-    overallServerTimeInMs += queryTime;
+    overallServerTimeInMs += result.getQueryTimeInMs();
     resultCount += result.getNumberOfResults();
     searchedObjectsCount += result.getNumberOfSearchedObjects();
     searchedSourcesCount += result.getNumberOfSearchedSources();

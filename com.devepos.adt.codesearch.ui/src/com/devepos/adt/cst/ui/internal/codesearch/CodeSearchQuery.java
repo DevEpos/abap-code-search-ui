@@ -36,6 +36,7 @@ public class CodeSearchQuery implements ISearchQuery {
 
   private CodeSearchResult searchResult;
   private CodeSearchQuerySpecification querySpecs;
+  private boolean finished;
 
   public CodeSearchQuery(final CodeSearchQuerySpecification querySpecs) {
     searchResult = new CodeSearchResult(this);
@@ -70,8 +71,13 @@ public class CodeSearchQuery implements ISearchQuery {
     return searchResult;
   }
 
+  public boolean isFinished() {
+    return finished;
+  }
+
   @Override
   public IStatus run(final IProgressMonitor monitor) throws OperationCanceledException {
+    finished = false;
     searchResult.reset();
 
     // check project availability
@@ -103,7 +109,7 @@ public class CodeSearchQuery implements ISearchQuery {
       searchResult.setObjectScopeCount(scope.getObjectCount());
       startSearchingWithScope(monitor, scope, service, destinationId);
     }
-
+    finished = true;
     return Status.OK_STATUS;
   }
 

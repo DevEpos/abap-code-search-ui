@@ -50,12 +50,13 @@ public class CodeSearchResult extends AbstractTextSearchResult {
    * Take query result and convert it into a flat and tree like result for the
    * search view
    */
-  public void addResult(final ICodeSearchResult result) {
+  public void addResult(final ICodeSearchResult result, long clientSearchDuration) {
     if (result == null) {
       return;
     }
     logMessages(result);
     resultCount += result.getNumberOfResults();
+    runtimeInfo.increaseOverallClientTimeInMs(clientSearchDuration);
     runtimeInfo.updateWithNewResult(result);
 
     if (result.getNumberOfResults() <= 0) {
