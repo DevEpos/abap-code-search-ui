@@ -7,6 +7,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.search.ui.ISearchQuery;
+import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.search.ui.text.AbstractTextSearchResult;
 import org.eclipse.search.ui.text.IEditorMatchAdapter;
 import org.eclipse.search.ui.text.IFileMatchAdapter;
@@ -32,11 +33,11 @@ import com.devepos.adt.cst.ui.internal.messages.Messages;
 public class CodeSearchResult extends AbstractTextSearchResult {
 
   private IEditorMatchAdapter editorMatchAdapter;
-  private List<ITreeNode> flatResult = new ArrayList<>();
-  private FileMatchesCache fileMatchesCache = new FileMatchesCache();
-  private CodeSearchRuntimeInformation runtimeInfo;
+  private final List<ITreeNode> flatResult = new ArrayList<>();
+  private final FileMatchesCache fileMatchesCache = new FileMatchesCache();
+  private final CodeSearchRuntimeInformation runtimeInfo;
   private ResultTreeBuilder resultTree;
-  private CodeSearchQuery searchQuery;
+  private final CodeSearchQuery searchQuery;
   private ICollectionTreeNode searchResultRootNode;
   private int resultCount;
   private boolean noObjectsInScope;
@@ -50,7 +51,7 @@ public class CodeSearchResult extends AbstractTextSearchResult {
    * Take query result and convert it into a flat and tree like result for the
    * search view
    */
-  public void addResult(final ICodeSearchResult result, long clientSearchDuration) {
+  public void addResult(final ICodeSearchResult result, final long clientSearchDuration) {
     if (result == null) {
       return;
     }
@@ -109,23 +110,17 @@ public class CodeSearchResult extends AbstractTextSearchResult {
   @Override
   public String getLabel() {
     if (searchQuery == null) {
-      return Messages.CodeSearchResult_placeholderResultName_xlbl;
+      return buildLabel();
     }
-    String resultsLabel = null;
-    if (noObjectsInScope) {
-      resultsLabel = Messages.CodeSearchResult_noObjectsInScope_xmsg;
-    } else {
-      if (resultCount == 1) {
-        resultsLabel = AdtBaseUIResources.getString(IAdtBaseStrings.SearchUI_OneResult_xmsg);
-      } else if (resultCount > 1) {
-        resultsLabel = AdtBaseUIResources.format(IAdtBaseStrings.SearchUI_SpecificResults_xmsg,
-            resultCount);
-      } else {
-        resultsLabel = AdtBaseUIResources.getString(IAdtBaseStrings.SearchUI_NoResults_xmsg);
-      }
+    String label = buildLabel();
+    if (!searchQuery.isFinished() && !NewSearchUI.isQueryRunning(searchQuery)) {
+      label += Messages.CodeSearchResult_cancelledQueryStatus_xlbl;
     }
-    return String.format("%s %s - %s", Messages.CodeSearchResult_codeResultsLabelPrefix_xlbl,
-        searchQuery.getQuerySpecs(), resultsLabel);
+    return label;
+  }
+
+  public String getLabelForSearchView() {
+    return buildLabel();
   }
 
   public Set<SearchMatchNode> getMatchNodesForFileUri(final String fileUri) {
@@ -181,10 +176,8 @@ public class CodeSearchResult extends AbstractTextSearchResult {
    * @param child  child node that should be removed
    */
   public void removeChildeNode(final ICollectionTreeNode parent, final ITreeNode child) {
-    if (child instanceof PackageNode) {
-      if (resultTree != null) {
-        resultTree.removePackageNode((PackageNode) child);
-      }
+    if ((child instanceof PackageNode) && (resultTree != null)) {
+      resultTree.removePackageNode((PackageNode) child);
     }
     parent.removeChild(child);
   }
@@ -224,6 +217,28 @@ public class CodeSearchResult extends AbstractTextSearchResult {
 
   public void setObjectScopeCount(final int objectCount) {
     runtimeInfo.setObjectCount(objectCount);
+  }
+
+  private String buildLabel() {
+    if (searchQuery == null) {
+      return Messages.CodeSearchResult_placeholderResultName_xlbl;
+    }
+    String resultsLabel = null;
+    if (noObjectsInScope) {
+      resultsLabel = Messages.CodeSearchResult_noObjectsInScope_xmsg;
+    } else {
+      if (resultCount == 1) {
+        resultsLabel = AdtBaseUIResources.getString(IAdtBaseStrings.SearchUI_OneResult_xmsg);
+      } else if (resultCount > 1) {
+        resultsLabel = AdtBaseUIResources.format(IAdtBaseStrings.SearchUI_SpecificResults_xmsg,
+            resultCount);
+      } else {
+        resultsLabel = AdtBaseUIResources.getString(IAdtBaseStrings.SearchUI_NoResults_xmsg);
+      }
+    }
+    return String.format(Messages.CodeSearchResult_1,
+        Messages.CodeSearchResult_codeResultsLabelPrefix_xlbl, searchQuery.getQuerySpecs(),
+        resultsLabel);
   }
 
   private void logMessages(final ICodeSearchResult result) {

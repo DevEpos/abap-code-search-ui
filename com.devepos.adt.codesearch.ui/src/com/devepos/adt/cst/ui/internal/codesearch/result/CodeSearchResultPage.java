@@ -74,18 +74,19 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     ISearchResultPageExtension<CodeSearchQuery>, IQueryListener {
 
   private static final String GROUP_BY_PACKAGE_PREF = "codeSearch.result.groupByPackageEnabled"; //$NON-NLS-1$
-  private static final String GROUP_GROUPING = "com.devepos.adt.cst.searchResult.grouping"; //$NON-NLS-1$
 
+  private static final String GROUP_GROUPING = "com.devepos.adt.cst.searchResult.grouping"; //$NON-NLS-1$
   private IStructuredContentProvider contentProvider;
 
   private IAction openPreferencesAction;
+
   private IAction openRuntimeInformation;
   private IAction expandPackageNodeAction;
   private IAction collapseNodeAction;
   private IAction exportResultsAction;
   private ContinueCodeSearchAction continueSearchAction;
-
   private ContextHelper contextHelper;
+
   private PreferenceToggleAction groupByPackageAction;
   private final IPropertyChangeListener prefChangeListener;
 
@@ -132,6 +133,15 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
   }
 
   @Override
+  public String getLabel() {
+    var result = (CodeSearchResult) getInput();
+    if (result == null) {
+      return "";
+    }
+    return result.getLabelForSearchView();
+  }
+
+  @Override
   public String getSearchPageId() {
     return CodeSearchDialog.PAGE_ID;
   }
@@ -169,11 +179,6 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
     if (isActionUpdateRequired(query)) {
       updateContinueAction();
     }
-  }
-
-  private boolean isActionUpdateRequired(ISearchQuery query) {
-    var searchResult = getInput();
-    return searchResult != null && searchResult.equals(query.getSearchResult());
   }
 
   @Override
@@ -399,6 +404,11 @@ public class CodeSearchResultPage extends AbstractTextSearchViewPage implements
                 }
               });
             });
+  }
+
+  private boolean isActionUpdateRequired(final ISearchQuery query) {
+    var searchResult = getInput();
+    return searchResult != null && searchResult.equals(query.getSearchResult());
   }
 
   private boolean navigateToElement(final Object element, final boolean activate) {

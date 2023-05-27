@@ -70,6 +70,8 @@ public class Messages extends NLS {
   public static String CodeSearchQuerySpecification_patternQueryPart_xtol;
   public static String CodeSearchQuerySpecification_scopeQueryPart_xtol;
   public static String CodeSearchQuerySpecification_withFiltersQueryPart_xlbl;
+  public static String CodeSearchResult_1;
+  public static String CodeSearchResult_cancelledQueryStatus_xlbl;
   public static String CodeSearchResult_codeResultsLabelPrefix_xlbl;
   public static String CodeSearchResult_codeSearchProblemsLogTitle_xmsg;
   public static String CodeSearchResult_noObjectsInScope_xmsg;
